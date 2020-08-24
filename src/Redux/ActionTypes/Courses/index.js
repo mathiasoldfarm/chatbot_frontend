@@ -1,0 +1,1 @@
+export const UPDATE_TITLE = 'UPATE_TITLE';
