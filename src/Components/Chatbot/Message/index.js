@@ -8,7 +8,7 @@ const Message = (props) => {
       padding: "5px 10px",
       borderRadius: 10,
       marginBottom: 10,
-      marginLeft: props.type == "bot" ? 0 : "auto"
+      marginLeft: props.type === "bot" ? 0 : "auto"
     }} className="message">
       <p style={{ color: "white", marginBottom: 0 }} >{props.text}</p>
     </div>

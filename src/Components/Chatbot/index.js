@@ -28,13 +28,13 @@ class Chatbot extends Component {
 
   async HandleSend() {
     const { input, MessageList } = this.state;
-    const response = await axios.get(`http://localhost:8000/${input}`);
+    const response = await axios.get(`http://localhost:8000/get_answer/${input}`);
     const answer = response.data;
     console.log(response)
     this.setState({
       MessageList: [...MessageList, {"type": "user", "message": input}, {"type": "bot", "message": answer}],
       input: ""
-    });
+    } );
   }
 
   RenderMessageList() {

@@ -3,13 +3,15 @@ import { InputGroup, Input, Label } from 'reactstrap';
 
 class InputLine extends Component {
   render() {
-    const { value, name, onChange } = this.props;
+    const { value, name, onChange, textarea } = this.props;
     
     return (
-      <InputGroup>
-        <Label className="mr-4">{name} </Label>
-        <Input value={value} onChange={onChange} />
-      </InputGroup>
+      <div className="mb-3">
+        <InputGroup>
+          <Label className="mr-4">{name} </Label>
+          <Input type={textarea ? "textarea" : "text"} value={value} onChange={onChange} />
+        </InputGroup>
+      </div>
     )
   }
 }
