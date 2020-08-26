@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
 import { Card, Button, Modal, ModalHeader, ModalFooter  } from 'reactstrap';
+import {
+  deleteCourse,
+  deleteSection,
+  deleteDescription,
+  deleteQuiz,
+  deleteLevel,
+  deleteQuestion
+} from '../../../Redux/Actions/Courses';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 class CollapseAbleCard extends Component {
   constructor(props) {
@@ -28,6 +38,44 @@ class CollapseAbleCard extends Component {
   }
 
   confirmedDeletion() {
+    const { 
+      type,
+      deleteCourse,
+      deleteSection,
+      deleteDescription,
+      deleteQuiz,
+      deleteLevel,
+      deleteQuestion,
+      key,
+      courseindex,
+      sectionindex,
+      descriptionindex,
+      quizindex,
+      levelindex,
+      questionindex
+    } = this.props;
+    switch(type) {
+      case "course":
+        deleteCourse(courseindex);
+        break;
+      case "section":
+        deleteSection(sectionindex, courseindex);
+        break;
+      case "description":
+        deleteDescription(descriptionindex, sectionindex, courseindex);
+        break;
+      case "quiz":
+        deleteQuiz(quizindex, sectionindex, courseindex);
+        break;
+      case "level":
+        deleteLevel(levelindex, quizindex, sectionindex, courseindex);
+        break;
+      case "question":
+        deleteQuestion(questionindex, levelindex, quizindex, sectionindex, courseindex);
+        break;
+      default:
+        break;
+    }
     this.deleteObject();
   }
 
@@ -62,4 +110,13 @@ class CollapseAbleCard extends Component {
   }
 }
 
-export default CollapseAbleCard;
+const mapDispatchToProps = dispatch => bindActionCreators({
+  deleteCourse,
+  deleteSection,
+  deleteDescription,
+  deleteQuiz,
+  deleteLevel,
+  deleteQuestion
+}, dispatch);
+
+export default connect(null, mapDispatchToProps)(CollapseAbleCard);

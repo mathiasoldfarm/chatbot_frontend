@@ -44,7 +44,7 @@ class Courses extends Component {
         updatePossibleAnswer
       } = this.props;
       return ( 
-        <CollapseAbleCard key={index} className="p-5" type="course">
+        <CollapseAbleCard key={index} courseindex={index} className="p-5" type="course">
           <div>
             <InputLine
               name="Title"
@@ -63,7 +63,7 @@ class Courses extends Component {
                 const { sectionname, descriptions, quizzes } = section;
                 return (
                   <div key={sectionindex}>
-                    <CollapseAbleCard className="p-5" key={sectionindex} courseindex={index} type="section">
+                    <CollapseAbleCard className="p-5" key={sectionindex} sectionindex={sectionindex} courseindex={index} type="section">
                       <InputLine
                         name="Section name"
                         value={sectionname}
@@ -75,7 +75,7 @@ class Courses extends Component {
                           const { description, level, category } = _description;
                           return (
                             <div key={descriptionindex} className="mb-5">
-                              <CollapseAbleCard type="description" key={descriptionindex} sectionindex={sectionindex} courseindex={index} className="p-5">
+                              <CollapseAbleCard type="description" key={descriptionindex} descriptionindex={descriptionindex} sectionindex={sectionindex} courseindex={index} className="p-5">
                                 <InputLine
                                   name="Description"
                                   value={description}
@@ -100,7 +100,7 @@ class Courses extends Component {
                           const { quiztitle, levels } = quiz;
                           return (
                             <div key={quizindex}>
-                              <CollapseAbleCard type="quiz" key={quizindex} courseindex={index} sectionindex={sectionindex} className="p-5">
+                              <CollapseAbleCard type="quiz" key={quizindex} quizindex={quizindex} courseindex={index} sectionindex={sectionindex} className="p-5">
                                 <InputLine
                                   name="Quiz name"
                                   value={quiztitle}
@@ -112,7 +112,7 @@ class Courses extends Component {
                                     const { level, questions } = _level;
                                     return (
                                       <div key={levelindex}>
-                                        <CollapseAbleCard type="level" key={levelindex} quizindex={quizindex} sectionindex={sectionindex} courseindex={index} className="p-5 mb-5">
+                                        <CollapseAbleCard type="level" key={levelindex} levelindex={levelindex} quizindex={quizindex} sectionindex={sectionindex} courseindex={index} className="p-5 mb-5">
                                           <InputLine
                                             name="level"
                                             value={level}
@@ -124,7 +124,7 @@ class Courses extends Component {
                                               const { question, possible_answers, right_answer } = _question;
                                               return (
                                                 <div key={questionindex}>
-                                                  <CollapseAbleCard type="question" key={questionindex} courseindex={index} sectionindex={sectionindex} levelindex={levelindex} quizindex={quizindex} className="p-5 mb-5">
+                                                  <CollapseAbleCard type="question" key={questionindex} questionindex={questionindex} courseindex={index} sectionindex={sectionindex} levelindex={levelindex} quizindex={quizindex} className="p-5 mb-5">
                                                     <InputLine
                                                       name="Question"
                                                       value={question}

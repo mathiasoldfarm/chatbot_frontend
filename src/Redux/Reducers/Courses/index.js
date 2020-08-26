@@ -321,6 +321,72 @@ const reducer = (state = INITIAL_STATE, action) => {
           return course;
         })}
       }
+    case DELETE_LEVEL:
+      return {
+        ...state,
+        data: {courses: state.data.courses.map((course, courseindex) => {
+          if (courseindex === action.courseindex) {
+            return {
+              ...course,
+              sections: course.sections.map((section, sectionindex) => {
+                if (sectionindex === action.sectionindex) {
+                  return {
+                    ...section,
+                    quizzes: section.quizzes.map((quiz, quizindex) => {
+                      if (quizindex === action.quizindex) {
+                        return {
+                          ...quiz,
+                          levels: quiz.levels.filter((level, levelindex) => levelindex !== action.levelindex)
+                        }
+                      }
+                      return quiz;
+                    })
+                  }
+                }
+                return section;
+              })
+            }
+          }
+          return course;
+        })}
+      }
+    case DELETE_QUESTION:
+      return {
+        ...state,
+        data: {courses: state.data.courses.map((course, courseindex) => {
+          if (courseindex === action.courseindex) {
+            return {
+              ...course,
+              sections: course.sections.map((section, sectionindex) => {
+                if (sectionindex === action.sectionindex) {
+                  return {
+                    ...section,
+                    quizzes: section.quizzes.map((quiz, quizindex) => {
+                      if (quizindex === action.quizindex) {
+                        return {
+                          ...quiz,
+                          levels: quiz.levels.map((level, levelindex) => {
+                            if (levelindex === action.levelindex) {
+                              return {
+                                ...level,
+                                questions: level.questions.filter((questions, questionindex) => questionindex !== action.questionindex)
+                              }
+                            }
+                            return level;
+                          })
+                        }
+                      }
+                      return quiz;
+                    })
+                  }
+                }
+                return section;
+              })
+            }
+          }
+          return course;
+        })}
+      }
     case FETCH_JSON:
       return {
         ...state,
