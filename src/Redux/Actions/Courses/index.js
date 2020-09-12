@@ -14,8 +14,36 @@ import {
   DELETE_QUESTION,
   DELETE_QUIZ,
   DELETE_SECTION,
+  ADD_COURSE,
+  ADD_SECTION,
+  ADD_DESCRIPTION,
+  ADD_QUIZ,
+  ADD_LEVEL,
+  ADD_QUESTION,
+  COURSES_FETCHING,
+  COURSES_FETCHING_ERROR,
+  COURSES_FETCHING_SUCCESS
 } from '../../ActionTypes/Courses';
 import axios from 'axios';
+
+export const coursesFetching = () => {
+  return {
+    type: COURSES_FETCHING
+  }
+}
+
+export const coursesFetchingError = (error) => {
+  return {
+    type: COURSES_FETCHING_ERROR,
+    error
+  }
+}
+
+export const coursesFetchingSuccess = () => {
+  return {
+    type: COURSES_FETCHING_SUCCESS
+  }
+}
 
 export const updateTitle = (value, index) => {
   return {
@@ -151,6 +179,42 @@ export const deleteQuestion = (questionindex, levelindex, quizindex, sectioninde
     quizindex,
     sectionindex,
     courseindex
+  }
+}
+
+export const addCourse = () => {
+  return {
+    type: ADD_COURSE
+  }
+}
+
+export const addSection = () => {
+  return {
+    type: ADD_SECTION
+  }
+}
+
+export const addDescription = () => {
+  return {
+    type: ADD_DESCRIPTION
+  }
+}
+
+export const addQuiz = () => {
+  return {
+    type: ADD_QUIZ
+  }
+}
+
+export const addLevel = () => {
+  return {
+    type: ADD_LEVEL
+  }
+}
+
+export const addQuestion = () => {
+  return {
+    type: ADD_QUESTION
   }
 }
 

@@ -46,7 +46,6 @@ class CollapseAbleCard extends Component {
       deleteQuiz,
       deleteLevel,
       deleteQuestion,
-      key,
       courseindex,
       sectionindex,
       descriptionindex,

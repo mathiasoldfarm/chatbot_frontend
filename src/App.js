@@ -9,16 +9,17 @@ import Header from './Components/Header';
 
 import Container from "./Components/Container";
 import Chatbot from './Components/Chatbot';
-import Courses from './Components/Courses';
+import CoursesDashboard from './Components/CoursesDashboard';
 
 function App() {
   const routes = [{
     url: "/",
     name: "Chatbot"
-  }, {
-    url: "/courses",
-    name: "Courses"
-  }]
+    }, {
+      url: "/courses",
+      name: "Courses"
+    }
+  ]
 
   return (
     <div className="App">
@@ -30,7 +31,7 @@ function App() {
               <Chatbot />
             </Route>
             <Route path="/courses">
-              <Courses />
+              <CoursesDashboard />
             </Route>
           </Switch>
         </Router>

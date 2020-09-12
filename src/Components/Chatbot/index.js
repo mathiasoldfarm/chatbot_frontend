@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { FormGroup, Label, Input, Button } from 'reactstrap';
 import Message from './Message';
 import axios from 'axios';
+import ButtonGroup from './ButtonGroup';
 
 class Chatbot extends Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class Chatbot extends Component {
     this.state = {
       MessageList: [{
         "type": "bot",
-        "message": "Hello there"
+        "message": "Hi Mathias, I will help you today with fractions"
       }],
       input: ""
     }
@@ -48,17 +48,11 @@ class Chatbot extends Component {
   }
 
   render() {
-    const { input } = this.state;
-
     return (
       <div style={{ maxWidth: 700 }}>
         {this.RenderMessageList()}
-        <div style={{ marginTop: 50 }}>
-          <FormGroup>
-            <Label for="exampleText">Skriv din besked</Label>
-            <Input type="textarea" name="text" id="exampleText" value={input} onChange={this.InputChangeHandler} />
-            <Button color="success" className="mt-3" onClick={this.HandleSend} >Send</Button>
-          </FormGroup>
+        <div>
+          <ButtonGroup choises={["Sure, lets go!"]} />
         </div>
       </div>
     );

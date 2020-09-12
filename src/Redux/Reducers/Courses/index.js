@@ -14,14 +14,36 @@ import {
   DELETE_QUESTION,
   DELETE_QUIZ,
   DELETE_SECTION,
+  COURSES_FETCHING,
+  COURSES_FETCHING_ERROR,
+  COURSES_FETCHING_SUCCESS
 } from '../../ActionTypes/Courses';
 
 const INITIAL_STATE = {
-  data: {}
+  data: {},
+  coursesFetching: false,
+  coursesFetchingError: ''
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch(action.type) {
+    case COURSES_FETCHING:
+      return {
+        ...state,
+        coursesFetching: true,
+        coursesFetchingError: ''
+      }
+    case COURSES_FETCHING_ERROR:
+      return {
+        ...state,
+        coursesFetching: false,
+        coursesFetchingError: action.error
+      }
+    case COURSES_FETCHING_SUCCESS:
+      return {
+        ...state,
+        coursesFetching: false,
+      }
     case UPDATE_TITLE:
       return {
         ...state,
@@ -146,7 +168,7 @@ const reducer = (state = INITIAL_STATE, action) => {
                             if (levelindex === action.levelindex) {
                               return {
                                 ...level,
-                                ["level"]: action.value
+                                level: action.value
                               }
                             }
                             return level;
@@ -387,6 +409,7 @@ const reducer = (state = INITIAL_STATE, action) => {
           return course;
         })}
       }
+    
     case FETCH_JSON:
       return {
         ...state,
