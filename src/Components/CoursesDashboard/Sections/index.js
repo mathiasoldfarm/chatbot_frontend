@@ -5,6 +5,7 @@ import UpdateableData from '../UpdateableData';
 import DeleteButton from '../Buttons/Delete';
 import AddButton from '../Buttons/Add';
 import SectionContent from './SectionContent';
+import SortableWrapper from '../SortableWrapper';
 
 class Sections extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class Sections extends Component {
     this.onAdd = this.onAdd.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.updateSort = this.updateSort.bind(this);
   }
 
   async updateValue() {
@@ -49,44 +51,59 @@ class Sections extends Component {
       })
     }
   }
+
+  async updateSort(data) {
+    const { oldIndex, newIndex } = data;
+    const { courseId } = this.props;
+    const body = { oldIndex, newIndex };
+    const sectionIds = await postCourseData(`/sections/update/section/order/${courseId}`, body);
+    this.setState({
+      openIds: [],
+      sectionIds
+    });
+  }
   
   renderSections() {
     const { sectionIds, openedIds } = this.state;
     const { descriptionCategories } = this.props;
-    return sectionIds.map((id) => {
-      const opened = openedIds.includes(id);
-      return (
-        <Card className="mb-3 p-3" style={{ border: '1px solid lightgrey', backgroundColor: '#f8f8f8' }} key={id}>
-          <Row className="align-items-center">
-            <Col xs={8}>
-              <UpdateableData
-                title={"Title"}
-                id={id}
-                fetchUrl={`/sections/fetch/title/${id}`}
-                updateUrl={`/sections/update/title/${id}`}
-              />
-            </Col>
-            <Col xs={2}>
-              <div className="d-flex justify-content-end">
-                <Button
-                  size="sm"
-                  color="primary"
-                  onClick={() => this.handleCollapse(id, opened)}
-                >
-                  {opened ? "Luk" : "Åben"}
-                </Button>
-              </div>
-            </Col>
-            <Col xs={2}>
-              <div className="d-flex justify-content-end">
-                <DeleteButton onDelete={() => this.onDelete(id)} text="Slet sektion" />
-              </div>
-            </Col>
-          </Row>
-          {opened ? <SectionContent sectionId={id} descriptionCategories={descriptionCategories} /> : null}
-        </Card>
-      )
-    })
+    return (
+      <SortableWrapper onSortEnd={this.updateSort}>
+        {sectionIds.map((id) => {
+          const opened = openedIds.includes(id);
+          return (
+            <Card className="mb-3 p-3" style={{ border: '1px solid lightgrey', backgroundColor: '#f8f8f8' }} key={id}>
+              <Row className="align-items-center">
+                <Col xs={8}>
+                  <UpdateableData
+                    title={"Title"}
+                    id={id}
+                    fetchUrl={`/sections/fetch/title/${id}`}
+                    updateUrl={`/sections/update/title/${id}`}
+                  />
+                </Col>
+                <Col xs={2}>
+                  <div className="d-flex justify-content-end">
+                    <Button
+                      size="sm"
+                      color="primary"
+                      onClick={() => this.handleCollapse(id, opened)}
+                    >
+                      {opened ? "Luk" : "Åben"}
+                    </Button>
+                  </div>
+                </Col>
+                <Col xs={2}>
+                  <div className="d-flex justify-content-end">
+                    <DeleteButton onDelete={() => this.onDelete(id)} text="Slet sektion" />
+                  </div>
+                </Col>
+              </Row>
+              {opened ? <SectionContent sectionId={id} descriptionCategories={descriptionCategories} /> : null}
+            </Card>
+          )
+        })}
+      </SortableWrapper>
+    );
   }
 
   async onAdd(type) {

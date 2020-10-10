@@ -4,6 +4,7 @@ import { Card, Row, Col, Button } from 'reactstrap';
 import UpdateableData from '../../../../../UpdateableData';
 import AddButton from '../../../../../Buttons/Add';
 import DeleteButton from '../../../../../Buttons/Delete';
+import SortableWrapper from '../../../../../SortableWrapper';
 import Answers from './Answers';
 
 class Questions extends Component {
@@ -19,6 +20,7 @@ class Questions extends Component {
     this.renderQuestions = this.renderQuestions.bind(this);
     this.onAdd = this.onAdd.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.updateSort = this.updateSort.bind(this);
   }
 
   async updateValue() {
@@ -51,55 +53,72 @@ class Questions extends Component {
       })
     }
   }
+
+  async updateSort(data) {
+    const { oldIndex, newIndex } = data;
+    const { levelId } = this.props;
+    const body = { oldIndex, newIndex };
+    const newDataOrder = await postCourseData(`/questions/update/question/order/${levelId}`, body);
+    const { questionIds, possibleAnswers } = newDataOrder;
+    this.setState({
+      openIds: [],
+      questionIds,
+      possibleAnswers
+    });
+  }
   
   renderQuestions() {
     const { questionIds, possibleAnswers, openIds } = this.state;
-    return questionIds.map((id) => {
-      const opened = openIds.includes(id);
-      return (
-        <Card className="mb-3" style={{ border: 'none', background: 'none' }} key={id}>
-          <Row>
-            <Col xs={7}>
-              <UpdateableData
-                title={"Question"}
-                id={id}
-                fetchUrl={`/questions/fetch/question/${id}`}
-                updateUrl={`/questions/update/question/${id}`}
-              />
-            </Col>
-            <Col xs={2}>
-              <div className="d-flex justify-content-end">
-                <Button
-                  size="sm"
-                  color="primary"
-                  onClick={() => this.handleCollapse(id, opened)}
-                >
-                  {opened ? "Luk" : "Åben"}
-                </Button>
-              </div>
-            </Col>
-            <Col xs={3}>
-              <div className="d-flex justify-content-end">
-                <DeleteButton onDelete={() => this.onDelete(id)} text="Slet spørgsmål" />
-              </div>
-            </Col>
-          </Row>
-          {opened ? (
-              <React.Fragment>
-                <UpdateableData
-                  title={"Correct"}
-                  id={id}
-                  fetchUrl={`/questions/fetch/correct/${id}`}
-                  updateUrl={`/questions/update/correct/${id}`}
-                  type="select"
-                  inputs={possibleAnswers[id]}
-                />
-                <Answers questionId={id} />
-              </React.Fragment>
-          ) : null}
-        </Card>
-      )
-    })
+    return (
+      <SortableWrapper onSortEnd={this.updateSort}>
+        {questionIds.map((id) => {
+          const opened = openIds.includes(id);
+          return (
+            <Card className="mb-3" style={{ border: 'none', background: 'none' }} key={id}>
+              <Row>
+                <Col xs={7}>
+                  <UpdateableData
+                    title={"Question"}
+                    id={id}
+                    fetchUrl={`/questions/fetch/question/${id}`}
+                    updateUrl={`/questions/update/question/${id}`}
+                  />
+                </Col>
+                <Col xs={2}>
+                  <div className="d-flex justify-content-end">
+                    <Button
+                      size="sm"
+                      color="primary"
+                      onClick={() => this.handleCollapse(id, opened)}
+                    >
+                      {opened ? "Luk" : "Åben"}
+                    </Button>
+                  </div>
+                </Col>
+                <Col xs={3}>
+                  <div className="d-flex justify-content-end">
+                    <DeleteButton onDelete={() => this.onDelete(id)} text="Slet spørgsmål" />
+                  </div>
+                </Col>
+              </Row>
+              {opened ? (
+                  <React.Fragment>
+                    <UpdateableData
+                      title={"Correct"}
+                      id={id}
+                      fetchUrl={`/questions/fetch/correct/${id}`}
+                      updateUrl={`/questions/update/correct/${id}`}
+                      type="select"
+                      inputs={possibleAnswers[id]}
+                    />
+                    <Answers questionId={id} />
+                  </React.Fragment>
+              ) : null}
+            </Card>
+          )
+        })}
+      </SortableWrapper>
+    )
   }
 
   async onAdd() {

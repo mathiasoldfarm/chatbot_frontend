@@ -17,6 +17,7 @@ class Answers extends Component {
     this.renderAnswers = this.renderAnswers.bind(this);
     this.onAdd = this.onAdd.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.updateSort = this.updateSort.bind(this);
   }
 
   async updateValue() {
@@ -34,11 +35,21 @@ class Answers extends Component {
       await this.updateValue();
     }
   }
+
+  async updateSort(data) {
+    const { oldIndex, newIndex } = data;
+    const { questionId } = this.props;
+    const body = { oldIndex, newIndex };
+    const newIdsOrder = await postCourseData(`/answers/update/answer/order/${questionId}`, body);
+    this.setState({
+      answerIds: newIdsOrder
+    });
+  }
   
   renderAnswers() {
     const { answerIds } = this.state;
     return (
-      <SortableWrapper>
+      <SortableWrapper onSortEnd={this.updateSort}>
         {answerIds.map((id) => {
           return (
             <Card className="mb-3" style={{ border: 'none', background: 'none' }} key={id}>

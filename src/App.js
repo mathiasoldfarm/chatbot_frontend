@@ -10,6 +10,7 @@ import Header from './Components/Header';
 import Container from "./Components/Container";
 import Chatbot from './Components/Chatbot';
 import CoursesDashboard from './Components/CoursesDashboard';
+import LatexTester from './Components/LatexTester';
 
 function App() {
   const routes = [{
@@ -18,6 +19,10 @@ function App() {
     }, {
       url: "/courses",
       name: "Courses"
+    },
+    {
+      url: "/latextester",
+      name: "Latex tester"
     }
   ]
 
@@ -32,6 +37,9 @@ function App() {
             </Route>
             <Route path="/courses">
               <CoursesDashboard />
+            </Route>
+            <Route path="/latextester">
+              <LatexTester />
             </Route>
           </Switch>
         </Router>

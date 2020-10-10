@@ -90,7 +90,7 @@ class QuizLevels extends Component {
   async onAdd() {
     const { quizId } = this.props;
     const response = await postCourseData(`/levels/quizzes/add/${quizId}`);
-    const { id } = response;
+    const { id } = response
     this.setState({ levelIds: [...this.state.levelIds, id] });
   }
 

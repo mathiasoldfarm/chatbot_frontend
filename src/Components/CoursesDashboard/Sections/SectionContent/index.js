@@ -17,14 +17,8 @@ class SectionContent extends Component {
 
   async updateValue() {
     const { sectionId } = this.props;
-    const sectionData = await getCourseData(`/sections/fetch/content/${sectionId}`);
-    const sections = sectionData.map((data) => {
-      return {
-        id: data.type_ref_id,
-        type: data.type
-      }
-    });
-    this.setState({ sections });
+    const { id, type } = await getCourseData(`/sections/fetch/content/${sectionId}`);
+    this.setState({ sections: [{ id, type }] });
   }
 
   async componentDidMount() {

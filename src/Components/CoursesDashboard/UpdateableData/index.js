@@ -50,6 +50,15 @@ class UpdateableData extends Component {
               {inputs.map((input, index)=> <option key={index} value={input.id}>{input.category}</option>)}
             </Input>
           )
+        case "textarea":
+          return (
+            <Input
+              type="textarea"
+              value={value}
+              onChange={this.changeHandler}
+              style={{ height: 200 }}
+            />
+          );
         default:
           break;
       }

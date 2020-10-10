@@ -1,23 +1,42 @@
 import React, { Component } from 'react';
 import Message from './Message';
-import axios from 'axios';
 import ButtonGroup from './ButtonGroup';
+import axios from 'axios';
+import { postCourseData } from '../CoursesDashboard/request';
+
+const generateMessageObject = (data, type) => {
+  return {
+    answer: data.answer,
+    nextPossibleAnswers: data.nextPossibleAnswers,
+    type
+  }
+}
 
 class Chatbot extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      MessageList: [{
-        "type": "bot",
-        "message": "Hi Mathias, I will help you today with fractions"
-      }],
-      input: ""
+      MessageList: [],
+      input: "",
+      message: "This span will get typed"
     }
 
     this.InputChangeHandler = this.InputChangeHandler.bind(this);
-    this.HandleSend = this.HandleSend.bind(this);
     this.RenderMessageList = this.RenderMessageList.bind(this);
+    this.onSend = this.onSend.bind(this);
+  }
+
+  async getAnswer( question ) {
+    const beginData = await postCourseData('/sessions/getanswer', { question });
+    console.log(beginData);
+    this.setState({
+      MessageList: [...this.state.MessageList,  generateMessageObject(beginData, "bot")]
+    });
+  }
+
+  async componentDidMount() {
+    await this.getAnswer("BEGINNING");
   }
 
   InputChangeHandler(e) {
@@ -26,34 +45,35 @@ class Chatbot extends Component {
     })
   }
 
-  async HandleSend() {
-    const { input, MessageList } = this.state;
-    const response = await axios.get(`http://localhost:8000/get_answer/${input}`);
-    const answer = response.data;
-    console.log(response)
+  async onSend(choice) {
+    const data = { answer: choice }
     this.setState({
-      MessageList: [...MessageList, {"type": "user", "message": input}, {"type": "bot", "message": answer}],
-      input: ""
-    } );
+      MessageList: [...this.state.MessageList,  generateMessageObject(data, "user")]
+    });
+    await this.getAnswer(choice);
   }
 
   RenderMessageList() {
     const { MessageList } = this.state;
-    return MessageList.map((message) => {
-      if (message.type === "bot") {
-        return <Message color="#1c1c88" type="bot" text={message.message} />
+    return MessageList.map((message, index) => {
+      if ( index === MessageList.length - 1 && message.nextPossibleAnswers ) {
+        return (
+          <React.Fragment>
+            <Message typing type={message.type} text={message.answer} />
+            <ButtonGroup onClick={this.onSend} choices={message.nextPossibleAnswers} />
+          </React.Fragment>
+        )
       }
-      return <Message color="#cc1b1b" text={message.message} />
-    })
+      return <Message type={message.type} text={message.answer} />
+    });
   }
 
   render() {
+    const { message } = this.state;
+
     return (
       <div style={{ maxWidth: 700 }}>
         {this.RenderMessageList()}
-        <div>
-          <ButtonGroup choises={["Sure, lets go!"]} />
-        </div>
       </div>
     );
   }

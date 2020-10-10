@@ -47,6 +47,7 @@ class DescriptionLevels extends Component {
                 id={id}
                 fetchUrl={`/levels/descriptions/fetch/description/${id}`}
                 updateUrl={`/levels/descriptions/update/description/${id}`}
+                type="textarea"
               />
               <UpdateableData
                 title={"Level"}

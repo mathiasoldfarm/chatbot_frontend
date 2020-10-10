@@ -2,14 +2,14 @@ import React, { Component, Children, cloneElement } from 'react';
 import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 
 const SortableItem = SortableElement(({child}) => {
-  return cloneElement(child);
+  return <div id={child.key}>{cloneElement(child)}</div>;
 });
 
 const SortableList = SortableContainer(({children}) => {
   return (
-    <ul>
+    <ul style={{ paddingLeft: 0, marginBottom: 0 }}>
       {Children.map(children, (child, index) => (
-        <SortableItem key={`item-${index}`} index={index} child={child} />
+        <SortableItem key={child.key} index={index} child={child} />
       ))}
     </ul>
   );

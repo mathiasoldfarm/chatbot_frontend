@@ -1,4 +1,5 @@
 import React from 'react';
+import Typing from '../Typing';
 
 const Message = (props) => {
   if (props.type === "bot") {
@@ -9,20 +10,24 @@ const Message = (props) => {
         marginBottom: 10,
         marginLeft: 0
       }} className="message">
-        <p style={{ color: "black", marginBottom: 0, fontSize: 20 }} >{props.text}</p>
+        {props.typing ? (
+          <Typing style={{ color: "black", marginBottom: 0, fontSize: 20 }} text={props.text} />
+        ) : (
+          <span style={{ color: "black", marginBottom: 0, fontSize: 20 }}>{props.text}</span>
+        )}
       </div>
     )
   }
   return (
     <div style={{
-      backgroundColor: props.color,
+      backgroundColor: '#007bff',
       display: "table",
       padding: "5px 10px",
       borderRadius: 10,
       marginBottom: 10,
       marginLeft: "auto"
     }} className="message">
-      <p style={{ color: "white", marginBottom: 0 }} >{props.text}</p>
+       <span style={{ color: "white", marginBottom: 0, fontSize: 15 }}>{props.text}</span>
     </div>
   );
 }
