@@ -6,6 +6,8 @@ import DeleteButton from '../Buttons/Delete';
 import AddButton from '../Buttons/Add';
 import SectionContent from './SectionContent';
 import SortableWrapper from '../SortableWrapper';
+import Quiz from '../../Chatbot/Quiz';
+import Description from '../../Chatbot/Description';
 
 class Sections extends Component {
   constructor(props) {
@@ -14,7 +16,9 @@ class Sections extends Component {
     this.state = {
       sectionIds: [],
       openedIds: [],
-      modalIsOpen: false
+      modalIsOpen: false,
+      sectionModal: false,
+      sectionModalData: null
     }
 
     this.renderSections = this.renderSections.bind(this);
@@ -22,6 +26,8 @@ class Sections extends Component {
     this.onDelete = this.onDelete.bind(this);
     this.toggle = this.toggle.bind(this);
     this.updateSort = this.updateSort.bind(this);
+    this.sectionToggle = this.sectionToggle.bind(this);
+    this.renderSection = this.renderSection.bind(this);
   }
 
   async updateValue() {
@@ -86,6 +92,14 @@ class Sections extends Component {
                     <Button
                       size="sm"
                       color="primary"
+                      className="mr-3 mb-0"
+                      onClick={() => this.sectionToggle(null, id)}
+                    >
+                      Se sektion
+                    </Button>
+                    <Button
+                      size="sm"
+                      color="primary"
                       onClick={() => this.handleCollapse(id, opened)}
                     >
                       {opened ? "Luk" : "Åben"}
@@ -106,6 +120,17 @@ class Sections extends Component {
     );
   }
 
+  renderSection() {
+    const { sectionModalData, sectionModal } = this.state;
+    if ( sectionModal ) {
+      if ( Object.keys(sectionModalData).includes("descriptions") ) {
+        return sectionModalData.descriptions.map(data => <Description className="mb-5" data={data} />);
+      } else if ( Object.keys(sectionModalData).includes("quizzes") ) {
+        return sectionModalData.quizzes.map(data => <Quiz className="mb-5" data={data} />)
+      }
+    }
+  }
+
   async onAdd(type) {
     const { courseId } = this.props;
     const response = await postCourseData(`/sections/add/${courseId}/${type}`);
@@ -123,39 +148,55 @@ class Sections extends Component {
     this.setState({ modalIsOpen: !this.state.modalIsOpen });
   }
 
+  async sectionToggle(e, id=null) {
+    const sectionModal = id != null;
+    let sectionModalData = null;
+    if ( sectionModal ) {
+      sectionModalData = await getCourseData(`/sections/fetch/all/${id}`);  
+    }
+    this.setState({ sectionModal, sectionModalData });
+  }
+
   render() {
-    const { modalIsOpen } = this.state;
+    const { modalIsOpen, sectionModal } = this.state;
     return (
-      <div className="mt-3">
-        <Row>
-          <Col xs={2}>
-            <p>Sections:</p>
-          </Col>
-          <Col>
-            {/* <AddButton onAdd={this.onAdd} className="mb-2" text="Tilføj sektion" /> */}
-            <Button size="sm" color="success" onClick={this.toggle}>Tilføj sektion</Button>
-          </Col>
-        </Row>
-        {this.renderSections()}
-        <div>
-        <Modal isOpen={modalIsOpen} toggle={this.toggle}>
+      <React.Fragment>
+        <Modal size="lg" isOpen={sectionModal} toggle={this.sectionToggle}>
           <ModalBody>
-            <p>Hvilken type sektion ønsker du at tilføje?</p>
-            <AddButton
-              onAdd={() => this.onAdd("description")}
-              color="primary"
-              className="mr-3"
-              text="Description"
-            />
-            <AddButton
-              onAdd={() => this.onAdd("quiz")}
-              color="primary"
-              text="Quiz"
-            />
+            {this.renderSection()}  
           </ModalBody>
         </Modal>
+        <div className="mt-3">
+          <Row>
+            <Col xs={2}>
+              <p>Sections:</p>
+            </Col>
+            <Col>
+              {/* <AddButton onAdd={this.onAdd} className="mb-2" text="Tilføj sektion" /> */}
+              <Button size="sm" color="success" onClick={this.toggle}>Tilføj sektion</Button>
+            </Col>
+          </Row>
+          {this.renderSections()}
+          <div>
+          <Modal isOpen={modalIsOpen} toggle={this.toggle}>
+            <ModalBody>
+              <p>Hvilken type sektion ønsker du at tilføje?</p>
+              <AddButton
+                onAdd={() => this.onAdd("description")}
+                color="primary"
+                className="mr-3"
+                text="Description"
+              />
+              <AddButton
+                onAdd={() => this.onAdd("quiz")}
+                color="primary"
+                text="Quiz"
+              />
+            </ModalBody>
+          </Modal>
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import Message from './Message';
 import ButtonGroup from './ButtonGroup';
-import axios from 'axios';
+import Description from './Description';
+import { Alert } from 'reactstrap';
+import Quiz from './Quiz';
+import { connect } from 'react-redux';
 import { postCourseData } from '../CoursesDashboard/request';
 
 const generateMessageObject = (data, type) => {
   return {
     answer: data.answer,
     nextPossibleAnswers: data.nextPossibleAnswers,
+    displayData: data.displayData,
     type
   }
 }
@@ -19,24 +23,27 @@ class Chatbot extends Component {
     this.state = {
       MessageList: [],
       input: "",
-      message: "This span will get typed"
+      message: "This span will get typed",
+      course_id: 1
     }
 
     this.InputChangeHandler = this.InputChangeHandler.bind(this);
     this.RenderMessageList = this.RenderMessageList.bind(this);
     this.onSend = this.onSend.bind(this);
+    this.RenderError = this.RenderError.bind(this);
   }
 
-  async getAnswer( question ) {
-    const beginData = await postCourseData('/sessions/getanswer', { question });
-    console.log(beginData);
-    this.setState({
-      MessageList: [...this.state.MessageList,  generateMessageObject(beginData, "bot")]
-    });
-  }
+  async getAnswer( question, course_id ) {
+    const beginData = await postCourseData('/sessions/getanswer', { question, course_id });
+    if ( beginData ) {
+      this.setState({
+        MessageList: [...this.state.MessageList,  generateMessageObject(beginData, "bot")]
+      });
+    }
+}
 
   async componentDidMount() {
-    await this.getAnswer("BEGINNING");
+    await this.getAnswer("BEGINNING", this.state.course_id);
   }
 
   InputChangeHandler(e) {
@@ -50,7 +57,18 @@ class Chatbot extends Component {
     this.setState({
       MessageList: [...this.state.MessageList,  generateMessageObject(data, "user")]
     });
-    await this.getAnswer(choice);
+    await this.getAnswer(choice, this.state.course_id);
+  }
+
+  renderContent(message) {
+    const { displayData } = message;
+    const keys = Object.keys(displayData);
+    if ( keys.length !== 0 ) {
+      if ( keys.includes("descriptionId") ) {
+        return <Description data={displayData} />;
+      }
+      return <Quiz data={displayData} />;
+    }
   }
 
   RenderMessageList() {
@@ -58,25 +76,35 @@ class Chatbot extends Component {
     return MessageList.map((message, index) => {
       if ( index === MessageList.length - 1 && message.nextPossibleAnswers ) {
         return (
-          <React.Fragment>
+          <React.Fragment key={index}>
             <Message typing type={message.type} text={message.answer} />
+            {this.renderContent(message)}
             <ButtonGroup onClick={this.onSend} choices={message.nextPossibleAnswers} />
           </React.Fragment>
         )
       }
-      return <Message type={message.type} text={message.answer} />
+      return <Message key={index} type={message.type} text={message.answer} />
     });
   }
 
-  render() {
-    const { message } = this.state;
+  RenderError() {
+    if ( this.props.error ) {
+      return <Alert color="danger">{this.props.error}</Alert>
+    }
+  }
 
+  render() {
     return (
       <div style={{ maxWidth: 700 }}>
+        {this.RenderError()}
         {this.RenderMessageList()}
       </div>
     );
   }
 }
 
-export default Chatbot;
+const mapStatetToProps = state => ({
+  error: state.courses.coursesFetchingError
+});
+
+export default connect(mapStatetToProps)(Chatbot);

@@ -11,7 +11,15 @@ class ButtonGroup extends Component {
   renderChoices() {
     const { choices, onClick } = this.props;
     return choices.map(choice => (
-      <Button onClick={() => onClick(choice)} size="sm" className="mr-3" color="primary">{choice}</Button>
+      <Button
+        key={choice}
+        onClick={() => onClick(choice)}
+        size="sm"
+        className="mr-3"
+        color="primary"
+      >
+        {choice}
+      </Button>
     ))
   }
 

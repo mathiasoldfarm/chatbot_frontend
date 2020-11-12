@@ -26,6 +26,8 @@ class QuizLevels extends Component {
     this.setState({ levelIds });
   }
 
+
+
   async componentDidMount() {
     await this.updateValue();
   }
@@ -47,6 +49,11 @@ class QuizLevels extends Component {
       })
     }
   }
+
+  async dupliace(id) {
+    await postCourseData(`/levels/quizzes/duplicate/${id}`);
+    await this.updateValue();
+  }
   
   renderLevels() {
     const { levelIds, openLevelIds } = this.state;
@@ -66,6 +73,13 @@ class QuizLevels extends Component {
             </Col>
             <Col xs={2}>
               <div className="d-flex justify-content-end">
+                <Button
+                  size="sm"
+                  className="mr-2"
+                  onClick={() => this.dupliace(id)}
+                >
+                  Duplicate
+                </Button>
                 <Button
                   size="sm"
                   color="primary"

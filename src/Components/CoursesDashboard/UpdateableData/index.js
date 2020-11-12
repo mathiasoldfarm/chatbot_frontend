@@ -32,7 +32,6 @@ class UpdateableData extends Component {
   changeHandler(e) {
     const { title, updateUrl } = this.props;
     const { value } = e.target;
-    console.log(value);
     const type = title.toLowerCase();
     postCourseData(updateUrl, { [type]: value });
     this.setState({ value: value })

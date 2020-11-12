@@ -23,7 +23,7 @@ class Typing extends React.Component {
     this.typed = new Typed(this.el, options);
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     this.typed.destroy();
   }
   

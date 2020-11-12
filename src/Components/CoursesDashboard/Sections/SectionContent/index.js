@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getCourseData, postCourseData } from '../../request';
+import { getCourseData } from '../../request';
 import { Card } from 'reactstrap';
 import Quiz from './Quiz';
 import Description from './Description';
