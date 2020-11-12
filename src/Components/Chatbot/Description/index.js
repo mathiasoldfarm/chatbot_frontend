@@ -52,7 +52,7 @@ const Description = (props) => {
           ignoreUntil = -1;
         }
         if ( index in elementMapper ) {
-          children.push(<span>{stringBuilder}</span>);
+          children.push(<span key={index}>{stringBuilder}</span>);
           children.push(elementMapper[index].element);
           ignoreUntil = elementMapper[index].endIndex;
           stringBuilder = '';
