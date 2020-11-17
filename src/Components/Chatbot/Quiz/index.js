@@ -15,7 +15,7 @@ class Quiz extends Component {
   async selectHandler(key, choice, contextId) {
     const data = { answer: choice }
     this.props.addUserAnswer(data);
-    await this.props.getAnswer(key, this.props.courseId, contextId);
+    await this.props.getAnswer(key, this.props.courseId, contextId, "question");
   }
 
   render() {

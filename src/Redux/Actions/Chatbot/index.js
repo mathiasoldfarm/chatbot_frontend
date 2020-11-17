@@ -15,14 +15,18 @@ const generateMessageObject = (data, type) => {
   }
 }
 
-export const getAnswer = (question, course_id, context_id=null) => {
+export const getAnswer = (question, course_id, context_id=null, type=null) => {
   return async dispatch => {
     dispatch({
       type: ANSWER_FETCHING
     });
 
     try {
-      const beginData = await postCourseData('/sessions/getanswer', { question, course_id, context_id });
+      let query = '/sessions/getanswer';
+      if ( type ) {
+        query += `/${type}`;
+      }
+      const beginData = await postCourseData(query, { question, course_id, context_id });
 
       dispatch({
         type: ANSWER_FETCHING_SUCCESS,
