@@ -90,7 +90,7 @@ class Quiz extends Component {
             <Col xs={6}>
               {Object.keys(possibleAnswers).map(key => {
                 const value = possibleAnswers[key];
-                const correct = currentQuestionData.correct == key;
+                const correct = currentQuestionData.correct === key;
                 return (
                   <QuizButton
                     key={key}

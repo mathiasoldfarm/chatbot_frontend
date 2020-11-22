@@ -11,20 +11,23 @@ import Container from "./Components/Container";
 import Chatbot from './Components/Chatbot';
 import CoursesDashboard from './Components/CoursesDashboard';
 import LatexTester from './Components/LatexTester';
+import Frontpage from './Components/Pages/Frontpage';
 
 function App() {
   const routes = [{
     url: "/",
-    name: "Chatbot"
-    }, {
-      url: "/courses",
-      name: "Courses"
-    },
-    {
-      url: "/latextester",
-      name: "Latex tester"
-    }
-  ]
+    name: "Home"
+  },{
+  url: "/chatbot",
+  name: "Chatbot"
+  }, {
+    url: "/courses",
+    name: "Courses"
+  },
+  {
+    url: "/latextester",
+    name: "Latex tester"
+  }]
 
   return (
     <div className="App">
@@ -32,7 +35,8 @@ function App() {
       <Container>
         <Router>
           <Switch>
-            <Route exact path="/">
+            <Route exact path="/" component={Frontpage} />
+            <Route exact path="/chatbot">
               <Chatbot />
             </Route>
             <Route path="/courses">

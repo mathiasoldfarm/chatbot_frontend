@@ -31,3 +31,7 @@ export const getCourseData = async (request_url) => {
 export const postCourseData = async (request_url, body) => {
   return courseDataRequestBase(POST, request_url, body);
 }
+
+export const get = async(url) => {
+  return (await axios.get(`${backend_base}${url}`)).data;
+}

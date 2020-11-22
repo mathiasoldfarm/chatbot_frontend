@@ -29,6 +29,10 @@ class Chatbot extends Component {
     await this.props.getAnswer("BEGINNING", this.state.courseId);
   }
 
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
   InputChangeHandler(e) {
     this.setState({
       input: e.target.value
@@ -57,11 +61,11 @@ class Chatbot extends Component {
   }
 
   RenderMessageList() {
-    const { messageList } = this.props
+    const { messageList } = this.props;
     return messageList.map((message, index) => {
       const mostNew = index === messageList.length - 1 && message.nextPossibleAnswers;
       return (
-        <React.Fragment key={index}>
+        <div key={index} ref={mostNew ? (el) => { this.latestMessage = el; } : null}>
           <Message
             typing={mostNew}
             type={message.type} text={message.answer}
@@ -70,7 +74,7 @@ class Chatbot extends Component {
           {mostNew ? (
             <ButtonGroup onClick={this.onSend} choices={message.nextPossibleAnswers} />
           ) : null}
-        </React.Fragment>
+        </div>
       );
     });
   }
@@ -91,9 +95,18 @@ class Chatbot extends Component {
     }
   }
 
+  scrollToBottom = () => {
+    if ( this.latestMessage ) {
+      this.latestMessage.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   render() {
     return (
-      <div style={{ maxWidth: 900 }} className="mx-auto pb-5">
+      <div
+        style={{ maxWidth: 900 }}
+        className="mx-auto pb-5"
+      >
         {this.RenderError()}
         {this.RenderSpinner()}
         {this.RenderMessageList()}

@@ -1,5 +1,4 @@
 import React from 'react';
-import Quiz from '..';
 import { Button } from 'reactstrap';
 
 const QuizButton = (props) => {

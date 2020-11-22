@@ -10,7 +10,7 @@ const getElementByTag = (tag, content) => {
     case "latex":
       return <Math style={{ display: "inline-block" }} tex={content} />;
     case "image":
-      return <img style={{ display: "block", maxWidth: '100%' }} src={`${images_url_base}/${content}`} />;
+      return <img style={{ display: "block", maxWidth: '100%' }} alt={content} src={`${images_url_base}/${content}`} />;
     default:
       throw new Error("Couldn't recognize tag");
   }

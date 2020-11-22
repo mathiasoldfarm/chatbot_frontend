@@ -1,0 +1,39 @@
+.bg-blue {
+  background-color: rgba(95, 139, 233, 1);
+  transition: .2s;
+}
+
+.bg-blue:hover {
+  background-color: rgba(95, 139, 233, 0.9);
+}
+
+.bg-red {
+  background-color: rgba(230, 74, 57, 1);
+  transition: .2s;
+}
+
+.bg-red:hover {
+  background-color: rgba(230, 74, 57, 0.9);
+}
+
+.bg-green {
+  background-color: rgba(101, 237, 15, 1);
+  transition: .2s;
+}
+
+.bg-green:hover {
+  background-color: rgba(101, 237, 15, 0.9);
+}
+
+.bg-yellow {
+  background-color: rgba(237, 209, 87, 1);
+  transition: .2s;
+}
+
+.bg-yellow:hover {
+  background-color: rgba(237, 209, 87, 0.9);
+}
+
+.pointer-on-hover:hover {
+  cursor: pointer;
+}
