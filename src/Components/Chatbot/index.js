@@ -43,30 +43,35 @@ class Chatbot extends Component {
 
   renderContent(message) {
     const { displayData } = message;
-    const keys = Object.keys(displayData);
-    if ( keys.length !== 0 ) {
-      if ( keys.includes("descriptionId") ) {
-        return (
-          <Description data={displayData} />
-        );
+    if ( displayData ) {
+      const keys = Object.keys(displayData);
+      if ( keys.length !== 0 ) {
+        if ( keys.includes("descriptionId") ) {
+          return (
+            <Description data={displayData} />
+          );
+        }
+        return <Quiz data={displayData} courseId={this.state.courseId} />;
       }
-      return <Quiz data={displayData} courseId={this.state.courseId} />;
     }
   }
 
   RenderMessageList() {
     const { messageList } = this.props
     return messageList.map((message, index) => {
-      if ( index === messageList.length - 1 && message.nextPossibleAnswers ) {
-        return (
-          <React.Fragment key={index}>
-            <Message typing type={message.type} text={message.answer} />
-            {this.renderContent(message)}
+      const mostNew = index === messageList.length - 1 && message.nextPossibleAnswers;
+      return (
+        <React.Fragment key={index}>
+          <Message
+            typing={mostNew}
+            type={message.type} text={message.answer}
+          />
+          {this.renderContent(message)}
+          {mostNew ? (
             <ButtonGroup onClick={this.onSend} choices={message.nextPossibleAnswers} />
-          </React.Fragment>
-        )
-      }
-      return <Message key={index} type={message.type} text={message.answer} />
+          ) : null}
+        </React.Fragment>
+      );
     });
   }
 
@@ -88,7 +93,7 @@ class Chatbot extends Component {
 
   render() {
     return (
-      <div style={{ maxWidth: 700 }}>
+      <div style={{ maxWidth: 900 }} className="mx-auto pb-5">
         {this.RenderError()}
         {this.RenderSpinner()}
         {this.RenderMessageList()}

@@ -25,6 +25,7 @@ const Message = (props) => {
       padding: "5px 10px",
       borderRadius: 10,
       marginBottom: 10,
+      marginTop: 25,
       marginLeft: "auto"
     }} className="message">
        <span style={{ color: "white", marginBottom: 0, fontSize: 15 }}>{props.text}</span>

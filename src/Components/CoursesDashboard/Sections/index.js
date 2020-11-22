@@ -124,9 +124,9 @@ class Sections extends Component {
     const { sectionModalData, sectionModal } = this.state;
     if ( sectionModal ) {
       if ( Object.keys(sectionModalData).includes("descriptions") ) {
-        return sectionModalData.descriptions.map(data => <Description className="mb-5" data={data} />);
+        return sectionModalData.descriptions.map((data, index) => <Description key={index} className="mb-5" data={data} />);
       } else if ( Object.keys(sectionModalData).includes("quizzes") ) {
-        return sectionModalData.quizzes.map(data => <Quiz className="mb-5" data={data} />)
+        return sectionModalData.quizzes.map((data, index) => <Quiz key={index} className="mb-5" data={data} notSendData />)
       }
     }
   }
@@ -157,15 +157,24 @@ class Sections extends Component {
     this.setState({ sectionModal, sectionModalData });
   }
 
-  render() {
-    const { modalIsOpen, sectionModal } = this.state;
-    return (
-      <React.Fragment>
+  renderModal() {
+    const { sectionModal } = this.state;
+    if ( sectionModal ) {
+      return (
         <Modal size="lg" isOpen={sectionModal} toggle={this.sectionToggle}>
           <ModalBody>
             {this.renderSection()}  
           </ModalBody>
         </Modal>
+      );
+    }
+  }
+
+  render() {
+    const { modalIsOpen } = this.state;
+    return (
+      <React.Fragment>
+        {this.renderModal()}
         <div className="mt-3">
           <Row>
             <Col xs={2}>
