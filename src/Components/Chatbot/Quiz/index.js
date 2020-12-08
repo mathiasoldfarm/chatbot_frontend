@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Row, Col, Button } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import QuizButton from './QuizButton';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -133,10 +133,10 @@ class Quiz extends Component {
     const { className, data } = this.props;
     const { name} = data;
     return (
-      <Card className={className ? `p-4 ${className}` : `p-4`}>
+      <div className={className ? `pt-4 ${className}` : `pt-4`}>
         <h4>{name}</h4>
         {this.renderQuestionSection()}
-      </Card>
+      </div>
     );
   }
 }

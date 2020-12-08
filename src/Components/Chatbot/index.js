@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import Message from './Message';
 import ButtonGroup from './ButtonGroup';
-import Description from './Description';
 import { Alert, Spinner } from 'reactstrap';
-import Quiz from './Quiz';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getAnswer, addUserAnswer } from '../../Redux/Actions/Chatbot';
@@ -45,21 +43,6 @@ class Chatbot extends Component {
     await this.props.getAnswer(choice, this.state.courseId);
   }
 
-  renderContent(message) {
-    const { displayData } = message;
-    if ( displayData ) {
-      const keys = Object.keys(displayData);
-      if ( keys.length !== 0 ) {
-        if ( keys.includes("descriptionId") ) {
-          return (
-            <Description data={displayData} />
-          );
-        }
-        return <Quiz data={displayData} courseId={this.state.courseId} />;
-      }
-    }
-  }
-
   RenderMessageList() {
     const { messageList } = this.props;
     return messageList.map((message, index) => {
@@ -68,9 +51,11 @@ class Chatbot extends Component {
         <div key={index} ref={mostNew ? (el) => { this.latestMessage = el; } : null}>
           <Message
             typing={mostNew}
-            type={message.type} text={message.answer}
+            type={message.type}
+            text={message.answer}
+            displayData={message.displayData}
+            courseId={this.state.courseId}
           />
-          {this.renderContent(message)}
           {mostNew ? (
             <ButtonGroup onClick={this.onSend} choices={message.nextPossibleAnswers} />
           ) : null}
@@ -104,8 +89,8 @@ class Chatbot extends Component {
   render() {
     return (
       <div
-        style={{ maxWidth: 900 }}
-        className="mx-auto pb-5"
+        style={{ maxWidth: 1000, height: 1000, maxHeight: 1000, overflow: "scroll" }}
+        className="mx-auto pb-5 border border-primary p-5"
       >
         {this.RenderError()}
         {this.RenderSpinner()}

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card } from 'reactstrap';
 import Math from '../../Chatbot/Math';
 import { images_url_base } from '../../../constants';
 
@@ -72,10 +71,10 @@ const Description = (props) => {
 
   const { className } = props;
   return (
-    <Card className={className ? `p-4 ${className}` : `p-4`}>
+    <div className={className ? `pt-4 ${className}` : `pt-4`}>
       <h4>{name}</h4>
       {renderDescription()}
-    </Card>
+    </div>
   );
 }
 
