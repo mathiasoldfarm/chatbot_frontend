@@ -8,9 +8,9 @@ const getElementByTag = (tag, content) => {
     case "title":
       return <h5 className="mb-0">{content}</h5>;
     case "latex":
-      return <Math style={{ display: "inline-block" }} tex={content} />;
+      return <Math style={{ display: "inline-block" }} tex={content} key={tag} />;
     case "image":
-      return <img style={{ display: "block", maxWidth: '100%' }} alt={content} src={`${images_url_base}/${content}`} />;
+      return <img style={{ display: "block", maxWidth: '100%' }} alt={content} src={`${images_url_base}/${content}`} key={tag} />;
     default:
       throw new Error("Couldn't recognize tag");
   }
@@ -60,7 +60,7 @@ const Description = (props) => {
           stringBuilder += c;
         }
       });
-      children.push(<span>{stringBuilder}</span>);
+      children.push(<span key={children.length}>{stringBuilder}</span>);
     } else {
       children.push(<p>Non elements found</p>);
     }

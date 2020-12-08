@@ -54,7 +54,7 @@ class Answers extends Component {
           return (
             <Card className="mb-3" style={{ border: 'none', background: 'none' }} key={id}>
               <Row>
-                <Col>
+                <Col xs={10}>
                   <UpdateableData
                     title={"Answer"}
                     id={id}
@@ -66,6 +66,16 @@ class Answers extends Component {
                   <div className="d-flex justify-content-end">
                     <DeleteButton onDelete={() => this.onDelete(id)} text="Slet svar" />
                   </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={10}>
+                  <UpdateableData
+                    title={"Explanation"}
+                    id={id}
+                    fetchUrl={`/answers/fetch/explanation/${id}`}
+                    updateUrl={`/answers/update/explanation/${id}`}
+                  />
                 </Col>
               </Row>
             </Card>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Row, Col } from 'reactstrap';
+import { Card, Row, Col, Button } from 'reactstrap';
 import QuizButton from './QuizButton';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -18,17 +18,13 @@ class Quiz extends Component {
 
     this.selectHandler = this.selectHandler.bind(this);
     this.renderQuestionSection = this.renderQuestionSection.bind(this);
+    this.goToNextQuestion = this.goToNextQuestion.bind(this);
+    this.submitAnswers = this.submitAnswers.bind(this);
   }
 
-  delay(ms){
-    return new Promise(res => setTimeout(res, ms))
-  };
-
-  async selectHandler (chosenPossibleAnswerId, questionId, choice, contextId, last, correct) {
+  async selectHandler (chosenPossibleAnswerId, questionId, answer, explanation, correct) {
     const {
       addUserAnswer,
-      getAnswer,
-      courseId,
       notSendData
     } = this.props;
     
@@ -36,43 +32,68 @@ class Quiz extends Component {
     this.setState({
       isCorrect: correct,
       displayAnswerMessage: true,
+      lastAnswersExplanation: explanation,
       answers: {
         ...this.state.answers,
         [questionId]: chosenPossibleAnswerId
       }
     });
     if ( !notSendData ) {
-      const data = { answer: choice }
+      const data = { answer }
       addUserAnswer(data);
-    }
-    await this.delay(2000);
-    this.setState({ displayAnswerMessage: false });
-
-    if (last) {
-      if ( !notSendData ) {
-        await getAnswer(this.state.answers, courseId, contextId, "question"); 
-      }
-    } else {
-      this.setState({
-        questionIndex: this.state.questionIndex + 1
-      })
     }
   }
 
-  renderFeedback() {
-    const { isCorrect, displayAnswerMessage } = this.state;
+  goToNextQuestion() {
+    this.setState({
+      questionIndex: this.state.questionIndex + 1,
+      displayAnswerMessage: false
+    });
+  }
+
+  submitAnswers() {
+    const contextId = this.props.data.contextId;
+    const { courseId, getAnswer } = this.props;
+
+    if ( !this.props.notSendData ) {
+      getAnswer(this.state.answers, courseId, contextId, "question"); 
+    }
+  }
+
+  handleClick(last) {
+    if ( last ) {
+      this.submitAnswers();
+    } else {
+      this.goToNextQuestion();
+    }
+  }
+
+  renderFeedback(last) {
+    const { isCorrect, displayAnswerMessage, lastAnswersExplanation } = this.state;
     if ( displayAnswerMessage ) {
-      if ( isCorrect ) {
-        return <p style={{ color: "green" }}>You'r answer was correct</p>
-      } else {
-        return <p style={{ color: "red" }}>You'r answer was not correct</p>
-      }
+      return (
+        <div>
+          <Row>
+            <Col xs={8}>
+              {isCorrect ? (
+                <p style={{ color: "green" }}>{lastAnswersExplanation}</p>
+              ): (
+                <p style={{ color: "red" }}>{lastAnswersExplanation}</p>
+              )}
+            </Col>
+            <Col xs={4}>
+              <Button onClick={() => this.handleClick(last)} color="primary" size="sm">{last ? "Done" : "Next question"}</Button>
+            </Col>
+          </Row>
+        </div>
+      );
     }
   }
 
   renderQuestionSection () {
     const { data } = this.props;
-    const { contextId, question } = data;
+    const { displayAnswerMessage } = this.state;
+    const { question } = data;
 
     const { questionIndex } = this.state;
     const numberOfQuestions = Object.keys(question).length;
@@ -84,24 +105,25 @@ class Quiz extends Component {
     return (
       <div>
         <p>{currentQuestion}</p>
-        {this.renderFeedback()}
         <div className="p-2 mb-2">
           <Row>
             <Col xs={6}>
               {Object.keys(possibleAnswers).map(key => {
-                const value = possibleAnswers[key];
-                const correct = currentQuestionData.correct === key;
+                const { possibleAnswer, explanation } = possibleAnswers[key];
+                const correct = currentQuestionData.correct === parseInt(key);
                 return (
                   <QuizButton
+                    disabled={displayAnswerMessage}
                     key={key}
-                    onClick={() => this.selectHandler(key, currentQuestionData.questionId, value, contextId, last, correct)}
-                    answer={value}
+                    onClick={() => this.selectHandler(key, currentQuestionData.questionId, possibleAnswer, explanation, correct)}
+                    answer={possibleAnswer}
                   />
                 );
               })}
             </Col>
           </Row>
         </div>
+        {this.renderFeedback(last)}
         <p>Spørgsmål {questionIndex + 1} ud af {numberOfQuestions}</p>
       </div>
     )
