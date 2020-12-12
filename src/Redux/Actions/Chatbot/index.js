@@ -11,11 +11,12 @@ const generateMessageObject = (data, type) => {
     answer: data.answer,
     nextPossibleAnswers: data.nextPossibleAnswers,
     displayData: data.displayData,
-    type
+    type,
+    sessionGroup: data.session_group
   }
 }
 
-export const getAnswer = (question, course_id, context_id=null, type=null) => {
+export const getAnswer = (question, course_id, sessionGroup, context_id=null, type=null) => {
   return async dispatch => {
     dispatch({
       type: ANSWER_FETCHING
@@ -26,7 +27,7 @@ export const getAnswer = (question, course_id, context_id=null, type=null) => {
       if ( type ) {
         query += `/${type}`;
       }
-      const beginData = await postCourseData(query, { question, course_id, context_id });
+      const beginData = await postCourseData(query, { question, course_id, context_id, sessionGroup });
 
       dispatch({
         type: ANSWER_FETCHING_SUCCESS,

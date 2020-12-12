@@ -8,7 +8,7 @@ const QuizButton = (props) => {
       disabled={disabled}
       onClick={onClick}
       size="sm"
-      color="primary"
+      color="danger"
       outline
       block
     >

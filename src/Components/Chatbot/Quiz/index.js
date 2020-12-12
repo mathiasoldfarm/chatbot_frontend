@@ -27,7 +27,6 @@ class Quiz extends Component {
       addUserAnswer,
       notSendData
     } = this.props;
-    
 
     this.setState({
       isCorrect: correct,
@@ -53,10 +52,10 @@ class Quiz extends Component {
 
   submitAnswers() {
     const contextId = this.props.data.contextId;
-    const { courseId, getAnswer } = this.props;
+    const { courseId, getAnswer, sessionGroup } = this.props;
 
     if ( !this.props.notSendData ) {
-      getAnswer(this.state.answers, courseId, contextId, "question"); 
+      getAnswer(this.state.answers, courseId, sessionGroup, contextId, "question"); 
     }
   }
 
@@ -72,19 +71,23 @@ class Quiz extends Component {
     const { isCorrect, displayAnswerMessage, lastAnswersExplanation } = this.state;
     if ( displayAnswerMessage ) {
       return (
-        <div>
-          <Row>
-            <Col xs={8}>
-              {isCorrect ? (
+        <div className="mt-3">
+          <div>
+            {isCorrect ? (
                 <p style={{ color: "green" }}>{lastAnswersExplanation}</p>
               ): (
                 <p style={{ color: "red" }}>{lastAnswersExplanation}</p>
-              )}
-            </Col>
-            <Col xs={4}>
-              <Button onClick={() => this.handleClick(last)} color="primary" size="sm">{last ? "Done" : "Next question"}</Button>
-            </Col>
-          </Row>
+            )}
+          </div>
+          <div>
+            <Button
+              onClick={() => this.handleClick(last)}
+              color="primary"
+              size="sm"
+            >
+              {last ? "Done" : "Next question"}
+            </Button>
+          </div>
         </div>
       );
     }
@@ -102,10 +105,11 @@ class Quiz extends Component {
     const { possibleAnswers } = currentQuestionData;
     const last = numberOfQuestions === questionIndex + 1;
 
+    console.log(possibleAnswers);
     return (
       <div>
         <p>{currentQuestion}</p>
-        <div className="p-2 mb-2">
+        <div className="p-2">
           <Row>
             <Col xs={6}>
               {Object.keys(possibleAnswers).map(key => {
@@ -123,7 +127,9 @@ class Quiz extends Component {
             </Col>
           </Row>
         </div>
-        {this.renderFeedback(last)}
+        <div className="mb-5">
+          {this.renderFeedback(last)}
+        </div>
         <p>Spørgsmål {questionIndex + 1} ud af {numberOfQuestions}</p>
       </div>
     )
@@ -134,7 +140,6 @@ class Quiz extends Component {
     const { name} = data;
     return (
       <div className={className ? `pt-4 ${className}` : `pt-4`}>
-        <h4>{name}</h4>
         {this.renderQuestionSection()}
       </div>
     );

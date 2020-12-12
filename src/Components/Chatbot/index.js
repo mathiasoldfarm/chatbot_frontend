@@ -37,10 +37,10 @@ class Chatbot extends Component {
     })
   }
 
-  async onSend(choice) {
+  async onSend(choice, sessionGroup) {
     const data = { answer: choice }
     this.props.addUserAnswer(data);
-    await this.props.getAnswer(choice, this.state.courseId);
+    await this.props.getAnswer(choice, this.state.courseId, sessionGroup);
   }
 
   RenderMessageList() {
@@ -55,10 +55,8 @@ class Chatbot extends Component {
             text={message.answer}
             displayData={message.displayData}
             courseId={this.state.courseId}
+            sessionGroup={message.sessionGroup}
           />
-          {mostNew ? (
-            <ButtonGroup onClick={this.onSend} choices={message.nextPossibleAnswers} />
-          ) : null}
         </div>
       );
     });
@@ -86,15 +84,31 @@ class Chatbot extends Component {
     }
   }
 
+  renderButtons = () => {
+    if ( this.props.messageList.length > 0 ) {
+      const { nextPossibleAnswers, sessionGroup } = this.props.messageList[this.props.messageList.length - 1]
+      if ( nextPossibleAnswers ) {
+        return <ButtonGroup onClick={this.onSend} choices={nextPossibleAnswers} sessionGroup={sessionGroup} />
+      }
+    }
+  }
+
   render() {
     return (
       <div
-        style={{ maxWidth: 1000, height: 1000, maxHeight: 1000, overflow: "scroll" }}
-        className="mx-auto pb-5 border border-primary p-5"
+        style={{ maxWidth: 1000, height: 1000, maxHeight: 1000 }}
+        className="mx-auto border border-primary"
       >
-        {this.RenderError()}
-        {this.RenderSpinner()}
-        {this.RenderMessageList()}
+        <div className="d-flex flex-column h-100 flex-grow" >
+          <div style={{ overflow: "scroll"  }} className="p-5 flex-fill">
+            {this.RenderError()}
+            {this.RenderMessageList()}
+          </div>
+          <div className="border-top border-primary py-3 justify-content-center d-flex">
+            {this.RenderSpinner()}
+            {this.renderButtons()}
+          </div>
+        </div>
       </div>
     );
   }

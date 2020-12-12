@@ -9,13 +9,13 @@ class ButtonGroup extends Component {
   }
 
   renderChoices() {
-    const { choices, onClick } = this.props;
-    return choices.map(choice => (
+    const { choices, onClick, sessionGroup } = this.props;
+    return choices.map((choice, index) => (
       <Button
         key={choice}
-        onClick={() => onClick(choice)}
+        onClick={() => onClick(choice, sessionGroup)}
         size="sm"
-        className="mr-3"
+        className={index == choices.length - 1 ? '' : 'mr-3'}
         color="primary"
       >
         {choice}
@@ -25,7 +25,7 @@ class ButtonGroup extends Component {
 
   render() {
     return (
-      <div className="mt-4">
+      <div>
         {this.renderChoices()}
       </div>
     );
