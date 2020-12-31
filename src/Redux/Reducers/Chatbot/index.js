@@ -2,7 +2,8 @@ import {
   ANSWER_FETCHING,
   ANSWER_FETCHING_ERROR,
   ANSWER_FETCHING_SUCCESS,
-  ADD_USER_ANSWER
+  ADD_USER_ANSWER,
+  RESET_MESSAGE_LIST
 } from '../../ActionTypes/Chatbot';
 
 const INITIAL_STATE = {
@@ -35,6 +36,11 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         messageList: [...state.messageList, action.message]
+      }
+    case RESET_MESSAGE_LIST:
+      return {
+        ...state,
+        messageList: []
       }
     default:
       return state;

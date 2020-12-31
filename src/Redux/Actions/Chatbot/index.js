@@ -2,7 +2,8 @@ import {
   ANSWER_FETCHING,
   ANSWER_FETCHING_ERROR,
   ANSWER_FETCHING_SUCCESS,
-  ADD_USER_ANSWER
+  ADD_USER_ANSWER,
+  RESET_MESSAGE_LIST
 } from '../../ActionTypes/Chatbot';
 import { postCourseData } from '../../../Components/CoursesDashboard/request';
 
@@ -16,7 +17,13 @@ const generateMessageObject = (data, type) => {
   }
 }
 
-export const getAnswer = (question, course_id, sessionGroup, context_id=null, type=null) => {
+export const resetMessageList = () => {
+  return {
+    type: RESET_MESSAGE_LIST
+  }
+}
+
+export const getAnswer = (question, course_id, user_id, sessionGroup, context_id=null, type=null) => {
   return async dispatch => {
     dispatch({
       type: ANSWER_FETCHING
@@ -27,7 +34,7 @@ export const getAnswer = (question, course_id, sessionGroup, context_id=null, ty
       if ( type ) {
         query += `/${type}`;
       }
-      const beginData = await postCourseData(query, { question, course_id, context_id, sessionGroup });
+      const beginData = await postCourseData(query, { question, course_id, user_id, context_id, sessionGroup });
 
       dispatch({
         type: ANSWER_FETCHING_SUCCESS,

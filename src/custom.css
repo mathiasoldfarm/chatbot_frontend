@@ -37,3 +37,7 @@
 .pointer-on-hover:hover {
   cursor: pointer;
 }
+
+.pointer-on-hover:hover .underline-on-parent-hover {
+  text-decoration: underline;
+}

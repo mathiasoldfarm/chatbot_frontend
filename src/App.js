@@ -12,14 +12,12 @@ import Chatbot from './Components/Chatbot';
 import CoursesDashboard from './Components/CoursesDashboard';
 import LatexTester from './Components/LatexTester';
 import Frontpage from './Components/Pages/Frontpage';
+import Course from './Components/Pages/Course';
 
 function App() {
   const routes = [{
     url: "/",
     name: "Home"
-  },{
-  url: "/chatbot",
-  name: "Chatbot"
   }, {
     url: "/courses",
     name: "Courses"
@@ -36,9 +34,7 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/" component={Frontpage} />
-            <Route exact path="/chatbot">
-              <Chatbot />
-            </Route>
+            <Route path="/learn/" component={Course} />
             <Route path="/courses">
               <CoursesDashboard />
             </Route>

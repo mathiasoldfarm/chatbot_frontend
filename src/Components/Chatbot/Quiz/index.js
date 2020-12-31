@@ -55,7 +55,7 @@ class Quiz extends Component {
     const { courseId, getAnswer, sessionGroup } = this.props;
 
     if ( !this.props.notSendData ) {
-      getAnswer(this.state.answers, courseId, sessionGroup, contextId, "question"); 
+      getAnswer(this.state.answers, courseId, this.props.user, sessionGroup, contextId, "question"); 
     }
   }
 
@@ -139,7 +139,7 @@ class Quiz extends Component {
     const { className, data } = this.props;
     const { name} = data;
     return (
-      <div className={className ? `pt-4 ${className}` : `pt-4`}>
+      <div className={className ? className : null}>
         {this.renderQuestionSection()}
       </div>
     );

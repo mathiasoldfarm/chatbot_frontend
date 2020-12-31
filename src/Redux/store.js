@@ -7,7 +7,7 @@ const store = createStore(
   rootReducer,
   compose(applyMiddleware(
     thunk
-  ), composeWithDevTools()),
+  ), window.__REDUX_DEVTOOLS_EXTENSION__ ? composeWithDevTools() : f => f),
 );
 
 export default store;

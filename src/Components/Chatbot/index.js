@@ -4,7 +4,7 @@ import ButtonGroup from './ButtonGroup';
 import { Alert, Spinner } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getAnswer, addUserAnswer } from '../../Redux/Actions/Chatbot';
+import { getAnswer, addUserAnswer, resetMessageList } from '../../Redux/Actions/Chatbot';
 
 class Chatbot extends Component {
   constructor(props) {
@@ -13,7 +13,6 @@ class Chatbot extends Component {
     this.state = {
       input: "",
       message: "This span will get typed",
-      courseId: 1
     }
 
     this.InputChangeHandler = this.InputChangeHandler.bind(this);
@@ -21,13 +20,23 @@ class Chatbot extends Component {
     this.onSend = this.onSend.bind(this);
     this.RenderError = this.RenderError.bind(this);
     this.RenderSpinner = this.RenderSpinner.bind(this);
+    this.begin = this.begin.bind(this);
+  }
+
+  async begin() {
+    const { getAnswer, resetMessageList, course, user } = this.props;
+    resetMessageList();
+    await getAnswer("BEGINNING", course, user);
   }
 
   async componentDidMount() {
-    await this.props.getAnswer("BEGINNING", this.state.courseId);
+    await this.begin();
   }
 
-  componentDidUpdate() {
+  async componentDidUpdate(prevProps) {
+    if ( prevProps.course != this.props.course ) {
+      await this.begin();
+    }
     this.scrollToBottom();
   }
 
@@ -40,7 +49,7 @@ class Chatbot extends Component {
   async onSend(choice, sessionGroup) {
     const data = { answer: choice }
     this.props.addUserAnswer(data);
-    await this.props.getAnswer(choice, this.state.courseId, sessionGroup);
+    await this.props.getAnswer(choice, this.props.course, this.props.user, sessionGroup);
   }
 
   RenderMessageList() {
@@ -54,8 +63,9 @@ class Chatbot extends Component {
             type={message.type}
             text={message.answer}
             displayData={message.displayData}
-            courseId={this.state.courseId}
+            courseId={this.props.course}
             sessionGroup={message.sessionGroup}
+            user={this.props.user}
           />
         </div>
       );
@@ -120,6 +130,6 @@ const mapStatetToProps = state => ({
   fetchingMessageError: state.chatbot.fetchingMessageError
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getAnswer, addUserAnswer }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ getAnswer, addUserAnswer, resetMessageList }, dispatch);
 
 export default connect(mapStatetToProps, mapDispatchToProps)(Chatbot);

@@ -71,7 +71,7 @@ const Description = (props) => {
 
   const { className } = props;
   return (
-    <div className={className ? `pt-4 ${className}` : `pt-4`}>
+    <div className={className ? className : null}>
       {renderDescription()}
     </div>
   );

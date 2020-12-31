@@ -46,7 +46,7 @@ class UpdateableData extends Component {
         case "select":
           return (
             <Input type="select" name="select" id="exampleSelect" value={value} onChange={this.changeHandler}>
-              {inputs.map((input, index)=> <option key={index} value={input.id}>{input.category}</option>)}
+              {inputs.map((input, index)=> <option key={index} value={input.id}>{input.title}</option>)}
             </Input>
           )
         case "textarea":

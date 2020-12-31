@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { fetchPageData } from '../../../Redux/Actions/Pages';
-import { Spinner, Alert, Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import Category from './Category';
 import Subcategory from './Subcategory';
+import PagesContainer from '../PagesContainer';
+
+const formatUrl = (category) => {
+  return category.toLowerCase().replace(' ', '-');
+}
 
 class Frontpage extends Component {
   constructor(props) {
@@ -14,13 +17,13 @@ class Frontpage extends Component {
       selectedCategory: ''
     }
 
-    props.fetchPageData();
     this.renderCategories = this.renderCategories.bind(this);
     this.renderSubCategories = this.renderSubCategories.bind(this);
   }
 
   renderCategories() {
-    const { categories } = this.props;
+    const { categories, history } = this.props;
+    console.log(this.props);
     if ( categories ) {
       return (
         <Row>
@@ -30,11 +33,12 @@ class Frontpage extends Component {
             <Col key={category}>
               <Category
                 onClick={() => {
-                  if (this.state.selectedCategory === category) {
-                    this.setState({ selectedCategory: '' });
-                  } else {
-                    this.setState({ selectedCategory: category });
-                  }
+                  // if (this.state.selectedCategory === category) {
+                  //   this.setState({ selectedCategory: '' });
+                  // } else {
+                  //   this.setState({ selectedCategory: category });
+                  // }
+                  history.push(`/learn/${formatUrl(category)}`)
                 }}
                 colorClass={colorClass}
                 category={category}
@@ -63,15 +67,8 @@ class Frontpage extends Component {
   }
 
   render() {
-    const { fetching, fetchingError } = this.props;
-    if ( fetching ) {
-      return <Spinner />
-    }
-    if ( fetchingError ) {
-      return <Alert color="danger">{fetchingError}</Alert>
-    }
     return (
-     <div>
+     <PagesContainer>
        <Row className="mb-5">
          <Col xs={2}></Col>
          <Col xs={8}>{this.renderCategories()}</Col>
@@ -80,17 +77,12 @@ class Frontpage extends Component {
        <div>
          {this.renderSubCategories()}
        </div>
-     </div>
+     </PagesContainer>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  fetching: state.pages.fetching,
-  fetchingError: state.pages.fetchingError,
   categories: state.pages.data.categories
 });
-
-const mapDispatchToProps = dispatch => bindActionCreators({ fetchPageData }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Frontpage);
+export default connect(mapStateToProps)(Frontpage);

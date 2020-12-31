@@ -13,7 +13,8 @@ class CoursesDashboard extends Component {
 
     this.state = {
       coursesIds: [],
-      descriptionCategories: []
+      descriptionCategories: [],
+      courseCategories: []
     }
 
     this.onAdd = this.onAdd.bind(this);
@@ -21,9 +22,10 @@ class CoursesDashboard extends Component {
   }
 
   async componentDidMount() {
+    const courseCategories = await getCourseData('/courses/fetch/categories');
     const coursesIds = await getCourseData('/courses/fetch/id');
     const descriptionCategories = await getCourseData('/levels/descriptions/fetch/categories');
-    this.setState({ coursesIds, descriptionCategories });
+    this.setState({ coursesIds, descriptionCategories, courseCategories });
   }
 
   renderLoader() {
@@ -41,7 +43,7 @@ class CoursesDashboard extends Component {
   }
 
   renderCourses() {
-    const { coursesIds, descriptionCategories } = this.state;
+    const { coursesIds, descriptionCategories, courseCategories } = this.state;
     return coursesIds.map((id, index) => {
       return (
         <Card className="p-5 mt-5" key={index}>
@@ -57,6 +59,14 @@ class CoursesDashboard extends Component {
             id={id}
             fetchUrl = {`/courses/fetch/description/${id}`}
             updateUrl = {`/courses/update/description/${id}`}
+          />
+          <UpdateableData
+            title={"Category"}
+            id={id}
+            fetchUrl={`/courses/fetch/category/${id}`}
+            updateUrl={`/courses/update/category/${id}`}
+            type="select"
+            inputs={courseCategories}
           />
           <Sections courseId={id} descriptionCategories={descriptionCategories} />
         </Card>
