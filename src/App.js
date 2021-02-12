@@ -13,6 +13,7 @@ import CoursesDashboard from './Components/CoursesDashboard';
 import LatexTester from './Components/LatexTester';
 import Frontpage from './Components/Pages/Frontpage';
 import Course from './Components/Pages/Course';
+import GraphDrawer from './Components/GraphDrawer';
 
 function App() {
   const routes = [{
@@ -25,6 +26,9 @@ function App() {
   {
     url: "/latextester",
     name: "Latex tester"
+  }, {
+    url: "/graphdrawer",
+    name: "Graph Drawer"
   }]
 
   return (
@@ -35,11 +39,15 @@ function App() {
           <Switch>
             <Route exact path="/" component={Frontpage} />
             <Route path="/learn/" component={Course} />
+            <Route path="/kursus/" component={Course} />
             <Route path="/courses">
               <CoursesDashboard />
             </Route>
             <Route path="/latextester">
               <LatexTester />
+            </Route>
+            <Route path="/graphdrawer">
+              <GraphDrawer />
             </Route>
           </Switch>
         </Router>

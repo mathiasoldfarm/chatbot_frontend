@@ -48,6 +48,36 @@ class Course extends Component {
     });
   }
 
+  renderSections() {
+    console.log(this.props.courseDataByUser);
+    const { courseDataByUser } = this.props;
+    if ( courseDataByUser ) {
+      const menuStructure = {}
+
+      courseDataByUser.forEach(section => {
+        const { section_parent_id } = section;
+        if ( section_parent_id && !(section_parent_id in menuStructure) ) {
+          menuStructure[section_parent_id] = {
+            own: null,
+            children: []
+          }
+        }
+      });
+
+      courseDataByUser.forEach(section => {
+        const { section_parent_id, section_id } = section;
+        if ( section_parent_id ) {
+          menuStructure[section_parent_id].children.push(section_id)
+        }
+        if ( section_id in menuStructure ) {
+          menuStructure[section_id].own = section;
+        }
+      });
+
+      console.log(menuStructure);
+    }
+  }
+
   render() {
     return (
       <PagesContainer dependingData={[this.state.user]}>
@@ -56,7 +86,9 @@ class Course extends Component {
         </div>
         <Row>
           <Col xs={4}>
-            {this.renderCourses()}
+            {/* {this.renderCourses()} */
+            this.renderSections()
+            }
           </Col>
           <Col xs={8}>
             {this.renderChatbot()}

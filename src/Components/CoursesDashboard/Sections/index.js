@@ -80,12 +80,25 @@ class Sections extends Component {
             <Card className="mb-3 p-3" style={{ border: '1px solid lightgrey', backgroundColor: '#f8f8f8' }} key={id}>
               <Row className="align-items-center">
                 <Col xs={8}>
-                  <UpdateableData
-                    title={"Title"}
-                    id={id}
-                    fetchUrl={`/sections/fetch/title/${id}`}
-                    updateUrl={`/sections/update/title/${id}`}
-                  />
+                  <Row>
+                    <Col xs={8}>
+                      <UpdateableData
+                        title={"Title"}
+                        id={id}
+                        fetchUrl={`/sections/fetch/title/${id}`}
+                        updateUrl={`/sections/update/title/${id}`}
+                      />
+                    </Col>
+                    <Col>
+                      <UpdateableData
+                        title={"Parent"}
+                        id={id}
+                        fetchUrl={`/sections/fetch/parentId/${id}`}
+                        updateUrl={`/sections/update/parentId/${id}`}
+                      />
+                    </Col>
+                  </Row>
+                  <p className="mb-0">ID: {id}</p>
                 </Col>
                 <Col xs={2}>
                   <div className="d-flex justify-content-end">
