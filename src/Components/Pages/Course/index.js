@@ -4,6 +4,7 @@ import { Row, Col } from 'reactstrap';
 import Chatbot from '../../Chatbot';
 import PagesContainer from '../PagesContainer';
 import StatusBar from './StatusBar';
+import Menu from './Menu';
 
 class Course extends Component {
   constructor(props) {
@@ -48,33 +49,24 @@ class Course extends Component {
     });
   }
 
+  renderSectionsRecursively(root, depth) {
+    const title = root.own.section_name;
+    const sectionId = root.own.section_id;
+    const { children } = root;
+    if ( root.children ) {
+      return (
+        <Menu title={title} sectionId={sectionId} depth={depth} >
+          {children.map(child => this.renderSectionsRecursively(child, depth + 1))}
+        </Menu>
+      );
+    }
+    return <Menu title={title} sectionId={sectionId} />;
+  }
+
   renderSections() {
-    console.log(this.props.courseDataByUser);
     const { courseDataByUser } = this.props;
     if ( courseDataByUser ) {
-      const menuStructure = {}
-
-      courseDataByUser.forEach(section => {
-        const { section_parent_id } = section;
-        if ( section_parent_id && !(section_parent_id in menuStructure) ) {
-          menuStructure[section_parent_id] = {
-            own: null,
-            children: []
-          }
-        }
-      });
-
-      courseDataByUser.forEach(section => {
-        const { section_parent_id, section_id } = section;
-        if ( section_parent_id ) {
-          menuStructure[section_parent_id].children.push(section_id)
-        }
-        if ( section_id in menuStructure ) {
-          menuStructure[section_id].own = section;
-        }
-      });
-
-      console.log(menuStructure);
+      return courseDataByUser.map(root => this.renderSectionsRecursively(root, 1));
     }
   }
 

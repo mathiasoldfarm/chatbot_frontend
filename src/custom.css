@@ -41,3 +41,11 @@
 .pointer-on-hover:hover .underline-on-parent-hover {
   text-decoration: underline;
 }
+
+.red-on-hover:hover, .red-on-hover:hover p {
+  color: rgb(209,111,111) !important;
+}
+
+.red-text, .red-text p {
+  color: rgb(209,111,111) !important;
+}
