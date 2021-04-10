@@ -21,10 +21,10 @@ class Course extends Component {
   }
 
   renderChatbot() {
-    const { courseDataByUser } = this.props;
+    const { coursesData } = this.props;
     const { selectedCourse, user } = this.state;
 
-    if (courseDataByUser) {
+    if (coursesData) {
       return <Chatbot course={selectedCourse} user={user} />
     }
   }
@@ -34,8 +34,8 @@ class Course extends Component {
   }
 
   renderCourses() {
-    const { courseDataByUser } = this.props;
-    return courseDataByUser && courseDataByUser.map(courseData => {
+    const { coursesData } = this.props;
+    return coursesData && coursesData.map(courseData => {
       const { status, level, title, id } = courseData;
       return (
         <StatusBar
@@ -50,29 +50,27 @@ class Course extends Component {
   }
 
   renderSectionsRecursively(root, depth) {
-    const title = root.own.section_name;
-    const sectionId = root.own.section_id;
-    const { children } = root;
+    const { children, name, id } = root;
     if ( root.children ) {
       return (
-        <Menu title={title} sectionId={sectionId} depth={depth} >
+        <Menu title={name} sectionId={id} depth={depth} >
           {children.map(child => this.renderSectionsRecursively(child, depth + 1))}
         </Menu>
       );
     }
-    return <Menu title={title} sectionId={sectionId} />;
+    return <Menu title={name} sectionId={id} />;
   }
 
   renderSections() {
-    const { courseDataByUser } = this.props;
-    if ( courseDataByUser ) {
-      return courseDataByUser.map(root => this.renderSectionsRecursively(root, 1));
+    const { coursesData } = this.props;
+    if ( coursesData ) {
+      return coursesData.map(root => this.renderSectionsRecursively(root, 1));
     }
   }
 
   render() {
     return (
-      <PagesContainer dependingData={[this.state.user]}>
+      <PagesContainer>
         <div className="mb-5">
           Velkommen til. Her kan du lære om matematik. Vælg et emne nedenfor.
         </div>
@@ -92,7 +90,7 @@ class Course extends Component {
 }
 
 const mapStateToProps = state => ({
-  courseDataByUser: state.pages.data.courseDataByUser
+  coursesData: Array.isArray(state.pages.data) ? state.pages.data : null
 });
 
 export default connect(mapStateToProps)(Course);

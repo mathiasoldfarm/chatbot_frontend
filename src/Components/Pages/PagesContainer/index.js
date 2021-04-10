@@ -7,9 +7,8 @@ import { Component } from 'react';
 
 
 class PagesContainer extends Component {
-  constructor(props) {
-    super(props);
-    props.fetchPageData(props.dependingData);
+  componentDidMount() {
+    this.props.fetchPageData(this.props.dependingData);
   }
 
   render() {

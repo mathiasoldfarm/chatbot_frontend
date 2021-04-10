@@ -3,17 +3,14 @@ import Typing from '../Typing';
 import Quiz from '../Quiz';
 import Description from '../Description';
 
-const renderContent = (displayData, courseId, sessionGroup, user) => {
-  if ( displayData ) {
-    const keys = Object.keys(displayData);
-    if ( keys.length !== 0 ) {
-      if ( keys.includes("descriptionId") ) {
-        return (
-          <Description data={displayData} />
-        );
-      }
-      return <Quiz data={displayData} courseId={courseId} sessionGroup={sessionGroup} user={user} />;
+const renderContent = (data, courseId, user) => {
+  if ( data ) {
+    if ( data.section.description ) {
+      return (
+        <Description data={data.section.description} />
+      );
     }
+    return <Quiz data={data.section.quiz} courseId={courseId} historyId={data.historyId} user={user} contextId={data.contextId} />;
   }
 }
 
@@ -31,13 +28,11 @@ const renderTyping = (typing, text) => {
 
 const Message = (props) => {
   const {
-    text,
-    courseId,
-    displayData,
     typing,
     type,
-    user,
-    sessionGroup
+    data,
+    courseId,
+    user
   } = props;
 
   if (type === "bot") {
@@ -51,8 +46,8 @@ const Message = (props) => {
         maxWidth: "75%",
         marginLeft: 0
       }} className="message">
-        {renderTyping(typing, text)}
-        {renderContent(displayData, courseId, sessionGroup, user)}
+        {renderTyping(typing, data.answer)}
+        {renderContent(data, courseId, user)}
       </div>
     )
   }
@@ -67,7 +62,7 @@ const Message = (props) => {
       marginTop: 25,
       marginLeft: "auto"
     }} className="message">
-       <span style={{ color: "white", marginBottom: 0, fontSize: '1rem' }}>{text}</span>
+       <span style={{ color: "white", marginBottom: 0, fontSize: '1rem' }}>{data}</span>
     </div>
   );
 }

@@ -13,13 +13,19 @@ export const fetchPageData = (dependingData) => {
     });
 
     try {
-      let url = `/${window.location.href}`;
+      let url = '/views';
+      const location = window.location.href.split("http://localhost:3000/")[1];
+      if (location) {
+        url += '/';
+        url += location;
+      }
       if ( dependingData ) {
         for(let i = 0; i < dependingData.length; i++) {
           url += '/'
           url += dependingData[i]
         }
       }
+      console.log(url);
       const payload = await get(url);
 
       dispatch({

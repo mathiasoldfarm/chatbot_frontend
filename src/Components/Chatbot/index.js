@@ -34,7 +34,7 @@ class Chatbot extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    if ( prevProps.course != this.props.course ) {
+    if ( prevProps.course !== this.props.course ) {
       await this.begin();
     }
     this.scrollToBottom();
@@ -46,10 +46,9 @@ class Chatbot extends Component {
     })
   }
 
-  async onSend(choice, sessionGroup) {
-    const data = { answer: choice }
-    this.props.addUserAnswer(data);
-    await this.props.getAnswer(choice, this.props.course, this.props.user, sessionGroup);
+  async onSend(choice, historyId, contextId) {
+    this.props.addUserAnswer(choice);
+    await this.props.getAnswer(choice, this.props.course, this.props.user, historyId, contextId);
   }
 
   RenderMessageList() {
@@ -61,10 +60,8 @@ class Chatbot extends Component {
           <Message
             typing={mostNew}
             type={message.type}
-            text={message.answer}
-            displayData={message.displayData}
+            data = {message.data}
             courseId={this.props.course}
-            sessionGroup={message.sessionGroup}
             user={this.props.user}
           />
         </div>
@@ -96,9 +93,9 @@ class Chatbot extends Component {
 
   renderButtons = () => {
     if ( this.props.messageList.length > 0 ) {
-      const { nextPossibleAnswers, sessionGroup } = this.props.messageList[this.props.messageList.length - 1]
+      const { nextPossibleAnswers, historyId, contextId } = this.props.messageList[this.props.messageList.length - 1].data;
       if ( nextPossibleAnswers ) {
-        return <ButtonGroup onClick={this.onSend} choices={nextPossibleAnswers} sessionGroup={sessionGroup} />
+        return <ButtonGroup onClick={this.onSend} choices={nextPossibleAnswers} historyId={historyId} contextId={contextId} />
       }
     }
   }

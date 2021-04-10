@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Category = (props) => {
+const CourseBlock = (props) => {
   const {
     onClick,
-    colorClass,
-    category
+    color,
+    course
   } = props;
   return (
     <div
@@ -12,7 +12,7 @@ const Category = (props) => {
       onClick={onClick}
     >
       <div
-        className={`bg-${colorClass} pointer-on-hover`}
+        className={`bg-${color} pointer-on-hover`}
         style={{
           paddingTop: '50%',
           paddingBottom: '50%'
@@ -27,11 +27,11 @@ const Category = (props) => {
             bottom: 0,
           }}
         >
-          {category}
+          {course}
         </span>
       </div>
     </div>
   );
 }
 
-export default Category;
+export default CourseBlock;

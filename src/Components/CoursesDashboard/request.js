@@ -35,3 +35,25 @@ export const postCourseData = async (request_url, body) => {
 export const get = async(url) => {
   return (await axios.get(`${backend_base}${url}`)).data;
 }
+
+export const generateUrl = (base, params) => {
+  let url = base;
+  let counter = 0;
+  const keys = Object.keys(params);
+  keys.forEach(key => {
+    if ( counter === 0 ) {
+      url += "?";
+      counter += 1;
+    }
+    url += key;
+    url += "=";
+    url += params[key];
+
+    const isLast = key === keys[keys.length - 1];
+    if ( !isLast ) {
+      url += "&";
+    }
+  });
+
+  return url;
+}

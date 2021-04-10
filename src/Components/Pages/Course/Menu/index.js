@@ -22,7 +22,7 @@ class Menu extends Component {
   }
 
   render() {
-    const { title, sectionId, depth, children } = this.props;
+    const { title, depth, children } = this.props;
     const { opened } = this.state;
 
     return (

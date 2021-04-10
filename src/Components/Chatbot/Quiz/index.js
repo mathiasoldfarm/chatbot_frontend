@@ -38,8 +38,7 @@ class Quiz extends Component {
       }
     });
     if ( !notSendData ) {
-      const data = { answer }
-      addUserAnswer(data);
+      addUserAnswer(answer);
     }
   }
 
@@ -51,11 +50,10 @@ class Quiz extends Component {
   }
 
   submitAnswers() {
-    const contextId = this.props.data.contextId;
-    const { courseId, getAnswer, sessionGroup } = this.props;
+    const { courseId, getAnswer, historyId, contextId } = this.props;
 
     if ( !this.props.notSendData ) {
-      getAnswer(this.state.answers, courseId, this.props.user, sessionGroup, contextId, "question"); 
+      getAnswer(this.state.answers, courseId, this.props.user, historyId, contextId, "question"); 
     }
   }
 
@@ -96,31 +94,29 @@ class Quiz extends Component {
   renderQuestionSection () {
     const { data } = this.props;
     const { displayAnswerMessage } = this.state;
-    const { question } = data;
+    const { questions } = data.levels[0];
 
     const { questionIndex } = this.state;
-    const numberOfQuestions = Object.keys(question).length;
-    const currentQuestion = Object.keys(question)[questionIndex]
-    const currentQuestionData = question[currentQuestion];
-    const { possibleAnswers } = currentQuestionData;
+    const numberOfQuestions = questions.length;
+    const currentQuestion = questions[questionIndex]
+    const { possibleAnswers } = currentQuestion;
     const last = numberOfQuestions === questionIndex + 1;
 
-    console.log(possibleAnswers);
     return (
       <div>
-        <p>{currentQuestion}</p>
+        <p>{currentQuestion.question}</p>
         <div className="p-2">
           <Row>
             <Col xs={6}>
-              {Object.keys(possibleAnswers).map(key => {
-                const { possibleAnswer, explanation } = possibleAnswers[key];
-                const correct = currentQuestionData.correct === parseInt(key);
+              {possibleAnswers.map(possibleAnswer => {
+                const { answer, explanation, id } = possibleAnswer;
+                const correct = currentQuestion.correct.id === parseInt(id);
                 return (
                   <QuizButton
                     disabled={displayAnswerMessage}
-                    key={key}
-                    onClick={() => this.selectHandler(key, currentQuestionData.questionId, possibleAnswer, explanation, correct)}
-                    answer={possibleAnswer}
+                    key={id}
+                    onClick={() => this.selectHandler(id, currentQuestion.id, answer, explanation, correct)}
+                    answer={answer}
                   />
                 );
               })}
@@ -136,8 +132,7 @@ class Quiz extends Component {
   }
 
   render() {
-    const { className, data } = this.props;
-    const { name} = data;
+    const { className } = this.props;
     return (
       <div className={className ? className : null}>
         {this.renderQuestionSection()}

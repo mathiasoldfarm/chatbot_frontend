@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'reactstrap';
-import Category from './Category';
+import CourseBlock from './CourseBlock';
 import Subcategory from './Subcategory';
 import PagesContainer from '../PagesContainer';
 
@@ -23,26 +23,34 @@ class Frontpage extends Component {
 
   renderCategories() {
     const { categories, history } = this.props;
-    console.log(this.props);
     if ( categories ) {
       return (
         <Row>
           {Object.keys(categories).map((category) => {
-            const { colorClass } = categories[category];
+            const { color, courses } = categories[category];
             return (
             <Col key={category}>
-              <Category
-                onClick={() => {
-                  // if (this.state.selectedCategory === category) {
-                  //   this.setState({ selectedCategory: '' });
-                  // } else {
-                  //   this.setState({ selectedCategory: category });
-                  // }
-                  history.push(`/learn/${formatUrl(category)}`)
-                }}
-                colorClass={colorClass}
-                category={category}
-              />
+              <h2>{category}</h2>
+              {courses.map(course => (
+                <div
+                  onClick={() => history.push(`/learn/${formatUrl(course)}`)}
+                  className={`bg-${color} pointer-on-hover mb-2 p-3 text-white`}
+                >
+                  {course}
+                </div>
+                // <CourseBlock
+                //   onClick={() => {
+                //     // if (this.state.selectedCategory === category) {
+                //     //   this.setState({ selectedCategory: '' });
+                //     // } else {
+                //     //   this.setState({ selectedCategory: category });
+                //     // }
+                //     history.push(`/learn/${formatUrl(course)}`)
+                //   }}
+                //   color={color}
+                //   course={course}
+                // />
+              ))}
             </Col>
             );
           })}
@@ -83,6 +91,6 @@ class Frontpage extends Component {
 }
 
 const mapStateToProps = state => ({
-  categories: state.pages.data.categories
+  categories: state.pages.data
 });
 export default connect(mapStateToProps)(Frontpage);

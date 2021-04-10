@@ -5,15 +5,12 @@ import {
   ADD_USER_ANSWER,
   RESET_MESSAGE_LIST
 } from '../../ActionTypes/Chatbot';
-import { postCourseData } from '../../../Components/CoursesDashboard/request';
+import { postCourseData, generateUrl } from '../../../Components/CoursesDashboard/request';
 
 const generateMessageObject = (data, type) => {
   return {
-    answer: data.answer,
-    nextPossibleAnswers: data.nextPossibleAnswers,
-    displayData: data.displayData,
     type,
-    sessionGroup: data.session_group
+    data
   }
 }
 
@@ -23,22 +20,26 @@ export const resetMessageList = () => {
   }
 }
 
-export const getAnswer = (question, course_id, user_id, sessionGroup, context_id=null, type=null) => {
+export const getAnswer = (question, courseId, userId, initialHistoryId=0, contextId=0, type=0) => {
   return async dispatch => {
     dispatch({
       type: ANSWER_FETCHING
     });
 
     try {
-      let query = '/sessions/getanswer';
-      if ( type ) {
-        query += `/${type}`;
+      if ( type === "question" ) {
+        type = 1;
+        question = JSON.stringify(question);
       }
-      const beginData = await postCourseData(query, { question, course_id, user_id, context_id, sessionGroup });
+      console.log(question);
+      let query = generateUrl('/bot/getanswer', { userId, courseId, contextId, initialHistoryId, question, type });
+      console.log(query);
+
+      const data = await postCourseData(query);
 
       dispatch({
         type: ANSWER_FETCHING_SUCCESS,
-        message: generateMessageObject(beginData, "bot")
+        message: generateMessageObject(data, "bot")
       })
 
     } catch(error) {

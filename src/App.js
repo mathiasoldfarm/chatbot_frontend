@@ -8,7 +8,6 @@ import {
 import Header from './Components/Header';
 
 import Container from "./Components/Container";
-import Chatbot from './Components/Chatbot';
 import CoursesDashboard from './Components/CoursesDashboard';
 import LatexTester from './Components/LatexTester';
 import Frontpage from './Components/Pages/Frontpage';

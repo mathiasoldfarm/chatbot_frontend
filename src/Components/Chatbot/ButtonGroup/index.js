@@ -9,13 +9,13 @@ class ButtonGroup extends Component {
   }
 
   renderChoices() {
-    const { choices, onClick, sessionGroup } = this.props;
+    const { choices, onClick, historyId, contextId } = this.props;
     return choices.map((choice, index) => (
       <Button
         key={choice}
-        onClick={() => onClick(choice, sessionGroup)}
+        onClick={() => onClick(choice, historyId, contextId)}
         size="sm"
-        className={index == choices.length - 1 ? '' : 'mr-3'}
+        className={index === choices.length - 1 ? '' : 'mr-3'}
         color="primary"
       >
         {choice}

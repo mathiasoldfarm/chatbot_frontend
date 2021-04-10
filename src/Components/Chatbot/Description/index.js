@@ -36,9 +36,7 @@ const getElementMapper = (description) => {
 }
 
 const Description = (props) => {
-  let { name, description } = props.data;
-
-  const renderDescription = () => {
+  const renderDescription = (description) => {
     const children = [];
     if ( description && description.length > 0 ) {
       const elementMapper = getElementMapper(description);
@@ -69,10 +67,11 @@ const Description = (props) => {
     </div>;
   }
 
-  const { className } = props;
+  const { className, data } = props;
   return (
     <div className={className ? className : null}>
-      {renderDescription()}
+      {/* TODO: Handle different levels */}
+      {renderDescription(data.levels[0].description)}
     </div>
   );
 }
