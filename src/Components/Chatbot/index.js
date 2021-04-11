@@ -4,7 +4,7 @@ import ButtonGroup from './ButtonGroup';
 import { Alert, Spinner } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getAnswer, addUserAnswer, resetMessageList } from '../../Redux/Actions/Chatbot';
+import { getAnswer, addUserAnswer, resetMessageList, handleMessageListUpdated } from '../../Redux/Actions/Chatbot';
 
 class Chatbot extends Component {
   constructor(props) {
@@ -21,6 +21,7 @@ class Chatbot extends Component {
     this.RenderError = this.RenderError.bind(this);
     this.RenderSpinner = this.RenderSpinner.bind(this);
     this.begin = this.begin.bind(this);
+    this.bottomAnchor = React.createRef();
   }
 
   async begin() {
@@ -33,11 +34,10 @@ class Chatbot extends Component {
     await this.begin();
   }
 
-  async componentDidUpdate(prevProps) {
-    if ( prevProps.course !== this.props.course ) {
-      await this.begin();
+  componentDidUpdate() {
+    if ( this.props.messageListUpdated ) {
+      handleMessageListUpdated(this.bottomAnchor);
     }
-    this.scrollToBottom();
   }
 
   InputChangeHandler(e) {
@@ -49,14 +49,16 @@ class Chatbot extends Component {
   async onSend(choice, historyId, contextId) {
     this.props.addUserAnswer(choice);
     await this.props.getAnswer(choice, this.props.course, this.props.user, historyId, contextId);
+    
   }
 
   RenderMessageList() {
     const { messageList } = this.props;
     return messageList.map((message, index) => {
-      const mostNew = index === messageList.length - 1 && message.nextPossibleAnswers;
+      //const mostNew = index === messageList.length - 1 && message.nextPossibleAnswers;
+      const mostNew = index === messageList.length - 1;
       return (
-        <div key={index} ref={mostNew ? (el) => { this.latestMessage = el; } : null}>
+        <div key={index}>
           <Message
             typing={mostNew}
             type={message.type}
@@ -85,12 +87,6 @@ class Chatbot extends Component {
     }
   }
 
-  scrollToBottom = () => {
-    if ( this.latestMessage ) {
-      this.latestMessage.scrollIntoView({ behavior: "smooth" });
-    }
-  }
-
   renderButtons = () => {
     if ( this.props.messageList.length > 0 ) {
       const { nextPossibleAnswers, historyId, contextId } = this.props.messageList[this.props.messageList.length - 1].data;
@@ -103,13 +99,16 @@ class Chatbot extends Component {
   render() {
     return (
       <div
-        style={{ maxWidth: 1000, height: 1000, maxHeight: 1000 }}
+        style={{ maxWidth: 1000, height: 700, maxHeight: 700 }}
         className="mx-auto border border-primary"
       >
         <div className="d-flex flex-column h-100 flex-grow" >
-          <div style={{ overflow: "scroll"  }} className="p-5 flex-fill">
-            {this.RenderError()}
-            {this.RenderMessageList()}
+          <div style={{ overflow: "scroll"  }} className="flex-fill">
+            <div className="m-5">
+              {this.RenderError()}
+              {this.RenderMessageList()}
+            </div>
+            <div ref={this.bottomAnchor}></div>
           </div>
           <div className="border-top border-primary py-3 justify-content-center d-flex">
             {this.RenderSpinner()}
@@ -124,7 +123,8 @@ class Chatbot extends Component {
 const mapStatetToProps = state => ({
   messageList: state.chatbot.messageList,
   fetchingMessage: state.chatbot.fetchingMessage,
-  fetchingMessageError: state.chatbot.fetchingMessageError
+  fetchingMessageError: state.chatbot.fetchingMessageError,
+  messageListUpdated: state.chatbot.messageListUpdated
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ getAnswer, addUserAnswer, resetMessageList }, dispatch);

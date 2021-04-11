@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'reactstrap';
-import CourseBlock from './CourseBlock';
 import Subcategory from './Subcategory';
 import PagesContainer from '../PagesContainer';
 

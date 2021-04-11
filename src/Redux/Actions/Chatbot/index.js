@@ -3,7 +3,8 @@ import {
   ANSWER_FETCHING_ERROR,
   ANSWER_FETCHING_SUCCESS,
   ADD_USER_ANSWER,
-  RESET_MESSAGE_LIST
+  RESET_MESSAGE_LIST,
+  MESSAGE_LIST_UPDATED_HANDLED
 } from '../../ActionTypes/Chatbot';
 import { postCourseData, generateUrl } from '../../../Components/CoursesDashboard/request';
 
@@ -31,9 +32,7 @@ export const getAnswer = (question, courseId, userId, initialHistoryId=0, contex
         type = 1;
         question = JSON.stringify(question);
       }
-      console.log(question);
       let query = generateUrl('/bot/getanswer', { userId, courseId, contextId, initialHistoryId, question, type });
-      console.log(query);
 
       const data = await postCourseData(query);
 
@@ -55,5 +54,18 @@ export const addUserAnswer = (answer) => {
   return {
     type: ADD_USER_ANSWER,
     message: generateMessageObject(answer, "user")
+  }
+}
+
+const scrollToBottom = (element) => {
+  if ( element ) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
+export const handleMessageListUpdated = (element) => {
+  scrollToBottom(element.current);
+  return {
+    type: MESSAGE_LIST_UPDATED_HANDLED
   }
 }

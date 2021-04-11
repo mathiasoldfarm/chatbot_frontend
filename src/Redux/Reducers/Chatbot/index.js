@@ -3,13 +3,18 @@ import {
   ANSWER_FETCHING_ERROR,
   ANSWER_FETCHING_SUCCESS,
   ADD_USER_ANSWER,
-  RESET_MESSAGE_LIST
+  RESET_MESSAGE_LIST,
+  MESSAGE_LIST_UPDATED_HANDLED
 } from '../../ActionTypes/Chatbot';
 
 const INITIAL_STATE = {
   messageList: [],
   fetchingMessage: false,
-  fetchingMessageError: ''
+  fetchingMessageError: '',
+  currentHistoryId: null,
+  currentCourseId: null,
+  currentContextId: null,
+  messageListUpdated: false
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -24,7 +29,11 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         fetchingMessage: false,
-        messageList: [...state.messageList, action.message]
+        messageList: [...state.messageList, action.message],
+        currentHistoryId: action.message.data.historyId,
+        currentCourseId: action.message.data.courseId,
+        currentContextId: action.message.data.contextId,
+        messageListUpdated: true
       }
     case ANSWER_FETCHING_ERROR:
       return {
@@ -35,12 +44,18 @@ const reducer = (state = INITIAL_STATE, action) => {
     case ADD_USER_ANSWER:
       return {
         ...state,
-        messageList: [...state.messageList, action.message]
+        messageList: [...state.messageList, action.message],
+        //messageListUpdated: true
       }
     case RESET_MESSAGE_LIST:
       return {
         ...state,
         messageList: []
+      }
+    case MESSAGE_LIST_UPDATED_HANDLED:
+      return {
+        ...state,
+        messageListUpdated: false
       }
     default:
       return state;

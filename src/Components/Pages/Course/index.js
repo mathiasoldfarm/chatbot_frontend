@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'reactstrap';
 import Chatbot from '../../Chatbot';
 import PagesContainer from '../PagesContainer';
-import StatusBar from './StatusBar';
+import CourseSearch from './CourseSearch';
 import Menu from './Menu';
 
 class Course extends Component {
@@ -16,8 +16,6 @@ class Course extends Component {
     }
 
     this.renderChatbot = this.renderChatbot.bind(this);
-    this.renderCourses = this.renderCourses.bind(this);
-    this.selectCourse = this.selectCourse.bind(this);
   }
 
   renderChatbot() {
@@ -29,31 +27,11 @@ class Course extends Component {
     }
   }
 
-  selectCourse(selectedCourse) {
-    this.setState({ selectedCourse });
-  }
-
-  renderCourses() {
-    const { coursesData } = this.props;
-    return coursesData && coursesData.map(courseData => {
-      const { status, level, title, id } = courseData;
-      return (
-        <StatusBar
-          key={id}
-          level={level}
-          status={status}
-          title={title}
-          onClick={() => this.selectCourse(id)}
-        />
-      )
-    });
-  }
-
   renderSectionsRecursively(root, depth) {
     const { children, name, id } = root;
     if ( root.children ) {
       return (
-        <Menu title={name} sectionId={id} depth={depth} >
+        <Menu key={id} title={name} sectionId={id} depth={depth} >
           {children.map(child => this.renderSectionsRecursively(child, depth + 1))}
         </Menu>
       );
@@ -76,9 +54,8 @@ class Course extends Component {
         </div>
         <Row>
           <Col xs={4}>
-            {/* {this.renderCourses()} */
-            this.renderSections()
-            }
+            <CourseSearch className="mb-4" />
+            { this.renderSections()}
           </Col>
           <Col xs={8}>
             {this.renderChatbot()}

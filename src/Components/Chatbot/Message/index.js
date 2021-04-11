@@ -4,7 +4,7 @@ import Quiz from '../Quiz';
 import Description from '../Description';
 
 const renderContent = (data, courseId, user) => {
-  if ( data ) {
+  if ( data && data.section ) {
     if ( data.section.description ) {
       return (
         <Description data={data.section.description} />
@@ -14,13 +14,13 @@ const renderContent = (data, courseId, user) => {
   }
 }
 
-const renderTyping = (typing, text) => {
-  if ( text ) {
-    return <div className="mb-4">
+const renderTyping = (typing, data) => {
+  if ( data.answer ) {
+    return <div className={`${data.section ? 'mb-4' : ''}`}>
       {typing ? (
-        <Typing style={{ color: "black", fontSize: '1rem' }} text={text} />
+        <Typing style={{ color: "black", fontSize: '1rem' }} text={data.answer} />
       ) : (
-        <span style={{ color: "black", fontSize: '1rem' }}>{text}</span>
+        <span style={{ color: "black", fontSize: '1rem' }}>{data.answer}</span>
       )}
     </div>
   }
@@ -46,7 +46,7 @@ const Message = (props) => {
         maxWidth: "75%",
         marginLeft: 0
       }} className="message">
-        {renderTyping(typing, data.answer)}
+        {renderTyping(typing, data)}
         {renderContent(data, courseId, user)}
       </div>
     )
