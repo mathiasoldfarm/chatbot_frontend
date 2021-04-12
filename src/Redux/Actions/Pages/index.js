@@ -33,10 +33,17 @@ export const fetchPageData = (dependingData) => {
       })
 
     } catch(error) {
-      dispatch({
-        type: FETCH_PAGE_DATA_ERROR,
-        error: `An error occured while fetching data: ${error}`
-      })
+      if ( error.response && error.response.status === 401 ) {
+        dispatch({
+          type: FETCH_PAGE_DATA_ERROR,
+          error: `You don't have access to this. Try to login`
+        })
+      } else {
+        dispatch({
+          type: FETCH_PAGE_DATA_ERROR,
+          error: `An error occured while fetching data: ${error}`
+        })
+      }
     }
   }
 }

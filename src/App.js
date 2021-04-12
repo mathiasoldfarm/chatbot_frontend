@@ -12,22 +12,24 @@ import CoursesDashboard from './Components/CoursesDashboard';
 import LatexTester from './Components/LatexTester';
 import Frontpage from './Components/Pages/Frontpage';
 import Course from './Components/Pages/Course';
-import GraphDrawer from './Components/GraphDrawer';
+import CreateUser from './Components/Pages/CreateUser';
+import Private from './Components/Pages/Private';
 
 function App() {
   const routes = [{
     url: "/",
     name: "Home"
-  }, {
-    url: "/courses",
-    name: "Courses"
   },
   {
     url: "/latextester",
     name: "Latex tester"
+  },
+  {
+    url: "/create-user",
+    name: "Create user"
   }, {
-    url: "/graphdrawer",
-    name: "Graph Drawer"
+    url: "/private",
+    name: "Private"
   }]
 
   return (
@@ -45,8 +47,11 @@ function App() {
             <Route path="/latextester">
               <LatexTester />
             </Route>
-            <Route path="/graphdrawer">
-              <GraphDrawer />
+            <Route path="/create-user">
+              <CreateUser />
+            </Route>
+            <Route>
+              <Private />
             </Route>
           </Switch>
         </Router>

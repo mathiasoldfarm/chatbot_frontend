@@ -5,7 +5,7 @@ import {
 } from '../../ActionTypes/Pages';
 
 const INITIAL_STATE = {
-  data: {},
+  data: null,
   fetching: false,
   fetchingError: false
 };

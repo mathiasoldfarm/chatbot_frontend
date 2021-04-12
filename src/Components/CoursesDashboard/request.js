@@ -33,7 +33,15 @@ export const postCourseData = async (request_url, body) => {
 }
 
 export const get = async(url) => {
-  return (await axios.get(`${backend_base}${url}`)).data;
+  return (await axios.get(`${backend_base}${url}`, {
+    headers: {
+      'Authorization': localStorage.getItem("JWTtoken")
+    }
+  })).data;
+}
+
+export const post = async(url, body) => {
+  return (await axios.post(`${backend_base}${url}`, body)).data;
 }
 
 export const generateUrl = (base, params) => {
