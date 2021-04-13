@@ -6,6 +6,7 @@ import {
   Route,
 } from "react-router-dom";
 import Header from './Components/Header';
+import { connect } from 'react-redux';
 
 import Container from "./Components/Container";
 import CoursesDashboard from './Components/CoursesDashboard';
@@ -13,9 +14,11 @@ import LatexTester from './Components/LatexTester';
 import Frontpage from './Components/Pages/Frontpage';
 import Course from './Components/Pages/Course';
 import CreateUser from './Components/Pages/CreateUser';
-import Private from './Components/Pages/Private';
+import AccountFrontpage from './Components/Pages/Account/FrontPage';
+import AccountEditUser from './Components/Pages/Account/EditUser';
 
-function App() {
+function App(props) {
+  const { loggedIn } = props;
   const routes = [{
     url: "/",
     name: "Home"
@@ -27,9 +30,6 @@ function App() {
   {
     url: "/create-user",
     name: "Create user"
-  }, {
-    url: "/private",
-    name: "Private"
   }]
 
   return (
@@ -50,9 +50,16 @@ function App() {
             <Route path="/create-user">
               <CreateUser />
             </Route>
-            <Route>
-              <Private />
-            </Route>
+            {loggedIn ? (
+            <React.Fragment>
+              <Route exact path="/account">
+                <AccountFrontpage />
+              </Route>
+              <Route exact path="/account/edit/user">
+                <AccountEditUser />
+              </Route>
+            </React.Fragment>
+            ) : null}
           </Switch>
         </Router>
       </Container>
@@ -60,4 +67,8 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = state => ({
+  loggedIn: state.users.loggedIn
+})
+
+export default connect(mapStateToProps)(App);

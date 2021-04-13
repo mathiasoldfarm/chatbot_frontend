@@ -55,12 +55,17 @@ class Header extends Component {
 
     if ( loggedIn ) {
       return (
-        <NavItem key={"#"} className="ml-auto" onClick={() => {
-          this.toggle();
-          logout();
-        }}>
-          <NavLink href={"#"}>Logout</NavLink>
-        </NavItem>
+        <div className="ml-auto d-flex">
+          <NavItem >
+            <NavLink href={"/account"}>Account</NavLink>
+          </NavItem>
+          <NavItem key={"#"} onClick={() => {
+            this.toggle();
+            logout();
+          }}>
+            <NavLink href={"#"}>Logout</NavLink>
+          </NavItem>
+        </div>
       );
     }
     return (

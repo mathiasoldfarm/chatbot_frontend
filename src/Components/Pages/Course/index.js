@@ -4,7 +4,7 @@ import { Row, Col } from 'reactstrap';
 import Chatbot from '../../Chatbot';
 import PagesContainer from '../PagesContainer';
 import CourseSearch from './CourseSearch';
-import Menu from './Menu';
+import SectionMenu from './SectionMenu';
 
 class Course extends Component {
   constructor(props) {
@@ -31,12 +31,12 @@ class Course extends Component {
     const { children, name, id } = root;
     if ( root.children ) {
       return (
-        <Menu key={id} title={name} sectionId={id} depth={depth} >
+        <SectionMenu key={id} title={name} sectionId={id} depth={depth} >
           {children.map(child => this.renderSectionsRecursively(child, depth + 1))}
-        </Menu>
+        </SectionMenu>
       );
     }
-    return <Menu title={name} sectionId={id} />;
+    return <SectionMenu title={name} sectionId={id} />;
   }
 
   renderSections() {

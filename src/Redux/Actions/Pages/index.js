@@ -1,10 +1,13 @@
 import {
   FETCH_PAGE_DATA,
   FETCH_PAGE_DATA_SUCCESS,
-  FETCH_PAGE_DATA_ERROR
+  FETCH_PAGE_DATA_ERROR,
+  UPDATE_FIELD_DATA,
+  UPDATE_FIELD_DATA_ERROR,
+  UPDATE_FIELD_DATA_SUCCESS
 } from '../../ActionTypes/Pages';
 
-import { get } from '../../../Components/CoursesDashboard/request';
+import { get, post } from '../../../Components/CoursesDashboard/request';
 
 export const fetchPageData = (dependingData) => {
   return async dispatch => {
@@ -38,10 +41,46 @@ export const fetchPageData = (dependingData) => {
           type: FETCH_PAGE_DATA_ERROR,
           error: `You don't have access to this. Try to login`
         })
+      } else if (error.response && error.response.status === 404 ) {
+        dispatch({
+          type: FETCH_PAGE_DATA_SUCCESS,
+          payload: {}
+        })
       } else {
         dispatch({
           type: FETCH_PAGE_DATA_ERROR,
           error: `An error occured while fetching data: ${error}`
+        })
+      }
+    }
+  }
+}
+
+export const updateUserField = (field, value) => {
+  return async dispatch => {
+    dispatch({
+      type: UPDATE_FIELD_DATA,
+      field,
+      value
+    });
+
+    try {
+      await post('/users/field/update', { field, value });
+
+      dispatch({
+        type: UPDATE_FIELD_DATA_SUCCESS,
+      });
+
+    } catch(error) {
+      if (error.response) {
+        dispatch({
+          type: UPDATE_FIELD_DATA_ERROR,
+          error: error.response.data
+        });
+      } else {
+        dispatch({
+          type: UPDATE_FIELD_DATA_ERROR,
+          error: error.toString()
         })
       }
     }

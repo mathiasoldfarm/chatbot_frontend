@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { Button, Row, Col } from 'reactstrap';
+import Menu from '../../../Elements/Menu';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getAnswer, addUserAnswer } from '../../../../Redux/Actions/Chatbot';
 
-class Menu extends Component {
+class SectionMenu extends Component {
   constructor(props) {
     super(props);
 
@@ -51,17 +50,9 @@ class Menu extends Component {
             </Button>
           </Col>
           <Col
-            style={{ borderTop: '1px solid rgb(227,227,227)' }}
-            className={`py-3 d-flex ${children.length ? 'pointer-on-hover': ''} ${children.length ? 'red-on-hover': ''} ${opened ? 'red-text' : ''}`}
             onClick={this.open}
           >
-            <p
-              className={`mb-0`}
-              style={{ paddingLeft: depth*20, fontSize: 12}}
-            >
-              {title}
-            </p>
-            {children.length ? <FontAwesomeIcon className="ml-auto" icon={opened ? faAngleDown : faAngleRight} /> : null}
+            <Menu children={children} title={title} opened={opened} depth={depth} />
           </Col>
         </Row>
         {opened ? children : null}
@@ -78,4 +69,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({ getAnswer, addUserAnswer }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Menu);
+export default connect(mapStateToProps, mapDispatchToProps)(SectionMenu);
