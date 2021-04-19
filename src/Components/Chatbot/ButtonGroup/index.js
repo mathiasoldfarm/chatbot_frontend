@@ -15,8 +15,7 @@ class ButtonGroup extends Component {
         key={choice}
         onClick={() => onClick(choice, historyId, contextId)}
         size="sm"
-        className={index === choices.length - 1 ? '' : 'mr-3'}
-        color="primary"
+        className={`${index === choices.length - 1 ? '' : 'mr-3'} quiz-button`}
       >
         {choice}
       </Button>

@@ -16,6 +16,7 @@ import Course from './Components/Pages/Course';
 import CreateUser from './Components/Pages/CreateUser';
 import AccountFrontpage from './Components/Pages/Account/FrontPage';
 import AccountEditUser from './Components/Pages/Account/EditUser';
+import Subjects from './Components/Pages/Subjects';
 
 function App(props) {
   const { loggedIn } = props;
@@ -30,6 +31,9 @@ function App(props) {
   {
     url: "/create-user",
     name: "Create user"
+  }, {
+    url: "/emner",
+    name: "Emner"
   }]
 
   return (
@@ -49,6 +53,9 @@ function App(props) {
             </Route>
             <Route path="/create-user">
               <CreateUser />
+            </Route>
+            <Route>
+              <Subjects />
             </Route>
             {loggedIn ? (
             <React.Fragment>

@@ -54,3 +54,15 @@ h3 {
   font-size: 18px !important;
   font-weight: bold im !important;
 }
+
+.quiz-button {
+  background: #FFF39A !important;
+  border-color: #FFF39A !important;
+  color: #413F3F  !important;
+}
+
+.quiz-button:hover {
+  background: #EDE080 !important;
+  border-color: #EDE080 !important;
+  color: #413F3F  !important;
+}

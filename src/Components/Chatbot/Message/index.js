@@ -43,8 +43,9 @@ const Message = (props) => {
         marginBottom: 10,
         padding: "5px 10px",
         backgroundColor: "whitesmoke",
-        maxWidth: "75%",
-        marginLeft: 0
+        maxWidth: "90%",
+        marginLeft: 0,
+        fontSize: 18
       }} className="message">
         {renderTyping(typing, data)}
         {renderContent(data, courseId, user)}
@@ -57,12 +58,13 @@ const Message = (props) => {
       display: "table",
       padding: "5px 10px",
       borderRadius: 10,
-      marginBottom: 10,
-      maxWidth: "75%",
+      marginBottom: 25,
+      maxWidth: "90%",
       marginTop: 25,
-      marginLeft: "auto"
+      marginLeft: "auto",
+      fontSize: 18
     }} className="message">
-       <span style={{ color: "white", marginBottom: 0, fontSize: '1rem' }}>{data}</span>
+       <span style={{ color: "white", marginBottom: 0, fontSize: 18 }}>{data}</span>
     </div>
   );
 }

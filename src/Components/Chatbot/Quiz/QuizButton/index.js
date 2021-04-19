@@ -8,9 +8,9 @@ const QuizButton = (props) => {
       disabled={disabled}
       onClick={onClick}
       size="sm"
-      color="danger"
       outline
       block
+      className="quiz-button"
     >
       {answer}
     </Button>

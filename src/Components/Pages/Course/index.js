@@ -53,11 +53,11 @@ class Course extends Component {
           Velkommen til. Her kan du lære om matematik. Vælg et emne nedenfor.
         </div>
         <Row>
-          <Col xs={4}>
+          <Col xs={5}>
             <CourseSearch className="mb-4" />
             { this.renderSections()}
           </Col>
-          <Col xs={8}>
+          <Col xs={7}>
             {this.renderChatbot()}
           </Col>
         </Row>
