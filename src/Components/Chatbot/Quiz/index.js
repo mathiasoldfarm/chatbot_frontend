@@ -13,7 +13,8 @@ class Quiz extends Component {
       questionIndex: 0,
       answers: {},
       displayAnswerMessage: false,
-      isCorrect: false
+      isCorrect: false,
+      disableNextButton: false
     }
 
     this.selectHandler = this.selectHandler.bind(this);
@@ -79,11 +80,20 @@ class Quiz extends Component {
           </div>
           <div>
             <Button
-              onClick={() => this.handleClick(last)}
+              onClick={() => {
+                this.handleClick(last);
+                if ( last ) {
+                  this.setState({
+                    disableNextButton: true
+                  })
+                }
+              }}
+              disabled={this.state.disableNextButton}
               color="primary"
               size="sm"
+              className="quiz-button w-100"
             >
-              {last ? "Done" : "Next question"}
+              {last ? "Videre" : "Næste spørgsmål"}
             </Button>
           </div>
         </div>
@@ -107,7 +117,7 @@ class Quiz extends Component {
         <p>{currentQuestion.question}</p>
         <div className="p-2">
           <Row>
-            <Col xs={6}>
+            <Col>
               {possibleAnswers.map(possibleAnswer => {
                 const { answer, explanation, id } = possibleAnswer;
                 const correct = currentQuestion.correct.id === parseInt(id);
@@ -123,10 +133,9 @@ class Quiz extends Component {
             </Col>
           </Row>
         </div>
-        <div className="mb-5">
+        <div className="mb-2">
           {this.renderFeedback(last)}
         </div>
-        <p>Spørgsmål {questionIndex + 1} ud af {numberOfQuestions}</p>
       </div>
     )
   }

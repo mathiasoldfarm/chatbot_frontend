@@ -12,12 +12,14 @@ class EditInput extends Component {
 
   changeHandler(e) {
     const { value } = e.target;
-    const { id, updateUserField} = this.props;
-    updateUserField(id, value);
+    if ( value.length <= 255 ) {
+      const { id, updateUserField} = this.props;
+      updateUserField(id, value);
+    }
   }
 
   render() {
-    const { type, name, id, placeholder, data } = this.props;
+    const { type, name, id, placeholder, data, mb0 } = this.props;
     const value = data[id];
     return (
       <Input
@@ -27,6 +29,7 @@ class EditInput extends Component {
         placeholder={placeholder}
         onChange={this.changeHandler}
         value={value}
+        className={mb0 ? 'mb-0' : 'mb-4'}
       />
     )
   }

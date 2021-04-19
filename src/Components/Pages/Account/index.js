@@ -7,27 +7,27 @@ import Menu from '../../Elements/Menu';
 class Account extends Component {
   render() {
     return (
-      <PagesContainer>
-        <Row>
-          <Col xs={3}>
-            <div style={{ borderRight: '1px solid rgb(227,227,227)' }}>
-              <div className="mb-5">
-                <h3>Kurser</h3>
-                <Menu title="Igangværende kurser" url="/account/courses" />
-                <Menu title="Fremskridt" url="/account/progress" borderBottom />
-              </div>
-              <div>
-                <h3>Bruger</h3>
-                <Menu title="Rediger brugeroplysninger" url="/account/edit/user" />
-                <Menu title="Rediger betalingsoplysninger" url="/account/edit/payment" borderBottom />
-              </div>
+      <Row>
+        <Col xs={3}>
+          <div style={{ borderRight: '1px solid rgb(227,227,227)' }}>
+            <div className="mb-5">
+              <h3>Kurser</h3>
+              <Menu title="Igangværende kurser" url="/account/courses" />
+              <Menu title="Fremskridt" url="/account/progress" borderBottom />
             </div>
-          </Col>
-          <Col>
+            <div>
+              <h3>Bruger</h3>
+              <Menu title="Rediger brugeroplysninger" url="/account/edit/user" />
+              <Menu title="Rediger betalingsoplysninger" url="/account/edit/payment" borderBottom />
+            </div>
+          </div>
+        </Col>
+        <Col>
+         <PagesContainer>
             {this.props.children}
-          </Col>
-        </Row>
-      </PagesContainer>
+          </PagesContainer>
+        </Col>
+      </Row>
     )
   }
 }
