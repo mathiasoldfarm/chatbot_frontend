@@ -4,7 +4,8 @@ import {
   FETCH_PAGE_DATA_ERROR,
   UPDATE_FIELD_DATA,
   UPDATE_FIELD_DATA_ERROR,
-  UPDATE_FIELD_DATA_SUCCESS
+  UPDATE_FIELD_DATA_SUCCESS,
+  TOGGLE_LOG_IN_MODAL
 } from '../../ActionTypes/Pages';
 
 import { get, post } from '../../../Components/CoursesDashboard/request';
@@ -36,21 +37,28 @@ export const fetchPageData = (dependingData) => {
       })
 
     } catch(error) {
-      if ( error.response && error.response.status === 401 ) {
-        dispatch({
-          type: FETCH_PAGE_DATA_ERROR,
-          error: `You don't have access to this. Try to login`
-        })
-      } else if (error.response && error.response.status === 404 ) {
-        dispatch({
-          type: FETCH_PAGE_DATA_SUCCESS,
-          payload: {}
-        })
+      if ( error.response ) {
+        if ( error.response.status === 401 ) {
+          dispatch({
+            type: FETCH_PAGE_DATA_ERROR,
+            error: `You don't have access to this. Try to login`
+          });
+        } else if (error.response.status === 404 ) {
+          dispatch({
+            type: FETCH_PAGE_DATA_SUCCESS,
+            payload: {}
+          });
+        } else {
+          dispatch({
+            type: FETCH_PAGE_DATA_ERROR,
+            error: error.response.data
+          });
+        }
       } else {
         dispatch({
           type: FETCH_PAGE_DATA_ERROR,
           error: `An error occured while fetching data: ${error}`
-        })
+        });
       }
     }
   }
@@ -84,5 +92,11 @@ export const updateUserField = (field, value) => {
         })
       }
     }
+  }
+}
+
+export const toggleLogInModal = () => {
+  return {
+    type: TOGGLE_LOG_IN_MODAL
   }
 }

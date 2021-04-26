@@ -66,3 +66,12 @@ h3 {
   border-color: #EDE080 !important;
   color: #413F3F  !important;
 }
+
+.text-decoration-link {
+  text-decoration: underline;
+}
+
+.text-decoration-link:hover {
+  text-decoration: none;
+  cursor: pointer;
+}

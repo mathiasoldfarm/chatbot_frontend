@@ -7,7 +7,13 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   SET_LOGGED_IN,
-  SET_LOGGED_OUT
+  SET_LOGGED_OUT,
+  REQUESTING_NEW_PASSWORD,
+  REQUESTING_NEW_PASSWORD_ERROR,
+  REQUESTING_NEW_PASSWORD_SUCCESS,
+  RESET_PASSWORD,
+  RESET_PASSWORD_ERROR,
+  RESET_PASSWORD_SUCCESS
 } from '../../ActionTypes/Users';
 
 const INITIAL_STATE = {
@@ -18,7 +24,13 @@ const INITIAL_STATE = {
   loggingin: false,
   loginError: false,
   loginSuccess: false,
-  loggedIn: false
+  loggedIn: false,
+  requestingNewPassword: false,
+  requestingNewPasswordError: false,
+  requestingNewPasswordSuccess: false,
+  resetPassword: false,
+  resetPasswordError: false,
+  resetPasswordSuccess: false
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -80,6 +92,44 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loggedIn: false
+      }
+    case REQUESTING_NEW_PASSWORD:
+      return {
+        ...state,
+        requestingNewPassword: true,
+        requestingNewPasswordError: false,
+        requestingNewPasswordSuccess: false
+      }
+    case REQUESTING_NEW_PASSWORD_ERROR:
+      return {
+        ...state,
+        requestingNewPassword: false,
+        requestingNewPasswordError: action.error,
+      }
+    case REQUESTING_NEW_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        requestingNewPassword: false,
+        requestingNewPasswordSuccess: action.payload
+      }
+    case RESET_PASSWORD:
+      return {
+        ...state,
+        resetPassword: true,
+        resetPasswordError: false,
+        resetPasswordSuccess: false
+      }
+    case RESET_PASSWORD_ERROR:
+      return {
+        ...state,
+        resetPassword: false,
+        resetPasswordError: action.error,
+      }
+    case RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        resetPassword: false,
+        resetPasswordSuccess: action.payload
       }
     default:
       return state;

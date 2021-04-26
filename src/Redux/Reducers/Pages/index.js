@@ -4,13 +4,15 @@ import {
   FETCH_PAGE_DATA_SUCCESS,
   UPDATE_FIELD_DATA,
   UPDATE_FIELD_DATA_ERROR,
-  UPDATE_FIELD_DATA_SUCCESS
+  UPDATE_FIELD_DATA_SUCCESS,
+  TOGGLE_LOG_IN_MODAL
 } from '../../ActionTypes/Pages';
 
 const INITIAL_STATE = {
   data: {},
   fetching: false,
-  fetchingError: false
+  fetchingError: false,
+  showLogInModal: false
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -59,6 +61,11 @@ const reducer = (state = INITIAL_STATE, action) => {
         ...state,
         updating: false,
         updatingSuccess: true
+      }
+    case TOGGLE_LOG_IN_MODAL:
+      return {
+        ...state,
+        showLogInModal: !state.showLogInModal
       }
     default:
       return state;

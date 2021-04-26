@@ -12,36 +12,22 @@ import LoginForm from '../Forms/LoginForm';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { logout, checkIfLoggedIn } from '../../Redux/Actions/Users';
+import { toggleLogInModal } from '../../Redux/Actions/Pages';
 
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      modal: false
-    }
-
-    this.toggle = this.toggle.bind(this);
-  }
-
   componentDidMount() {
     const { checkIfLoggedIn } = this.props;
     checkIfLoggedIn();
   }
 
-  toggle() {
-    this.setState({ modal: !this.state.modal })
-  }
-
   renderModal() {
-    const { loggedIn } = this.props; 
-    const { modal } = this.state;
+    const { loggedIn, modal, toggleLogInModal } = this.props; 
 
     if ( !loggedIn ) {
       return (
-        <Modal isOpen={modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Login</ModalHeader>
+        <Modal isOpen={modal} toggle={toggleLogInModal}>
+          <ModalHeader toggle={toggleLogInModal}>Login</ModalHeader>
           <ModalBody>
             <LoginForm />
           </ModalBody>
@@ -51,7 +37,7 @@ class Header extends Component {
   }
 
   renderUserButton() {
-    const { loggedIn, logout } = this.props; 
+    const { loggedIn, logout, toggleLogInModal } = this.props; 
 
     if ( loggedIn ) {
       return (
@@ -60,7 +46,7 @@ class Header extends Component {
             <NavLink href={"/account"}>Account</NavLink>
           </NavItem>
           <NavItem key={"#"} onClick={() => {
-            this.toggle();
+            toggleLogInModal();
             logout();
           }}>
             <NavLink href={"#"}>Logout</NavLink>
@@ -69,7 +55,7 @@ class Header extends Component {
       );
     }
     return (
-      <NavItem key={"#"} className="ml-auto" onClick={this.toggle}>
+      <NavItem key={"#"} className="ml-auto" onClick={toggleLogInModal}>
         <NavLink href={"#"}>Login</NavLink>
       </NavItem>
     );
@@ -99,9 +85,10 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => ({
-  loggedIn: state.users.loggedIn
+  loggedIn: state.users.loggedIn,
+  modal: state.pages.showLogInModal
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ logout, checkIfLoggedIn }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ logout, checkIfLoggedIn, toggleLogInModal }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input, Alert, Spinner } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createUser } from '../../../Redux/Actions/Users';
-import { toggleLogInModal } from '../../../Redux/Actions/Pages';
+import { resetPassword } from '../../../Redux/Actions/Users';
+import { withRouter } from "react-router";
 
-class UserCreationForm extends Component {
+class PasswordResetForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: '',
       password: '',
       password2: '',
       trySubmitted: false
@@ -18,11 +17,9 @@ class UserCreationForm extends Component {
 
     this.submitHandler = this.submitHandler.bind(this);
 
-    this.emailChangeHandler = this.emailChangeHandler.bind(this);
     this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
     this.password2ChangeHandler = this.password2ChangeHandler.bind(this);
 
-    this.getEmailStyle = this.getEmailStyle.bind(this);
     this.getPasswordStyle = this.getPasswordStyle.bind(this);
     this.getPassword2Style = this.getPassword2Style.bind(this);
 
@@ -32,18 +29,14 @@ class UserCreationForm extends Component {
   }
 
   submitHandler(e) {
-    const { createUser } = this.props;
+    const { resetPassword, match } = this.props;
+    const { userId, verificationCode } = match.params;
     e.preventDefault();
     this.setState({
       trySubmitted: true
     });
-    const { email, password, password2 } = this.state;
-    createUser(email, password, password2);
-  }
-
-  emailChangeHandler(e) {
-    const email = e.target.value;
-    this.setState({ email });
+    const { password, password2 } = this.state;
+    resetPassword( userId, password, password2, verificationCode );
   }
 
   passwordChangeHandler(e) {
@@ -56,28 +49,23 @@ class UserCreationForm extends Component {
     this.setState({ password2 });
   }
 
-  getEmailStyle() {
+  renderStatus() {
     const { trySubmitted } = this.state;
-    const { creatingUserError } = this.props;
+    const { resetPasswordError, resetPasswordSuccess } = this.props;
     if ( trySubmitted ) {
-      if ( creatingUserError && creatingUserError.type === "email" ) {
-        return {
-          border: '1px solid red'
-        }
+      if ( resetPasswordError ) {
+        return <Alert key={1} color="danger">{resetPasswordError}</Alert>;
+      } else if (resetPasswordSuccess) {
+        return <Alert key={1} color="success">{resetPasswordSuccess}</Alert>;
       }
-      // else {
-      //   return {
-      //     border: '1px solid green'
-      //   }
-      // }
     }
   }
 
   getPasswordStyle() {
     const { trySubmitted } = this.state;
-    const { creatingUserError } = this.props;
+    const { resetPasswordError } = this.props;
     if ( trySubmitted ) {
-      if (creatingUserError && creatingUserError.type === "password" ) {
+      if (resetPasswordError && resetPasswordError.type === "password" ) {
         return {
           border: '1px solid red'
         }
@@ -87,9 +75,9 @@ class UserCreationForm extends Component {
 
   getPassword2Style() {
     const { trySubmitted } = this.state; 
-    const { creatingUserError } = this.props;
+    const { resetPasswordError } = this.props;
     if ( trySubmitted ) {
-      if (creatingUserError && creatingUserError.type === "password2" ) {
+      if (resetPasswordError && resetPasswordError.type === "password2" ) {
         return {
           border: '1px solid red'
         }
@@ -97,48 +85,18 @@ class UserCreationForm extends Component {
     }
   }
 
-  renderStatus() {
-    const { trySubmitted } = this.state;
-    const { creatingUserError, creatingUserSucces, toggleLogInModal } = this.props;
-    if ( trySubmitted ) {
-      if ( creatingUserError ) {
-        return (
-          <React.Fragment>
-            <Alert key={1} color="danger">{creatingUserError.message}</Alert>
-            {creatingUserError.message.includes("Please try to log in") ? (
-              <p onClick={toggleLogInModal} className="text-decoration-link">Log in</p>
-            ) : null}
-          </React.Fragment>
-        );
-      } else if (creatingUserSucces) {
-        return <Alert key={1} color="success">{creatingUserSucces}</Alert>;
-      }
-    }
-  }
-
   renderSpinner() {
-    const { creatingUser } = this.props;
-    if ( creatingUser ) {
+    const { resettingPassword } = this.props;
+    if ( resettingPassword ) {
       return <Spinner color="primary" className="ml-2" />
     }
   }
 
-  render() {
+  render() {;
     return (
       <React.Fragment>
         <Form onSubmit={this.submitHandler}>
-          <FormGroup >
-            <Label for="email">Email</Label>
-            <Input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="E-mail"
-              onChange={this.emailChangeHandler}
-              style={this.getEmailStyle()}
-            />
-          </FormGroup>
-          <FormGroup>
+        <FormGroup>
             <Label for="password">Password</Label>
             <Input
               type="password"
@@ -174,11 +132,11 @@ class UserCreationForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  creatingUser: state.users.creatingUser,
-  creatingUserError: state.users.creatingUserError,
-  creatingUserSucces: state.users.creatingUserSucces
+  resettingPassword: state.users.resetPassword,
+  resetPasswordError: state.users.resetPasswordError,
+  resetPasswordSuccess: state.users.resetPasswordSuccess
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ createUser, toggleLogInModal }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ resetPassword }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserCreationForm);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PasswordResetForm));
