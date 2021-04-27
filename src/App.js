@@ -19,6 +19,8 @@ import AccountEditUser from './Components/Pages/Account/EditUser';
 import Subjects from './Components/Pages/Subjects';
 import PasswordResetRequest from './Components/Pages/PasswordResetRequest';
 import PasswordReset from './Components/Pages/PasswordReset';
+import VerificationRequest from './Components/Pages/VerificationRequest';
+import Verification from './Components/Pages/Verification';
 
 function App(props) {
   const { loggedIn } = props;
@@ -39,6 +41,9 @@ function App(props) {
   }, {
     url: "/reset-password",
     name: "Reset password"
+  }, {
+    url: "/verify",
+    name: "Verify account"
   }]
 
   return (
@@ -62,7 +67,11 @@ function App(props) {
             <Route exact path="/reset-password">
               <PasswordResetRequest />
             </Route>
+            <Route exact path="/verify">
+              <VerificationRequest />
+            </Route>
             <Route path="/reset-password/:userId/:verificationCode" component={PasswordReset} />
+            <Route path="/verify/:userId/:verificationCode" component={Verification} />
             <Route>
               <Subjects />
             </Route>

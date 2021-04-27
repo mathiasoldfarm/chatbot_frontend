@@ -53,11 +53,19 @@ class UserCreationForm extends Component {
     if ( trySubmitted ) {
       const bars = []
       if ( loginError ) {
-        bars.push(<Alert key={1} color="danger">{loginError.message}</Alert>);
+        return (
+          <React.Fragment>
+            <Alert key={1} color="danger">{loginError.message}</Alert>
+            {loginError.message.includes("request a new verification link") ? (
+              <a href="/verify" className="text-decoration-link">Send new verification link to e-mail</a>
+            ) : loginError.message.includes("password was not correct") ? (
+              <a href="/reset-password" className="text-decoration-link">Reset password</a>
+            ) : null}
+          </React.Fragment>
+        );
       } else if (loginSuccess) {
-        bars.push(<Alert key={1} color="success">{loginSuccess}</Alert>);
+        return <Alert key={1} color="success">{loginSuccess}</Alert>;
       }
-      return bars.map(bar => bar);
     }
   }
 

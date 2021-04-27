@@ -13,7 +13,10 @@ import {
   REQUESTING_NEW_PASSWORD_SUCCESS,
   RESET_PASSWORD,
   RESET_PASSWORD_ERROR,
-  RESET_PASSWORD_SUCCESS
+  RESET_PASSWORD_SUCCESS,
+  REQUEST_VERIFICATION,
+  REQUEST_VERIFICATION_ERROR,
+  REQUEST_VERIFICATION_SUCCESS
 } from '../../ActionTypes/Users';
 
 import { post } from '../../../Components/CoursesDashboard/request';
@@ -160,5 +163,35 @@ export const checkIfLoggedIn = () => {
   }
   return {
     type: SET_LOGGED_IN
+  }
+}
+
+export const requestVerification = (email) => {
+  return async dispatch => {
+    dispatch({
+      type: REQUEST_VERIFICATION
+    });
+
+    try {
+      const payload = await post('/users/send-verification-code', { email });
+
+      dispatch({
+        type: REQUEST_VERIFICATION_SUCCESS,
+        payload
+      })
+
+    } catch(error) {
+      if (error.response) {
+        dispatch({
+          type: REQUEST_VERIFICATION_ERROR,
+          error: error.response.data
+        });
+      } else {
+        dispatch({
+          type: REQUEST_VERIFICATION_ERROR,
+          error: error.toString()
+        })
+      }
+    }
   }
 }

@@ -13,7 +13,10 @@ import {
   REQUESTING_NEW_PASSWORD_SUCCESS,
   RESET_PASSWORD,
   RESET_PASSWORD_ERROR,
-  RESET_PASSWORD_SUCCESS
+  RESET_PASSWORD_SUCCESS,
+  REQUEST_VERIFICATION,
+  REQUEST_VERIFICATION_ERROR,
+  REQUEST_VERIFICATION_SUCCESS
 } from '../../ActionTypes/Users';
 
 const INITIAL_STATE = {
@@ -30,7 +33,10 @@ const INITIAL_STATE = {
   requestingNewPasswordSuccess: false,
   resetPassword: false,
   resetPasswordError: false,
-  resetPasswordSuccess: false
+  resetPasswordSuccess: false,
+  requestingVerification: false,
+  requestingVerificationError: false,
+  requestingVerificationSuccess: false,
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -130,6 +136,25 @@ const reducer = (state = INITIAL_STATE, action) => {
         ...state,
         resetPassword: false,
         resetPasswordSuccess: action.payload
+      }
+    case REQUEST_VERIFICATION:
+      return {
+        ...state,
+        requestingVerification: true,
+        requestingVerificationError: false,
+        requestingVerificationSuccess: false
+      }
+    case REQUEST_VERIFICATION_ERROR:
+      return {
+        ...state,
+        requestingVerification: false,
+        requestingVerificationError: action.error,
+      }
+    case REQUEST_VERIFICATION_SUCCESS:
+      return {
+        ...state,
+        requestingVerification: false,
+        requestingVerificationSuccess: action.payload
       }
     default:
       return state;
