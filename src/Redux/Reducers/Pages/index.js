@@ -5,8 +5,12 @@ import {
   UPDATE_FIELD_DATA,
   UPDATE_FIELD_DATA_ERROR,
   UPDATE_FIELD_DATA_SUCCESS,
-  TOGGLE_LOG_IN_MODAL
+  TOGGLE_LOG_IN_MODAL,
 } from '../../ActionTypes/Pages';
+
+import {
+  ANSWER_FETCHING_SUCCESS,
+} from '../../ActionTypes/Chatbot';
 
 const INITIAL_STATE = {
   data: {},
@@ -14,6 +18,20 @@ const INITIAL_STATE = {
   fetchingError: false,
   showLogInModal: false
 };
+
+const setSectionDone = (sections, sectionId) => {
+  if ( sectionId !== -1) {
+    sections.forEach(section => {
+      if ( section.id === sectionId ) {
+        section.done = true;
+      } else if ( section.children.length > 0 ) {
+        setSectionDone(section.children, sectionId);
+      }
+    });
+  }
+
+  return sections;
+}
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch(action.type) {
@@ -66,6 +84,11 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         showLogInModal: !state.showLogInModal
+      }
+    case ANSWER_FETCHING_SUCCESS:
+      return {
+        ...state,
+        data: setSectionDone([...state.data], action.id)
       }
     default:
       return state;

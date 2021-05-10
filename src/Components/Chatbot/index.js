@@ -21,7 +21,9 @@ class Chatbot extends Component {
     this.RenderError = this.RenderError.bind(this);
     this.RenderSpinner = this.RenderSpinner.bind(this);
     this.begin = this.begin.bind(this);
+    //this.calculateMargin = this.calculateMargin.bind(this);
     this.bottomAnchor = React.createRef();
+    this.botWrapper = React.createRef();
   }
 
   async begin() {
@@ -48,27 +50,46 @@ class Chatbot extends Component {
 
   async onSend(choice, historyId, contextId) {
     this.props.addUserAnswer(choice);
-    await this.props.getAnswer(choice, this.props.course, this.props.user, historyId, contextId);
-    
+    await this.props.getAnswer(choice, this.props.course, this.props.user, historyId, contextId, 0); 
   }
+
 
   RenderMessageList() {
     const { messageList } = this.props;
-    return messageList.map((message, index) => {
-      //const mostNew = index === messageList.length - 1 && message.nextPossibleAnswers;
-      const mostNew = index === messageList.length - 1;
-      return (
-        <div key={index}>
-          <Message
-            typing={mostNew}
-            type={message.type}
-            data = {message.data}
-            courseId={this.props.course}
-            user={this.props.user}
-          />
-        </div>
+    if (messageList) {
+      //Formatting messages into sections for styling
+      const MessageSectionObjects = []
+      let currentSection = [];
+      messageList.forEach((message, index) => {
+        if (message.type === 'user') {
+          currentSection.push(message);
+        } else {
+          if ( index !== 0 ) {
+            MessageSectionObjects.push(currentSection);
+          }
+          currentSection = [ message ];
+        }
+      });
+      MessageSectionObjects.push(currentSection);
+      return MessageSectionObjects.map((MessageSection, sectionIndex) => (
+          <div
+            className="message-section d-flex flex-column justify-content-center"
+            style={{ minHeight: 637 }}
+          >
+            {MessageSection.map((message, messageIndex) => (
+              <Message
+                key={`${sectionIndex}${messageIndex}`}
+                typing={sectionIndex === MessageSectionObjects.length - 1 && messageIndex === MessageSection.length - 1}
+                type={message.type}
+                data = {message.data}
+                courseId={this.props.course}
+                user={this.props.user}
+              />
+            ))}
+          </div>
+        )
       );
-    });
+    }
   }
 
   RenderError() {
@@ -100,17 +121,17 @@ class Chatbot extends Component {
     return (
       <div
         style={{ maxWidth: 1000, height: 700, maxHeight: 700 }}
-        className="mx-auto border border-primary"
+        className="mx-auto"
       >
-        <div className="d-flex flex-column h-100 flex-grow" >
-          <div style={{ overflow: "scroll"  }} className="flex-fill">
-            <div className="m-5">
+        <div className="d-flex flex-column flex-grow" style={{ height: 700 }} >
+          <div style={{ overflow: "scroll", height: 637  }} className="flex-fill" id="bot-wrapper" ref={this.botWrapper}>
+            <div className="m-0">
               {this.RenderError()}
               {this.RenderMessageList()}
             </div>
             <div ref={this.bottomAnchor}></div>
           </div>
-          <div className="border-top border-primary py-3 justify-content-center d-flex">
+          <div className="py-3 justify-content-center d-flex">
             {this.RenderSpinner()}
             {this.renderButtons()}
           </div>

@@ -50,21 +50,47 @@
   color: rgb(209,111,111) !important;
 }
 
+.blue-on-hover:hover, .blue-on-hover:hover p {
+  color: #007bff !important;
+}
+
+.blue-text, .blue-text p {
+  color: #007bff !important;
+}
+
+.blue-border-on-hover:hover {
+  border:1px solid#007bff !important ;
+}
+
+.grey-on-hover:hover, .grey-on-hover:hover p {
+  color: #000000 !important;
+  text-decoration: underline;
+}
+
+.grey-on-hover.blue-text:hover, .grey-on-hover.blue-text:hover p {
+  color: #007bff !important;
+  text-decoration: underline;
+}
+
+.grey-text, .grey-text p {
+  color: #000000 !important;
+}
+
 h3 {
   font-size: 18px !important;
   font-weight: bold im !important;
 }
 
 .quiz-button {
-  background: #FFF39A !important;
-  border-color: #FFF39A !important;
-  color: #413F3F  !important;
+  background: #007bff !important;
+  border-color: #007bff !important;
+  color: white  !important;
 }
 
 .quiz-button:hover {
-  background: #EDE080 !important;
-  border-color: #EDE080 !important;
-  color: #413F3F  !important;
+  background: #0262c9 !important;
+  border-color: #0262c9 !important;
+  color: white  !important;
 }
 
 .text-decoration-link {
@@ -74,4 +100,16 @@ h3 {
 .text-decoration-link:hover {
   text-decoration: none;
   cursor: pointer;
+}
+
+.course-menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+.course-menu-item {
+  transition: .2s;
+}
+
+#bot-wrapper::-webkit-scrollbar {
+  display: none;
 }

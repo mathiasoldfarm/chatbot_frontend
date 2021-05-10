@@ -6,7 +6,8 @@ import {
   RESET_MESSAGE_LIST,
   MESSAGE_LIST_UPDATED_HANDLED
 } from '../../ActionTypes/Chatbot';
-import { postCourseData, generateUrl } from '../../../Components/CoursesDashboard/request';
+
+import { post, generateUrl } from '../../../Components/CoursesDashboard/request';
 
 const generateMessageObject = (data, type) => {
   return {
@@ -21,7 +22,7 @@ export const resetMessageList = () => {
   }
 }
 
-export const getAnswer = (question, courseId, userId, initialHistoryId=0, contextId=0, type=0) => {
+export const getAnswer = (question, courseId, userId, initialHistoryId=0, contextId=0, type=0, previousSectionId=-1) => {
   return async dispatch => {
     dispatch({
       type: ANSWER_FETCHING
@@ -33,19 +34,27 @@ export const getAnswer = (question, courseId, userId, initialHistoryId=0, contex
         question = JSON.stringify(question);
       }
       let query = generateUrl('/bot/getanswer', { userId, courseId, contextId, initialHistoryId, question, type });
-
-      const data = await postCourseData(query);
+      
+      const data = await post(query);
 
       dispatch({
         type: ANSWER_FETCHING_SUCCESS,
-        message: generateMessageObject(data, "bot")
-      })
+        message: generateMessageObject(data, "bot"),
+        id: data.sectionDone
+      });
 
     } catch(error) {
-      dispatch({
-        type: ANSWER_FETCHING_ERROR,
-        error: `Der skete en fejl ved hentning af beskeden: ${error}`
-      })
+      if (error.response) {
+        dispatch({
+          type: ANSWER_FETCHING_ERROR,
+          error: error.response.data
+        });
+      } else {
+        dispatch({
+          type: ANSWER_FETCHING_ERROR,
+          error: error.toString()
+        });
+      }
     }
   }
 }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'reactstrap';
 import Subcategory from './Subcategory';
 import PagesContainer from '../PagesContainer';
+import Emoji from '../../../Utils/Emoji';
 
 const formatUrl = (category) => {
   return category.toLowerCase().replace(' ', '-');
@@ -78,12 +79,22 @@ class Frontpage extends Component {
      <PagesContainer>
        <Row className="mb-5">
          <Col xs={2}></Col>
-         <Col xs={8}>{this.renderCategories()}</Col>
+         <Col xs={8}>
+           <div className="text-center">
+            Hej! <Emoji symbol="😀" /><br />
+            Velkommen til XYZ. <br />
+            <br />
+            XYZ vil hjælpe dig med matematik. <br />
+            Ikke blot give dig svarene, men hjælpe dig med at forstå matematik.<br />
+            Hjælpe dig med at have det sjovt mens du lærer matematik.<br />
+            <br />
+            XYZ prøver at tilpasse sig dig, så du ikke behøves at ændre dig for at forstå.<br />
+            <br />
+            Har du feedback, spørgsmål eller andet du vil snakke om, så giv et skriv på hej@xyz.com
+           </div>
+         </Col>
          <Col xs={2}></Col>
        </Row>
-       <div>
-         {this.renderSubCategories()}
-       </div>
      </PagesContainer>
     );
   }

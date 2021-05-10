@@ -33,7 +33,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         currentHistoryId: action.message.data.historyId,
         currentCourseId: action.message.data.courseId,
         currentContextId: action.message.data.contextId,
-        messageListUpdated: true
+        messageListUpdated: true,
       }
     case ANSWER_FETCHING_ERROR:
       return {

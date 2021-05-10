@@ -11,6 +11,7 @@ const QuizButton = (props) => {
       outline
       block
       className="quiz-button"
+      style={{ fontSize: '1.3rem' }}
     >
       {answer}
     </Button>

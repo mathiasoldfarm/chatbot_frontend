@@ -8,7 +8,6 @@ import {
 import Header from './Components/Header';
 import { connect } from 'react-redux';
 
-import Container from "./Components/Container";
 import CoursesDashboard from './Components/CoursesDashboard';
 import LatexTester from './Components/LatexTester';
 import Frontpage from './Components/Pages/Frontpage';
@@ -16,6 +15,7 @@ import Course from './Components/Pages/Course';
 import CreateUser from './Components/Pages/CreateUser';
 import AccountFrontpage from './Components/Pages/Account/FrontPage';
 import AccountEditUser from './Components/Pages/Account/EditUser';
+import CurrentCourses from './Components/Pages/Account/CurrentCourses';
 import Subjects from './Components/Pages/Subjects';
 import PasswordResetRequest from './Components/Pages/PasswordResetRequest';
 import PasswordReset from './Components/Pages/PasswordReset';
@@ -25,31 +25,13 @@ import Verification from './Components/Pages/Verification';
 function App(props) {
   const { loggedIn } = props;
   const routes = [{
-    url: "/",
-    name: "Home"
-  },
-  {
-    url: "/latextester",
-    name: "Latex tester"
-  },
-  {
-    url: "/create-user",
-    name: "Create user"
-  }, {
-    url: "/emner",
-    name: "Emner"
-  }, {
-    url: "/reset-password",
-    name: "Reset password"
-  }, {
-    url: "/verify",
-    name: "Verify account"
+    url: "/subjects",
+    name: "Subjects"
   }]
 
   return (
     <div className="App">
       <Header routes={routes}/>
-      <Container>
         <Router>
           <Switch>
             <Route exact path="/" component={Frontpage} />
@@ -72,13 +54,16 @@ function App(props) {
             </Route>
             <Route path="/reset-password/:userId/:verificationCode" component={PasswordReset} />
             <Route path="/verify/:userId/:verificationCode" component={Verification} />
-            <Route>
+            <Route path="/subjects">
               <Subjects />
             </Route>
             {loggedIn ? (
             <React.Fragment>
-              <Route exact path="/account">
+              {/* <Route exact path="/account">
                 <AccountFrontpage />
+              </Route> */}
+              <Route exact path="/account/courses">
+                <CurrentCourses />
               </Route>
               <Route exact path="/account/edit/user">
                 <AccountEditUser />
@@ -87,7 +72,6 @@ function App(props) {
             ) : null}
           </Switch>
         </Router>
-      </Container>
     </div>
   );
 }

@@ -29,6 +29,9 @@ export const fetchPageData = (dependingData) => {
           url += dependingData[i]
         }
       }
+
+      console.log(url);
+
       const payload = await get(url);
 
       dispatch({

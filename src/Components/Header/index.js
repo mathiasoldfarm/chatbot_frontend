@@ -27,7 +27,7 @@ class Header extends Component {
     if ( !loggedIn ) {
       return (
         <Modal isOpen={modal} toggle={toggleLogInModal}>
-          <ModalHeader toggle={toggleLogInModal}>Login</ModalHeader>
+          <ModalHeader toggle={toggleLogInModal}>Log in</ModalHeader>
           <ModalBody>
             <LoginForm />
           </ModalBody>
@@ -43,7 +43,7 @@ class Header extends Component {
       return (
         <div className="ml-auto d-flex">
           <NavItem >
-            <NavLink href={"/account"}>Account</NavLink>
+            <NavLink href={"/account/courses"}>Account</NavLink>
           </NavItem>
           <NavItem key={"#"} onClick={() => {
             toggleLogInModal();
@@ -55,9 +55,14 @@ class Header extends Component {
       );
     }
     return (
-      <NavItem key={"#"} className="ml-auto" onClick={toggleLogInModal}>
-        <NavLink href={"#"}>Login</NavLink>
-      </NavItem>
+     <React.Fragment>
+        <NavItem key={"create-user"} className="ml-auto">
+          <NavLink href={"/create-user"}>Create user</NavLink>
+        </NavItem>
+        <NavItem key={"#"} onClick={toggleLogInModal}>
+          <NavLink href={"#"}>Log in</NavLink>
+        </NavItem>
+     </React.Fragment>
     );
   }
 
@@ -68,6 +73,16 @@ class Header extends Component {
       <React.Fragment>
         <div>
           <Navbar color="light" light expand="md">
+            <a
+              href="/"
+            >
+              <img
+                alt="logo"
+                src={require('../../LOGO.png')}
+                style={{ maxHeight: 30 }}
+                className="mr-5"
+              />
+            </a>
             <Nav className="w-100">
               {routes.map(route => (
                 <NavItem key={route.url}>

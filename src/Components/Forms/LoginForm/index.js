@@ -51,7 +51,6 @@ class UserCreationForm extends Component {
     const { trySubmitted } = this.state;
     const { loginError, loginSuccess } = this.props;
     if ( trySubmitted ) {
-      const bars = []
       if ( loginError ) {
         return (
           <React.Fragment>

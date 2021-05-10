@@ -16,6 +16,7 @@ class ButtonGroup extends Component {
         onClick={() => onClick(choice, historyId, contextId)}
         size="sm"
         className={`${index === choices.length - 1 ? '' : 'mr-3'} quiz-button`}
+        style={{ fontSize: '1.3rem' }}
       >
         {choice}
       </Button>

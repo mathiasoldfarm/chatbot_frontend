@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col } from 'reactstrap';
 import Chatbot from '../../Chatbot';
 import PagesContainer from '../PagesContainer';
 import CourseSearch from './CourseSearch';
 import SectionMenu from './SectionMenu';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 class Course extends Component {
   constructor(props) {
@@ -12,10 +13,12 @@ class Course extends Component {
 
     this.state = {
       user: 1,
-      selectedCourse: 1,
+      selectedCourse: 10,
+      showMenu: true
     }
 
     this.renderChatbot = this.renderChatbot.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
   }
 
   renderChatbot() {
@@ -28,10 +31,10 @@ class Course extends Component {
   }
 
   renderSectionsRecursively(root, depth) {
-    const { children, name, id } = root;
+    const { children, name, id, done } = root;
     if ( root.children ) {
       return (
-        <SectionMenu key={id} title={name} sectionId={id} depth={depth} >
+        <SectionMenu key={id} title={name} sectionId={id} depth={depth} done={done} >
           {children.map(child => this.renderSectionsRecursively(child, depth + 1))}
         </SectionMenu>
       );
@@ -46,21 +49,34 @@ class Course extends Component {
     }
   }
 
-  render() {
+  toggleMenu() {
+    this.setState({
+      showMenu: !this.state.showMenu
+    })
+  }
+
+  renderContent() {
+    const { showMenu } = this.state;
     return (
-      <PagesContainer>
-        <div className="mb-5">
-          Velkommen til. Her kan du lære om matematik. Vælg et emne nedenfor.
-        </div>
-        <Row>
-          <Col xs={5}>
+      <div className="d-flex">
+        {showMenu ? (
+          <div className="pt-3 ml-3" style={{ width: '22%', background: '#f8f9fa', minHeight: '93vh' }}>
             <CourseSearch className="mb-4" />
             { this.renderSections()}
-          </Col>
-          <Col xs={7}>
-            {this.renderChatbot()}
-          </Col>
-        </Row>
+          </div>
+        ) : null}
+        <div className="pl-3 pt-3 flex-grow-1">
+          <FontAwesomeIcon onClick={this.toggleMenu} className="pointer-on-hover" style={{ fontSize: 30 }} icon={faBars} /> 
+          {this.renderChatbot()}
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+    return (
+      <PagesContainer fullWidth noTop>
+        {this.renderContent()}
       </PagesContainer>
     );
   }

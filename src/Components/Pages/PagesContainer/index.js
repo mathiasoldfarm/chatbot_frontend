@@ -12,14 +12,14 @@ class PagesContainer extends Component {
   }
 
   render() {
-    const { fetching, fetchingError, children } = this.props;
+    const { fetching, fetchingError, children, fullWidth, noTop } = this.props;
     if ( fetching ) {
       return <Spinner />
     }
     if ( fetchingError ) {
       return <Alert color="danger">{fetchingError}</Alert>
     }
-    return <div>
+    return <div style={{ maxWidth: fullWidth ? '100%' : 1200, marginLeft: "auto", marginRight: "auto", textAlign: "left", paddingTop: noTop ? 0 : 50 }}>
       {children}
     </div>
   }
