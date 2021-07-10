@@ -113,3 +113,29 @@ h3 {
 #bot-wrapper::-webkit-scrollbar {
   display: none;
 }
+
+input.create-course-name {
+  font-size: 70px;
+  border: 0px;
+  box-shadow: 0px 0px !important;
+  color: #0262c9 !important;
+  text-align: center;
+}
+
+input.create-course-name:focus{
+  outline: none;
+  border: 0px !important;
+}
+
+input.create-course-name::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #0262c9;
+  opacity: 1; /* Firefox */
+}
+
+input.create-course-name:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #0262c9;
+}
+
+input.create-course-name::-ms-input-placeholder { /* Microsoft Edge */
+  color: #0262c9;
+}

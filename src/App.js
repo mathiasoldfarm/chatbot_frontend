@@ -17,6 +17,7 @@ import AccountFrontpage from './Components/Pages/Account/FrontPage';
 import AccountEditUser from './Components/Pages/Account/EditUser';
 import CurrentCourses from './Components/Pages/Account/CurrentCourses';
 import Subjects from './Components/Pages/Subjects';
+import CreateCourse from './Components/Pages/CreateCourse';
 import PasswordResetRequest from './Components/Pages/PasswordResetRequest';
 import PasswordReset from './Components/Pages/PasswordReset';
 import VerificationRequest from './Components/Pages/VerificationRequest';
@@ -25,6 +26,10 @@ import Verification from './Components/Pages/Verification';
 function App(props) {
   const { loggedIn } = props;
   const routes = [{
+    url: "/opret-kursus",
+    name: "Opret kursus",
+    outline: true
+  }, {
     url: "/subjects",
     name: "Subjects"
   }]
@@ -56,6 +61,9 @@ function App(props) {
             <Route path="/verify/:userId/:verificationCode" component={Verification} />
             <Route path="/subjects">
               <Subjects />
+            </Route>
+            <Route path="/opret-kursus">
+              <CreateCourse />
             </Route>
             {loggedIn ? (
             <React.Fragment>
