@@ -27,9 +27,9 @@ class Chatbot extends Component {
   }
 
   async begin() {
-    const { getAnswer, resetMessageList, course, user } = this.props;
+    const { getAnswer, resetMessageList, course } = this.props;
     resetMessageList();
-    await getAnswer("BEGINNING", course, user);
+    await getAnswer("BEGINNING", course);
   }
 
   async componentDidMount() {
@@ -50,7 +50,7 @@ class Chatbot extends Component {
 
   async onSend(choice, historyId, contextId) {
     this.props.addUserAnswer(choice);
-    await this.props.getAnswer(choice, this.props.course, this.props.user, historyId, contextId, 0); 
+    await this.props.getAnswer(choice, this.props.course, historyId, contextId, 0); 
   }
 
 
@@ -94,8 +94,9 @@ class Chatbot extends Component {
 
   RenderError() {
     if ( this.props.fetchingMessageError ) {
+      console.log(this.props.fetchingMessageError);
       return <div className="my-2">
-        <Alert color="danger">{this.props.fetchingMessageError}</Alert>
+        <Alert color="danger">{this.props.fetchingMessageError.toString()}</Alert>
       </div>
     }
   }

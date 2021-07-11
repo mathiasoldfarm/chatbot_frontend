@@ -14,14 +14,16 @@ class Subjects extends Component {
 
   renderCategories() {
     const { categories } = this.props;
-    return Object.keys(categories).map(category => (
-      <div className="mb-5">
-        <h2 style={{ textTransform: 'capitalize' }}>{category}</h2>
-        <div>
-          {categories[category].courses.map(course => <CourseMenuItem course={course.title} status={course.status} color={categories[category].color} />)}
+    if ( categories.constructor === Array ) {
+      return categories.map(category => (
+        <div className="mb-5">
+          <h2 style={{ textTransform: 'capitalize' }}>{category.title}</h2>
+          <div>
+            {category.courses.map(course => <CourseMenuItem course={course.title} status={course.status} color={category.color} />)}
+          </div>
         </div>
-      </div>
-    ))
+      ))
+    }
   }
 
   render() {

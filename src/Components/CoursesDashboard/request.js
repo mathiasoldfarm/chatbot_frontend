@@ -43,7 +43,8 @@ export const get = async(url) => {
 export const post = async(url, body) => {
   return (await axios.post(`${backend_base}${url}`, body, {
     headers: {
-      'Authorization': localStorage.getItem("JWTtoken")
+      'Authorization': localStorage.getItem("JWTtoken"),
+      'Content-Type': 'application/json'
     }
   })).data;
 }

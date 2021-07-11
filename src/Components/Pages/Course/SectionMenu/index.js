@@ -41,7 +41,7 @@ class SectionMenu extends Component {
     const { title, sectionId, courseId, historyId, addUserAnswer, getAnswer, contextId } = this.props;
     addUserAnswer(`Can I see the section ${title}?`);
     // TODO: Handle user
-    await getAnswer(sectionId, courseId, 1, historyId, contextId, 2);
+    await getAnswer(sectionId, courseId, historyId, contextId, 2);
   }
 
   setOpenedBasedOnCurrentBotSection() {

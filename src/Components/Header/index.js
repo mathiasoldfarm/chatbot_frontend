@@ -71,7 +71,7 @@ class Header extends Component {
     
     return (
       <React.Fragment>
-        <div>
+        <div style={{ height: 56 }}>
           <Navbar color="light" light expand="md">
             <a
               href="/"

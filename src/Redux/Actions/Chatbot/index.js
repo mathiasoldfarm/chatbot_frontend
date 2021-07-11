@@ -22,7 +22,7 @@ export const resetMessageList = () => {
   }
 }
 
-export const getAnswer = (question, courseId, userId, initialHistoryId=0, contextId=0, type=0, previousSectionId=-1) => {
+export const getAnswer = (question, courseId, initialHistoryId=0, contextId=0, type=0, previousSectionId=-1) => {
   return async dispatch => {
     dispatch({
       type: ANSWER_FETCHING
@@ -33,9 +33,8 @@ export const getAnswer = (question, courseId, userId, initialHistoryId=0, contex
         type = 1;
         question = JSON.stringify(question);
       }
-      let query = generateUrl('/bot/getanswer', { userId, courseId, contextId, initialHistoryId, question, type });
       
-      const data = await post(query);
+      const data = await post('/bot/getanswer', JSON.stringify({ courseId, contextId, initialHistoryId, question, type }));
 
       dispatch({
         type: ANSWER_FETCHING_SUCCESS,
@@ -45,10 +44,17 @@ export const getAnswer = (question, courseId, userId, initialHistoryId=0, contex
 
     } catch(error) {
       if (error.response) {
-        dispatch({
-          type: ANSWER_FETCHING_ERROR,
-          error: error.response.data
-        });
+        if (error.response.status === 415) {
+          dispatch({
+            type: ANSWER_FETCHING_ERROR,
+            error: "Unsupported media type"
+          });
+        } else {
+          dispatch({
+            type: ANSWER_FETCHING_ERROR,
+            error: error.response.data
+          });
+        }
       } else {
         dispatch({
           type: ANSWER_FETCHING_ERROR,

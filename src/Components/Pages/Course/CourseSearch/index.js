@@ -21,7 +21,7 @@ class CourseSearch extends Component {
     const { searchText } = this.state;
     addUserAnswer(`Do you know anything about ${searchText}?`);
     // TODO: Handle user
-    await getAnswer(searchText, courseId, 1, historyId, contextId, 3);
+    await getAnswer(searchText, courseId, historyId, contextId, 3);
   }
 
   onChange(e) {
