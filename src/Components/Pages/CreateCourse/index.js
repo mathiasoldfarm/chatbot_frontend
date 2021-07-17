@@ -17,13 +17,13 @@ class CreateCourse extends Component {
 
   addNewSection() {
     this.setState({
-      sections: [...this.state.sections, <CourseCreationSection />]
+      sections: [...this.state.sections, <CourseCreationSection key={this.state.sections.length} />]
     });
   }
 
   renderBeginning() {
     return (
-      <div class="d-flex flex-column py-5" style={{ height: window.innerHeight - 56 /*Header height*/ }}>
+      <div className="d-flex flex-column py-5" style={{ height: window.innerHeight - 56 /*Header height*/ }}>
         <Input placeholder="Giv dit kursus et navn..." className="create-course-name mb-5" />
         <Row className="flex-fill">
           <Col xs={3}>
