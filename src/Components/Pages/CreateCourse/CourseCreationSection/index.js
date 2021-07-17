@@ -21,6 +21,7 @@ class CourseCreationSection extends Component {
 
   addNewQuestion() {
     this.setState({
+      questionsIndex: this.state.questions.length,
       questions: [...this.state.questions, <CourseCreationQuestion />]
     });
   }
@@ -33,6 +34,32 @@ class CourseCreationSection extends Component {
     }
   }
 
+  renderNavigationButtons() {
+    const { questions, questionsIndex } = this.state;
+    return (
+      <div className="d-flex justify-content-center mb-3">
+        <div className="d-flex">
+          {questions.map((question, index) => (
+            <span
+              style={{
+                height: 20,
+                width: 20,
+                background: "black",
+                display: "block",
+                borderRadius: "50%",
+                backgroundColor: index === questionsIndex ?  "#0C4F88" : "#72B1E6",
+                marginRight: index + 1 === questions.length ? 0 : 7
+              }}
+              className="pointer-on-hover dark-blue-on-hover"
+              onClick={() => this.setState({ questionsIndex: index })}
+            >
+            </span>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
   renderContent() {
     const { information, informationText, quiz, questions } = this.state;
     if ( information ) {
@@ -42,6 +69,7 @@ class CourseCreationSection extends Component {
             style={{ height: 500, backgroundColor: '#f2f2f2', border: '1px solid #c5c5c5' }}
             className="p-5"
             type="textarea"
+            placeholder="Skriv din tekst her..."
             name="text"
             onChange={(e) => this.setState({ informationText: e.target.value })} 
             value={informationText}
@@ -56,6 +84,7 @@ class CourseCreationSection extends Component {
           className={noQuestions ? "d-flex align-items-center" : ""}
         >
           {this.renderQuestions()}
+          {this.renderNavigationButtons()}
           <Button onClick={this.addNewQuestion} outline color="primary" className="mx-auto d-block">
             Tilføj spørgsmål
           </Button>

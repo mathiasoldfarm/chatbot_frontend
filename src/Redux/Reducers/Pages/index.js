@@ -16,7 +16,7 @@ const INITIAL_STATE = {
   data: {},
   fetching: false,
   fetchingError: false,
-  showLogInModal: false
+  showLogInModal: false,
 };
 
 const setSectionDone = (sections, sectionId) => {

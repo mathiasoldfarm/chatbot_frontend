@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Input, Row, Col, Button } from 'reactstrap';
 import PagesContainer from '../PagesContainer';
 import CourseCreationSection from './CourseCreationSection';
+import CourseCreationQuestion from './CourseCreationSection/CourseCreationQuestion';
 
 class CreateCourse extends Component {
   constructor(props) {
