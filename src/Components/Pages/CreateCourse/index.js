@@ -9,7 +9,8 @@ class CreateCourse extends Component {
     super(props);
 
     this.state = {
-      sections: []
+      sections: [],
+      currentPosition: -1
     }
 
     this.addNewSection = this.addNewSection.bind(this);
@@ -22,10 +23,27 @@ class CreateCourse extends Component {
     this.setSectionTypeQuiz = this.setSectionTypeQuiz.bind(this);
     this.setQuestionIndex = this.setQuestionIndex.bind(this);
     this.informationTextChangeHandler = this.informationTextChangeHandler.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll() {
+    const currentPosition = Math.round(window.pageYOffset / (window.innerHeight - 56) ) - 1;
+    if ( this.state.currentPosition !== currentPosition ) {
+      this.setState({
+        currentPosition: currentPosition
+      })
+    }
   }
 
   addNewSection() {
-    console.log("hej");
     this.setState({
       sections: [...this.state.sections, {
         information: true,
@@ -34,6 +52,12 @@ class CreateCourse extends Component {
         questions: [],
         questionIndex: 0
       }]
+    }, () => {
+      window.scrollTo({
+        top: (window.innerHeight - 56) * this.state.sections.length - 1,
+        left: 0,
+        behavior: 'smooth'
+      });
     });
   }
 
@@ -240,42 +264,77 @@ class CreateCourse extends Component {
             ) : null}
           </div>
         </div>
-      </div>  
+      </div> 
     )
   }
 
   render() {
     return (
       <PagesContainer noTop>
-        <div>
-          {this.renderBeginning()}
-          {this.state.sections.map((section, index) => {
-            const { information, quiz, informationText, questions, questionIndex } = section;
-            return (
-              <CourseCreationSection
-                height={window.innerHeight - 56 /*Header height*/ }
-                key={index}
-                addNewSection={this.addNewSection}
-                sections={this.state.sections}
-                index={index}
-                information={information}
-                quiz={quiz}
-                informationText={informationText}
-                questions={questions}
-                questionIndex={questionIndex}
-                addNewQuestion={this.addNewQuestion}
-                questionChangeHandler={this.questionChangeHandler}
-                addAnswer={this.addAnswer}
-                setSelectedAnswer={this.setSelectedAnswer}
-                answerChangeHandler={this.answerChangeHandler}
-                setSectionTypeInformation={this.setSectionTypeInformation}
-                setSectionTypeQuiz={this.setSectionTypeQuiz}
-                setQuestionIndex={this.setQuestionIndex}
-                informationTextChangeHandler={this.informationTextChangeHandler}
-              />
-            );
-          })}
-        </div>
+        <Row>
+          <Col xs={1}>
+          
+          </Col>
+          <Col xs={9}>
+            <div>
+              {this.renderBeginning()}
+              {this.state.sections.map((section, index) => {
+                const { information, quiz, informationText, questions, questionIndex } = section;
+                return (
+                  <CourseCreationSection
+                    height={window.innerHeight - 56 /*Header height*/ }
+                    key={index}
+                    addNewSection={this.addNewSection}
+                    sections={this.state.sections}
+                    index={index}
+                    information={information}
+                    quiz={quiz}
+                    informationText={informationText}
+                    questions={questions}
+                    questionIndex={questionIndex}
+                    addNewQuestion={this.addNewQuestion}
+                    questionChangeHandler={this.questionChangeHandler}
+                    addAnswer={this.addAnswer}
+                    setSelectedAnswer={this.setSelectedAnswer}
+                    answerChangeHandler={this.answerChangeHandler}
+                    setSectionTypeInformation={this.setSectionTypeInformation}
+                    setSectionTypeQuiz={this.setSectionTypeQuiz}
+                    setQuestionIndex={this.setQuestionIndex}
+                    informationTextChangeHandler={this.informationTextChangeHandler}
+                  />
+                );
+              })}
+            </div>
+          </Col>
+          <Col xs={1}>
+            <div style={{ height: window.innerHeight - 56, position: "fixed" /*Header height*/ }} className="d-flex flex-column justify-content-center">
+              {this.state.sections.map((section, index) => {
+                const currentInView = index === this.state.currentPosition;
+                return (
+                  <span
+                    key={index}
+                    style={{
+                      height: 20,
+                      width: 20,
+                      background: "black",
+                      display: "block",
+                      borderRadius: "50%",
+                      backgroundColor: currentInView ? "#0C4F88" : "#72B1E6",
+                      marginBottom: index + 1 === this.state.sections.length ? 0 : 7
+                    }}
+                    className="pointer-on-hover dark-blue-on-hover"
+                    onClick={() => window.scrollTo({
+                      top: (window.innerHeight - 56) * (index + 1) - 1,
+                      left: 0,
+                      behavior: 'smooth'
+                    })}
+                  >
+                  </span>
+                )
+              })}
+            </div>
+          </Col>
+        </Row>
       </PagesContainer>
     );
   }
