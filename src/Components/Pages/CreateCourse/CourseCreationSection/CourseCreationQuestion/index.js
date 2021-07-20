@@ -5,19 +5,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 const CourseCreationQuestion = (props) => {
-  const { questionIndex, answers, selected, question, questionChangeHandler, addAnswer, setSelectedAnswer, answerChangeHandler } = props;
+  const { questionIndex, answers, sectionIndex, selected, question, questionChangeHandler, addAnswer, setSelectedAnswer, answerChangeHandler } = props;
+  const noMoreAnswers = answers.length >= 4;
   return (
-    <div style={{ height: "79%", marginBottom: "2%" }}>
+    <div style={{ height: "79%", marginBottom: "2%" }} className="px-5 pt-5">
       <div>
-        <div className="mb-5">
+        <div className="mb-3">
           <Input
             type="textarea"
             placeholder="Skriv dit spørgsmål her..."
             style={{
               background: null,
             }}
+            className="question-input"
             value={question}
-            onChange={(e) => questionChangeHandler(questionIndex, e.target.value)}
+            onChange={(e) => questionChangeHandler(sectionIndex, questionIndex, e.target.value)}
           />
         </div>
         <div>
@@ -33,6 +35,7 @@ const CourseCreationQuestion = (props) => {
                     questionIndex={questionIndex}
                     index={index}
                     key={index}
+                    sectionIndex={sectionIndex}
                   />
                 </div>
               ))}
@@ -40,9 +43,13 @@ const CourseCreationQuestion = (props) => {
             <Col xs={4}>
               <FontAwesomeIcon
                 icon={faPlusCircle}
-                style={{ fontSize: 35, color: "#0C4F88" }}
-                className="pointer-on-hover"
-                onClick={() => addAnswer(questionIndex)}
+                style={{ fontSize: 35, color: noMoreAnswers ? "#95A6B4" : "#0C4F88" }}
+                className={noMoreAnswers ? "" : "pointer-on-hover"}
+                onClick={() => {
+                  if ( !noMoreAnswers ) {
+                    addAnswer(sectionIndex, questionIndex)
+                  }
+                }}
               />
             </Col>
           </Row>

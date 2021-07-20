@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 const CourseCreationAnswer = (props) => {
-  const { checked, setSelectedAnswer, answer, answerChangeHandler, questionIndex, index } = props;
+  const { checked, setSelectedAnswer, sectionIndex, answer, answerChangeHandler, questionIndex, index } = props;
   return (
     <div
       style={{
@@ -26,12 +26,12 @@ const CourseCreationAnswer = (props) => {
               fontSize: 24,
               color: "white"
             }}
-            onClick={() => setSelectedAnswer(questionIndex, index)}
+            onClick={() => setSelectedAnswer(sectionIndex, questionIndex, index)}
           />
         </div>
         <Input
           value={answer}
-          onChange={(e) => answerChangeHandler(questionIndex, index, e.target.value)}
+          onChange={(e) => answerChangeHandler(sectionIndex, questionIndex, index, e.target.value)}
           style={{
             background: "none",
             textAlign: "center",
