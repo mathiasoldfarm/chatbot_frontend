@@ -24,6 +24,9 @@ class CreateCourse extends Component {
     this.setQuestionIndex = this.setQuestionIndex.bind(this);
     this.informationTextChangeHandler = this.informationTextChangeHandler.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
+    this.deleteSection = this.deleteSection.bind(this);
+    this.deleteQuestion = this.deleteQuestion.bind(this);
+    this.deleteAnswer = this.deleteAnswer.bind(this);
   }
 
   componentDidMount() {
@@ -227,6 +230,50 @@ class CreateCourse extends Component {
     });
   }
 
+  deleteSection(sectionIndex) {
+    this.setState({
+      sections: this.state.sections.filter((section, index) => index !== sectionIndex)
+    });
+  }
+
+  deleteQuestion(sectionIndex, questionIndex) {
+    this.setState({
+      sections: this.state.sections.map((section, index) => {
+        if ( sectionIndex === index ) {
+          console.log(section.questions.map((question, index2) => index2 !== questionIndex))
+          return {
+            ...section,
+            questions: section.questions.filter((question, index2) => index2 !== questionIndex),
+            questionIndex: section.questions.length === 1 ? 0 : section.questions.length - 2
+          }
+        }
+        return section;
+      })
+    });
+  }
+
+  deleteAnswer(sectionIndex, questionIndex, answerIndex) {
+    this.setState({
+      sections: this.state.sections.map((section, index) => {
+        if ( sectionIndex === index ) {
+          return {
+            ...section,
+            questions: section.questions.map((question, index) => {
+              if (questionIndex === index) {
+                return {
+                  ...question,
+                  answers: question.answers.filter((answer, index2) => index2 !== answerIndex)
+                }
+              }
+              return question;
+            })
+          }
+        }
+        return section;
+      })
+    });
+  }
+
   renderBeginning() {
     return (
       <div className="d-flex flex-column py-5" style={{ height: window.innerHeight - 56 /*Header height*/ }}>
@@ -301,6 +348,9 @@ class CreateCourse extends Component {
                     setSectionTypeQuiz={this.setSectionTypeQuiz}
                     setQuestionIndex={this.setQuestionIndex}
                     informationTextChangeHandler={this.informationTextChangeHandler}
+                    deleteSection={this.deleteSection}
+                    deleteQuestion={this.deleteQuestion}
+                    deleteAnswer={this.deleteAnswer}
                   />
                 );
               })}
