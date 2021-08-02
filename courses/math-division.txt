@@ -1,0 +1,4 @@
+Course: Division
+Course description: Course: Division
+Category: math
+Color: blue

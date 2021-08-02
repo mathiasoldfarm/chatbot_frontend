@@ -2,31 +2,23 @@ import React, { Component } from 'react';
 import { Input, Row, Col, Button } from 'reactstrap';
 import PagesContainer from '../PagesContainer';
 import CourseCreationSection from './CourseCreationSection';
-import CourseCreationQuestion from './CourseCreationSection/CourseCreationQuestion';
+import Chatbot from '../../Chatbot';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addSection } from '../../../Redux/Actions/Pages';
 
 class CreateCourse extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      sections: [],
-      currentPosition: -1
+      currentPosition: -1,
+      walkThrough: false
     }
 
-    this.addNewSection = this.addNewSection.bind(this);
-    this.questionChangeHandler = this.questionChangeHandler.bind(this);
-    this.addAnswer = this.addAnswer.bind(this);
-    this.setSelectedAnswer = this.setSelectedAnswer.bind(this);
-    this.answerChangeHandler = this.answerChangeHandler.bind(this);
-    this.addNewQuestion = this.addNewQuestion.bind(this);
-    this.setSectionTypeInformation = this.setSectionTypeInformation.bind(this);
-    this.setSectionTypeQuiz = this.setSectionTypeQuiz.bind(this);
-    this.setQuestionIndex = this.setQuestionIndex.bind(this);
-    this.informationTextChangeHandler = this.informationTextChangeHandler.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
-    this.deleteSection = this.deleteSection.bind(this);
-    this.deleteQuestion = this.deleteQuestion.bind(this);
-    this.deleteAnswer = this.deleteAnswer.bind(this);
+    this.goToWalkThrough = this.goToWalkThrough.bind(this);
+    this.renderBeginning = this.renderBeginning.bind(this);
   }
 
   componentDidMount() {
@@ -46,238 +38,17 @@ class CreateCourse extends Component {
     }
   }
 
-  addNewSection() {
+  goToWalkThrough() {
     this.setState({
-      sections: [...this.state.sections, {
-        information: true,
-        quiz: false,
-        informationText: '',
-        questions: [],
-        questionIndex: 0
-      }]
-    }, () => {
-      window.scrollTo({
-        top: (window.innerHeight - 56) * this.state.sections.length - 1,
-        left: 0,
-        behavior: 'smooth'
-      });
-    });
-  }
-
-  addNewQuestion(sectionIndex) {
-    this.setState({
-      sections: this.state.sections.map((section, index) => {
-        if ( sectionIndex === index ) {
-          return {
-            ...section,
-            questionIndex: section.questions.length,
-            questions: [...section.questions, { question: "", answers: [""], selected: 0 }]
-          }
-        }
-        return section;
-      })
-    });
-  }
-
-  questionChangeHandler(sectionIndex, questionIndex, newQuestion) {
-    this.setState({
-      sections: this.state.sections.map((section, index) => {
-        if ( sectionIndex === index ) {
-          return {
-            ...section,
-            questions: section.questions.map((question, index) => {
-              if (questionIndex === index) {
-                return {
-                  ...question,
-                  question: newQuestion
-                }
-              }
-              return question;
-            })
-          }
-        }
-        return section;
-      })
-    });
-  }
-
-  addAnswer(sectionIndex, questionIndex) {
-    this.setState({
-      sections: this.state.sections.map((section, index) => {
-        if ( sectionIndex === index ) {
-          return {
-            ...section,
-            questions: section.questions.map((question, index) => {
-              if (questionIndex === index) {
-                return {
-                  ...question,
-                  answers: [...question.answers, ""]
-                }
-              }
-              return question;
-            })
-          }
-        }
-        return section;
-      })
-    });
-  }
-
-  setSelectedAnswer(sectionIndex, questionIndex, answerIndex) {
-    this.setState({
-      sections: this.state.sections.map((section, index) => {
-        if ( sectionIndex === index ) {
-          return {
-            ...section,
-            questions: section.questions.map((question, index) => {
-              if (questionIndex === index) {
-                return {
-                  ...question,
-                  selected: answerIndex
-                }
-              }
-              return question;
-            })
-          }
-        }
-        return section;
-      })
-    });
-  }
-
-  answerChangeHandler(sectionIndex, questionIndex, answerIndex, newAnswer) {
-    this.setState({
-      sections: this.state.sections.map((section, index) => {
-        if ( sectionIndex === index ) {
-          return {
-            ...section,
-            questions: section.questions.map((question, index) => {
-              if (questionIndex === index) {
-                return {
-                  ...question,
-                  answers: question.answers.map((answer, index2) => {
-                    if (answerIndex === index2) {
-                      return newAnswer
-                    }
-                    return answer;
-                  })
-                }
-              }
-              return question;
-            })
-          }
-        }
-        return section;
-      })
-    });
-  }
-
-  setSectionTypeInformation(sectionIndex) {
-    this.setState({
-      sections: this.state.sections.map((section, index) => {
-        if ( sectionIndex === index ) {
-          return {
-            ...section,
-            information: true,
-            quiz: false
-          }
-        }
-        return section;
-      })
-    });
-  }
-
-  setSectionTypeQuiz(sectionIndex) {
-    this.setState({
-      sections: this.state.sections.map((section, index) => {
-        if ( sectionIndex === index ) {
-          return {
-            ...section,
-            information: false,
-            quiz: true
-          }
-        }
-        return section;
-      })
-    });
-  }
-
-  setQuestionIndex(sectionIndex, questionIndex) {
-    this.setState({
-      sections: this.state.sections.map((section, index) => {
-        if ( sectionIndex === index ) {
-          return {
-            ...section,
-            questionIndex
-          }
-        }
-        return section;
-      })
-    });
-  }
-
-  informationTextChangeHandler(sectionIndex, newText) {
-    this.setState({
-      sections: this.state.sections.map((section, index) => {
-        if ( sectionIndex === index ) {
-          return {
-            ...section,
-            informationText: newText
-          }
-        }
-        return section;
-      })
-    });
-  }
-
-  deleteSection(sectionIndex) {
-    this.setState({
-      sections: this.state.sections.filter((section, index) => index !== sectionIndex)
-    });
-  }
-
-  deleteQuestion(sectionIndex, questionIndex) {
-    this.setState({
-      sections: this.state.sections.map((section, index) => {
-        if ( sectionIndex === index ) {
-          console.log(section.questions.map((question, index2) => index2 !== questionIndex))
-          return {
-            ...section,
-            questions: section.questions.filter((question, index2) => index2 !== questionIndex),
-            questionIndex: section.questions.length === 1 ? 0 : section.questions.length - 2
-          }
-        }
-        return section;
-      })
-    });
-  }
-
-  deleteAnswer(sectionIndex, questionIndex, answerIndex) {
-    this.setState({
-      sections: this.state.sections.map((section, index) => {
-        if ( sectionIndex === index ) {
-          return {
-            ...section,
-            questions: section.questions.map((question, index) => {
-              if (questionIndex === index) {
-                return {
-                  ...question,
-                  answers: question.answers.filter((answer, index2) => index2 !== answerIndex)
-                }
-              }
-              return question;
-            })
-          }
-        }
-        return section;
-      })
-    });
+      walkThrough: true
+    })
   }
 
   renderBeginning() {
+    const { addSection } = this.props;
     return (
       <div className="d-flex flex-column py-5" style={{ height: window.innerHeight - 56 /*Header height*/ }}>
-        <Input placeholder="Giv dit kursus et navn..." className="create-course-name mb-5" />
+        <Input placeholder="Giv dit kursus et navn..." className="create-course-name mb-5" value={this.props.title} />
         <Row className="flex-fill">
           <Col xs={3}>
           </Col>
@@ -304,8 +75,8 @@ class CreateCourse extends Component {
         </Row>
         <div>
           <div className="d-flex">
-            {this.state.sections.length === 0 ? (
-              <Button disabled={this.state.sections.length > 0} onClick={this.addNewSection} outline size="lg" color="primary" className="mx-auto d-block">
+            {this.props.sections.length === 0 ? (
+              <Button disabled={this.props.sections.length > 0} onClick={addSection} outline size="lg" color="primary" className="mx-auto d-block">
                 Tilføj en ny sektion
               </Button>
             ) : null}
@@ -316,78 +87,88 @@ class CreateCourse extends Component {
   }
 
   render() {
+    const { walkThrough, currentPosition } = this.state;
+    const { sections } = this.props;
     return (
-      <PagesContainer noTop>
-        <Row>
-          <Col xs={1}>
-          
-          </Col>
-          <Col xs={9}>
-            <div>
-              {this.renderBeginning()}
-              {this.state.sections.map((section, index) => {
-                const { information, quiz, informationText, questions, questionIndex } = section;
-                return (
-                  <CourseCreationSection
-                    height={window.innerHeight - 56 /*Header height*/ }
-                    key={index}
-                    addNewSection={this.addNewSection}
-                    sections={this.state.sections}
-                    index={index}
-                    information={information}
-                    quiz={quiz}
-                    informationText={informationText}
-                    questions={questions}
-                    questionIndex={questionIndex}
-                    addNewQuestion={this.addNewQuestion}
-                    questionChangeHandler={this.questionChangeHandler}
-                    addAnswer={this.addAnswer}
-                    setSelectedAnswer={this.setSelectedAnswer}
-                    answerChangeHandler={this.answerChangeHandler}
-                    setSectionTypeInformation={this.setSectionTypeInformation}
-                    setSectionTypeQuiz={this.setSectionTypeQuiz}
-                    setQuestionIndex={this.setQuestionIndex}
-                    informationTextChangeHandler={this.informationTextChangeHandler}
-                    deleteSection={this.deleteSection}
-                    deleteQuestion={this.deleteQuestion}
-                    deleteAnswer={this.deleteAnswer}
-                  />
-                );
-              })}
-            </div>
-          </Col>
-          <Col xs={1}>
-            <div style={{ height: window.innerHeight - 56, position: "fixed" /*Header height*/ }} className="d-flex flex-column justify-content-center">
-              {this.state.sections.map((section, index) => {
-                const currentInView = index === this.state.currentPosition;
-                return (
-                  <span
-                    key={index}
-                    style={{
-                      height: 20,
-                      width: 20,
-                      background: "black",
-                      display: "block",
-                      borderRadius: "50%",
-                      backgroundColor: currentInView ? "#0C4F88" : "#72B1E6",
-                      marginBottom: index + 1 === this.state.sections.length ? 0 : 7
-                    }}
-                    className="pointer-on-hover dark-blue-on-hover"
-                    onClick={() => window.scrollTo({
-                      top: (window.innerHeight - 56) * (index + 1) - 1,
-                      left: 0,
-                      behavior: 'smooth'
+      <PagesContainer absolute noTop>
+        {walkThrough ? (
+          <div>
+            <Chatbot />
+          </div>
+        ) : (
+          <div>
+            {sections ? (
+              <Row>
+                <Col xs={1}>
+                
+                </Col>
+                <Col xs={9}>
+                  <div>
+                    {this.renderBeginning()}
+                    {sections.map((section, index) => {
+                      const { information, quiz, informationText, questions, questionIndex, sectionId, informationTextId } = section;
+                      return (
+                        <CourseCreationSection
+                          height={window.innerHeight - 56 /*Header height*/ }
+                          key={index}
+                          sections={sections}
+                          index={index}
+                          sectionId={sectionId}
+                          information={information}
+                          quiz={quiz}
+                          informationText={informationText}
+                          informationTextId={informationTextId}
+                          questions={questions}
+                          questionIndex={questionIndex}
+                          addNewQuestion={this.addNewQuestion}
+                          goToWalkThrough={this.goToWalkThrough}
+                        />
+                      );
                     })}
-                  >
-                  </span>
-                )
-              })}
-            </div>
-          </Col>
-        </Row>
+                  </div>
+                </Col>
+                <Col xs={1}>
+                  <div style={{ height: window.innerHeight - 56, position: "fixed" /*Header height*/ }} className="d-flex flex-column justify-content-center">
+                    {sections.map((section, index) => {
+                      const currentInView = index === currentPosition;
+                      return (
+                        <span
+                          key={index}
+                          style={{
+                            height: 20,
+                            width: 20,
+                            background: "black",
+                            display: "block",
+                            borderRadius: "50%",
+                            backgroundColor: currentInView ? "#0C4F88" : "#72B1E6",
+                            marginBottom: index + 1 === sections.length ? 0 : 7
+                          }}
+                          className="pointer-on-hover dark-blue-on-hover"
+                          onClick={() => window.scrollTo({
+                            top: (window.innerHeight - 56) * (index + 1) - 1,
+                            left: 0,
+                            behavior: 'smooth'
+                          })}
+                        >
+                        </span>
+                      )
+                    })}
+                  </div>
+                </Col>
+              </Row>
+            ) : null}
+          </div>
+        )}
       </PagesContainer>
     );
   }
 }
 
-export default CreateCourse;
+const mapStatetToProps = state => ({
+  sections: state.pages.data.sections,
+  title: state.pages.data.title,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({ addSection }, dispatch);
+
+export default connect(mapStatetToProps, mapDispatchToProps)(CreateCourse);

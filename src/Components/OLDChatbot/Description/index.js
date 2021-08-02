@@ -1,19 +1,15 @@
 import React from 'react';
 import Math from '../../Chatbot/Math';
 import { images_url_base } from '../../../constants';
-import ReactHtmlParser from 'react-html-parser';
 
-const getElementByTag = (tag, content, i) => {
-  const key = tag + i.toString();
+const getElementByTag = (tag, content) => {
   switch(tag) {
     case "title":
-      return <h5 key={key} className="mb-0">{content}</h5>;
+      return <h5 className="mb-0">{content}</h5>;
     case "latex":
-      return <Math style={{ display: "inline-block" }} tex={content} key={key} />;
+      return <Math style={{ display: "inline-block" }} tex={content} key={tag} />;
     case "image":
-      return <img style={{ display: "block", maxWidth: '100%' }} alt={content} src={`${images_url_base}/${content}`} key={key} />;
-    case "H2":
-      return <h2 key={key}>{content}</h2>
+      return <img style={{ display: "block", maxWidth: '100%' }} alt={content} src={`${images_url_base}/${content}`} key={tag} />;
     default:
       throw new Error("Couldn't recognize tag");
   }
@@ -21,11 +17,10 @@ const getElementByTag = (tag, content, i) => {
 
 const updateElementMapper = (elementMapper, description, tag) => {
   let matches = description.matchAll(new RegExp(`(<${tag}>).*?(</${tag}>)`, 'g'));
-  for(let i = 0; i < matches.length; i++) {
-    const match = matches[i];
+  for(const match of matches) {
     const content = match[0].replace(match[1], '').replace(match[2], '');
     elementMapper[match.index] = {
-      element: getElementByTag(tag, content, i),
+      element: getElementByTag(tag, content),
       endIndex: match.index + match[0].length
     };
   }
@@ -36,7 +31,6 @@ const getElementMapper = (description) => {
   updateElementMapper(elementMapper, description, 'title');
   updateElementMapper(elementMapper, description, 'latex');
   updateElementMapper(elementMapper, description, 'image');
-  updateElementMapper(elementMapper, description, 'H2');
 
   return elementMapper;
 }
@@ -77,8 +71,7 @@ const Description = (props) => {
   return (
     <div className={className ? className : null}>
       {/* TODO: Handle different levels */}
-      {/* {renderDescription(data.levels[0].description)} */}
-      {ReactHtmlParser(data.levels[0].description)}
+      {renderDescription(data.levels[0].description)}
     </div>
   );
 }

@@ -1,0 +1,4 @@
+Course: 3D Vektorer
+Course description: Course: 3D Vektorer
+Category: chemistry
+Color: blue

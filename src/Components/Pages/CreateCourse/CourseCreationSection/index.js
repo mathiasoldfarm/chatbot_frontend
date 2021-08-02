@@ -3,6 +3,17 @@ import { Row, Col, Button, Input } from 'reactstrap';
 import CourseCreationQuestion from './CourseCreationQuestion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {
+  addSection,
+  informationTextChangeHandler,
+  setSectionTypeInformation,
+  setSectionTypeQuiz,
+  deleteSection,
+  addQuestion,
+  setQuestionIndex
+} from '../../../../Redux/Actions/Pages';
 
 class CourseCreationSection extends Component {
   constructor(props) {
@@ -18,29 +29,23 @@ class CourseCreationSection extends Component {
   }
 
   renderQuestions() {
-    const { questionIndex, index, questions, addAnswer, setSelectedAnswer, answerChangeHandler, questionChangeHandler, deleteQuestion, deleteAnswer } = this.props;
-    if ( questionIndex + 1 <= questions.length ) {
-      const { question, answers, selected } = questions[questionIndex];
+    const { questionIndex, questions, sectionId } = this.props;
+    if ( questionIndex > -1 ) {
+      const { question, answers, selected, questionId } = questions[questionIndex];
       return (
         <CourseCreationQuestion
           question={question}
           answers={answers}
           selected={selected}
-          questionChangeHandler={questionChangeHandler}
-          addAnswer={addAnswer}
-          setSelectedAnswer={setSelectedAnswer}
-          answerChangeHandler={answerChangeHandler}
-          questionIndex={questionIndex}
-          sectionIndex={index}
-          deleteQuestion={deleteQuestion}
-          deleteAnswer={deleteAnswer}
+          questionid={questionId}
+          sectionId={sectionId}
         />
       );
     }
   }
   
   renderNavigationButtons() {
-    const { questions, questionIndex, setQuestionIndex, index } = this.props
+    const { questions, questionIndex, setQuestionIndex, sectionId } = this.props
     return (
       <div className="d-flex justify-content-center mb-3">
         <div className="d-flex">
@@ -57,7 +62,7 @@ class CourseCreationSection extends Component {
                 marginRight: i + 1 === questions.length ? 0 : 7
               }}
               className="pointer-on-hover dark-blue-on-hover"
-              onClick={() => setQuestionIndex(index, i)}
+              onClick={() => setQuestionIndex(sectionId, i)}
             >
             </span>
           ))}
@@ -67,7 +72,7 @@ class CourseCreationSection extends Component {
   }
   
   renderContent() {
-    const { information, informationText, quiz, questions, index, informationTextChangeHandler, addNewQuestion } = this.props;
+    const { information, informationText, quiz, sectionId, questions, informationTextChangeHandler, informationTextId, addQuestion } = this.props;
     if ( information ) {
       return (
         <div>
@@ -77,7 +82,7 @@ class CourseCreationSection extends Component {
             type="textarea"
             placeholder="Skriv din tekst her..."
             name="text"
-            onChange={(e) =>  informationTextChangeHandler(index, e.target.value)} 
+            onChange={(e) =>  informationTextChangeHandler(informationTextId, sectionId, e.target.value)} 
             value={informationText}
           />
         </div>
@@ -91,7 +96,7 @@ class CourseCreationSection extends Component {
         >
           {this.renderQuestions()}
           {this.renderNavigationButtons()}
-          <Button onClick={() => addNewQuestion(index)} outline color="primary" className="mx-auto d-block">
+          <Button onClick={() => addQuestion(sectionId)} outline color="primary" className="mx-auto d-block">
             Tilføj spørgsmål
           </Button>
         </div>
@@ -102,14 +107,16 @@ class CourseCreationSection extends Component {
   render() {
     const {
       height,
-      addNewSection,
+      addSection,
       sections,
       index,
       information,
       quiz,
       setSectionTypeInformation,
       setSectionTypeQuiz,
-      deleteSection
+      deleteSection,
+      goToWalkThrough,
+      sectionId
     } = this.props;
   
     return (
@@ -136,12 +143,12 @@ class CourseCreationSection extends Component {
                 <div className="mx-auto">
                   <Row>
                     <Col>
-                      <Button onClick={() => setSectionTypeInformation(index)} block size="lg" color={information ? "primary" : "secondary"} className="mx-auto d-block">
+                      <Button onClick={() => setSectionTypeInformation(sectionId)} block size="lg" color={information ? "primary" : "secondary"} className="mx-auto d-block">
                         Information
                       </Button>
                     </Col>
                     <Col>
-                      <Button onClick={() => setSectionTypeQuiz(index)} block size="lg" color={quiz ? "primary" : "secondary"} className="mx-auto d-block">
+                      <Button onClick={() => setSectionTypeQuiz(sectionId)} block size="lg" color={quiz ? "primary" : "secondary"} className="mx-auto d-block">
                         Quiz
                       </Button>
                     </Col>
@@ -157,7 +164,7 @@ class CourseCreationSection extends Component {
                     icon={faTrash}
                     style={{ fontSize: 20, color: "#d46666" }}
                     className="pointer-on-hover"
-                    onClick={() => deleteSection(index)}
+                    onClick={() => deleteSection(sectionId)}
                   />
                 ) : null}
               </Col>
@@ -168,11 +175,16 @@ class CourseCreationSection extends Component {
           </div>
         </div>
         <div>
-          <div className="d-flex">
+          <div>
             {index + 1 === sections.length ? (
-              <Button onClick={addNewSection} outline size="lg" color="primary" className="mx-auto d-block">
-                Tilføj en ny sektion
-              </Button>
+              <div>
+                <Button onClick={addSection} outline size="lg" color="primary" className="mx-auto mb-4 d-block">
+                  Tilføj en ny sektion
+                </Button>
+                <Button onClick={goToWalkThrough} size="lg" color="primary" className="mx-auto d-block">
+                  Gennemgå kursus
+                </Button>
+              </div>
             ) : null}
           </div>
         </div>
@@ -181,4 +193,14 @@ class CourseCreationSection extends Component {
   }
 }
 
-export default CourseCreationSection;
+const mapDispatchToProps = dispatch => bindActionCreators({
+  addSection,
+  informationTextChangeHandler,
+  setSectionTypeInformation,
+  setSectionTypeQuiz,
+  deleteSection,
+  addQuestion,
+  setQuestionIndex
+}, dispatch);
+
+export default connect(null, mapDispatchToProps)(CourseCreationSection);

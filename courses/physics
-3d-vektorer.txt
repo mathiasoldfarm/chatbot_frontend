@@ -1,0 +1,5 @@
+Course: 3D Vektorer
+Course description: 3D Vektorer
+Category: physics
+
+Color: blue

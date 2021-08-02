@@ -13,7 +13,7 @@ class Course extends Component {
 
     this.state = {
       user: 1,
-      selectedCourse: 10,
+      selectedCourse: 4,
       showMenu: true
     }
 
@@ -60,7 +60,7 @@ class Course extends Component {
     return (
       <div className="d-flex">
         {showMenu ? (
-          <div className="pt-3 ml-3" style={{ width: '22%', background: '#f8f9fa', minHeight: '93vh' }}>
+          <div className="pt-3 ml-3" style={{ width: '22%', background: '#f8f9fa', minHeight: '93vh', maxHeight: '93vh', overflow: 'scroll' }}>
             <CourseSearch className="mb-4" />
             { this.renderSections()}
           </div>

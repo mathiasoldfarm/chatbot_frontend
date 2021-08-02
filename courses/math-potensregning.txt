@@ -1,0 +1,14 @@
+Course: Potensregning
+Course description: Course: Potensregning
+Category: math
+Color: blue
+
+
+Text: Welcome
+Hi <name>, today I will teach you about powers!
+__________________________
+
+Text: Beskrivelse af potensregning
+Beskrivelse af potensregning level 1
+__________________________
+

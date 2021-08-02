@@ -13,7 +13,6 @@ import LatexTester from './Components/LatexTester';
 import Frontpage from './Components/Pages/Frontpage';
 import Course from './Components/Pages/Course';
 import CreateUser from './Components/Pages/CreateUser';
-import AccountFrontpage from './Components/Pages/Account/FrontPage';
 import AccountEditUser from './Components/Pages/Account/EditUser';
 import CurrentCourses from './Components/Pages/Account/CurrentCourses';
 import Subjects from './Components/Pages/Subjects';

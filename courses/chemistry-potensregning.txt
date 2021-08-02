@@ -1,0 +1,4 @@
+Course: Potensregning
+Course description: Course: Potensregning
+Category: chemistry
+Color: blue

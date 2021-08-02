@@ -1,0 +1,5 @@
+Course: Division
+Course description: Division
+Category: physics
+
+Color: blue

@@ -3,7 +3,7 @@ import { Row, Col, Button } from 'reactstrap';
 import QuizButton from './QuizButton';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getAnswer, addUserAnswer } from '../../../Redux/Actions/Chatbot';
+import { getAnswer } from '../../../Redux/Actions/Chatbot';
 
 class Quiz extends Component {
   constructor(props) {
@@ -12,7 +12,6 @@ class Quiz extends Component {
     this.state = {
       questionIndex: 0,
       answers: {},
-      displayAnswerMessage: false,
       isCorrect: false,
       disableNextButton: false
     }
@@ -21,32 +20,32 @@ class Quiz extends Component {
     this.renderQuestionSection = this.renderQuestionSection.bind(this);
     this.goToNextQuestion = this.goToNextQuestion.bind(this);
     this.submitAnswers = this.submitAnswers.bind(this);
+    this.lastQuestion = React.createRef();
   }
 
-  async selectHandler (chosenPossibleAnswerId, questionId, answer, explanation, correct) {
-    const {
-      addUserAnswer,
-      notSendData
-    } = this.props;
-
+  async selectHandler (questionId, possibleAnswer, correct, last) {
+    const { explanation, id } = possibleAnswer;
     this.setState({
       isCorrect: correct,
-      displayAnswerMessage: true,
       lastAnswersExplanation: explanation,
       answers: {
         ...this.state.answers,
-        [questionId]: chosenPossibleAnswerId
+        [questionId]: id
+      }
+    }, () => {
+      if ( last ) {
+        this.submitAnswers();
+      } else {
+        this.goToNextQuestion();
       }
     });
-    if ( !notSendData ) {
-      addUserAnswer(answer);
-    }
   }
 
   goToNextQuestion() {
     this.setState({
       questionIndex: this.state.questionIndex + 1,
-      displayAnswerMessage: false
+    }, () => {
+      this.lastQuestion.current.scrollIntoView({ behavior: "smooth" });
     });
   }
 
@@ -58,17 +57,9 @@ class Quiz extends Component {
     }
   }
 
-  handleClick(last) {
-    if ( last ) {
-      this.submitAnswers();
-    } else {
-      this.goToNextQuestion();
-    }
-  }
-
-  renderFeedback(last) {
-    const { isCorrect, displayAnswerMessage, lastAnswersExplanation } = this.state;
-    if ( displayAnswerMessage ) {
+  renderFeedback(answered) {
+    if ( answered ) {
+      const { isCorrect, lastAnswersExplanation } = this.state;
       return (
         <div className="mt-3">
           <div>
@@ -78,24 +69,6 @@ class Quiz extends Component {
                 <p style={{ color: "red" }}>{lastAnswersExplanation}</p>
             )}
           </div>
-          <div>
-            <Button
-              onClick={() => {
-                this.handleClick(last);
-                if ( last ) {
-                  this.setState({
-                    disableNextButton: true
-                  })
-                }
-              }}
-              disabled={this.state.disableNextButton}
-              color="primary"
-              size="sm"
-              className="quiz-button w-100"
-            >
-              {last ? "Videre" : "Næste spørgsmål"}
-            </Button>
-          </div>
         </div>
       );
     }
@@ -103,41 +76,50 @@ class Quiz extends Component {
 
   renderQuestionSection () {
     const { data } = this.props;
-    const { displayAnswerMessage } = this.state;
-    const { questions } = data.levels[0];
+    let { questions } = data.levels[0];
 
-    const { questionIndex } = this.state;
-    const numberOfQuestions = questions.length;
-    const currentQuestion = questions[questionIndex]
-    const { possibleAnswers } = currentQuestion;
-    const last = numberOfQuestions === questionIndex + 1;
+    const { questionIndex, answers } = this.state;
+    questions = questions.slice(0, questionIndex + 1);
 
-    return (
-      <div>
-        <p>{currentQuestion.question}</p>
-        <div className="p-2">
-          <Row>
-            <Col>
-              {possibleAnswers.map(possibleAnswer => {
-                const { answer, explanation, id } = possibleAnswer;
-                const correct = currentQuestion.correct.id === parseInt(id);
-                return (
-                  <QuizButton
-                    disabled={displayAnswerMessage}
-                    key={id}
-                    onClick={() => this.selectHandler(id, currentQuestion.id, answer, explanation, correct)}
-                    answer={answer}
-                  />
-                );
-              })}
-            </Col>
-          </Row>
+    return questions.map((question, index) => {
+      const { possibleAnswers } = question;
+      const lastOfAll = index + 1 === data.levels[0].questions.length;
+      const lastOfDisplayed = index + 1 === questions.length;
+      const answered = Object.keys(answers).includes(question.id.toString());
+
+      return (
+        <div
+          className="mb-5"
+          key={index}
+          ref={lastOfDisplayed ? this.lastQuestion : null}
+        >
+          <p>{question.question}</p>
+          <div className="p-2">
+            <Row>
+              <Col>
+                {possibleAnswers.map(possibleAnswer => {
+                  const { answer, id } = possibleAnswer;
+                  const correct = question.correct.id === parseInt(id);
+                  return (
+                    <QuizButton
+                      disabled={answered}
+                      key={id}
+                      onClick={() => {
+                        this.selectHandler(question.id, possibleAnswer, correct, lastOfAll);
+                      }}
+                      answer={answer}
+                    />
+                  );
+                })}
+              </Col>
+            </Row>
+          </div>
+          <div className="mb-2">
+            {this.renderFeedback(answered)}
+          </div>
         </div>
-        <div className="mb-2">
-          {this.renderFeedback(last)}
-        </div>
-      </div>
-    )
+      )
+    });
   }
 
   render() {
@@ -150,6 +132,6 @@ class Quiz extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getAnswer, addUserAnswer }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ getAnswer }, dispatch);
 
 export default connect(null, mapDispatchToProps)(Quiz);

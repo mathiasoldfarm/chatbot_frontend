@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Typing from '../Typing';
 import Quiz from '../Quiz';
 import Description from '../Description';
-import { Button } from 'reactstrap';
 
 const renderContent = (data, courseId, user) => {
   if ( data && data.section ) {
@@ -42,72 +41,63 @@ class Message extends Component {
     this.state = {
       height: 0
     }
-
-    this.renderContent = this.renderContent.bind(this);
   }
 
   componentDidMount() {
     const height = document.getElementById('most-new').clientHeight;
     this.setState({ height });
   }
-
-  renderContent() {
+  
+  render() {
     const {
-      last,
+      typing,
       type,
       data,
       courseId,
       user
     } = this.props;
-
     if (type === "bot") {
       return (
-        <div className={`message bot-message`} id={last ? "most-new" : ''}>
+        <div className={`message bot-message`} id={typing ? "most-new" : ''}>
           <div 
             style={{
               display: "table",
               borderRadius: 10,
+              marginBottom: 10,
               //marginTop: this.state.height,
+              padding: "10px 25px",
+              backgroundColor: "whitesmoke",
               maxWidth: "90%",
               marginLeft: 0,
               fontSize: '1.3rem',
               //marginBottom: typing ? this.state.height : 0
             }}
           >
-            {renderTyping(last, data)}
+            {renderTyping(typing, data)}
             {renderContent(data, courseId, user)}
           </div>
         </div>
       )
     }
     return (
-      <div className={`message user-message`} id={last ? "most-new" : ''}>
+      <div className={`message user-message`} id={typing ? "most-new" : ''}>
         <div style={{
+          backgroundColor: 'rgb(47 50 53)',
           display: "table",
+          padding: "10px 25px",
           borderRadius: 10,
+          marginBottom: 10,
           maxWidth: "90%",
+          marginTop: 10,
+          marginLeft: "auto",
           fontSize: '1.3rem',
           //marginBottom: typing ? this.state.height : 0
         }} className="message">
-          <Button
-            size="sm"
-            outline
-            style={{ fontSize: '1.3rem' }}
-            disabled
-          >{data}</Button>
+          <span style={{ color: "white", marginBottom: 0 }}>{data}</span>
         </div>
       </div>
     );
   }
-  
-  render() {
-    return (
-      <div>
-        {this.renderContent()}
-      </div>
-    )
-  }
-    
 }
 
 export default Message;

@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import { Input } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {
+  setSelectedAnswer,
+  answerChangeHandler
+} from '../../../../../../Redux/Actions/Pages';
 
 const CourseCreationAnswer = (props) => {
-  const { checked, setSelectedAnswer, sectionIndex, answer, answerChangeHandler, questionIndex, index } = props;
+  const { checked, setSelectedAnswer, answer, answerChangeHandler, sectionId, questionId, answerId  } = props;
   return (
     <div
       style={{
@@ -26,12 +32,12 @@ const CourseCreationAnswer = (props) => {
               fontSize: 24,
               color: "white"
             }}
-            onClick={() => setSelectedAnswer(sectionIndex, questionIndex, index)}
+            onClick={() => setSelectedAnswer(sectionId, questionId, answerId)}
           />
         </div>
         <Input
           value={answer}
-          onChange={(e) => answerChangeHandler(sectionIndex, questionIndex, index, e.target.value)}
+          onChange={(e) => answerChangeHandler(sectionId, questionId, answerId, e.target.value)}
           style={{
             background: "none",
             textAlign: "center",
@@ -49,4 +55,9 @@ const CourseCreationAnswer = (props) => {
   );
 }
 
-export default CourseCreationAnswer;
+const mapDispatchToProps = dispatch => bindActionCreators({
+  setSelectedAnswer,
+  answerChangeHandler
+}, dispatch);
+
+export default connect(null, mapDispatchToProps)(CourseCreationAnswer);
