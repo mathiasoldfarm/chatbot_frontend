@@ -11,10 +11,28 @@ div#bot-wrapper .message {
   margin-bottom: 50px;
 }
 
+img.description-img {
+  width: 100%;
+  display: block;
+  border: 1px solid #c2c2c2;
+}
+
 .description-definition {
-  background: #e3e3e3;
+  background: #b1cee9;
   padding: 30px;
   margin-top: 30px;
+}
+
+.description-tip {
+  background: #599fe1;
+  padding: 30px;
+  margin-top: 30px;
+  color: white;
+}
+
+.description-eksempel {
+  border: 1px solid #555555;
+  padding: 30px 40px;
 }
 
 .bg-red {
