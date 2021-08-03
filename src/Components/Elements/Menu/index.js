@@ -5,34 +5,44 @@ import { useHistory} from 'react-router-dom';
 import { connect } from 'react-redux';
 import currentSectionName from '../../../Utils/CurrentSectionName';
 import { base } from '../../../constants';
+import { Row, Col } from 'reactstrap';
 
 const Menu = (props) => {
-  let { children, opened, title, depth, url, borderBottom, done } = props;
+  let { children, opened, title, depth, url, borderBottom, done, onIconClick, onTextClick } = props;
   const history = useHistory();
-  const onClick = () => {
-    if ( url ) {
-      history.push(url);
-    }
-  }
+  // const onClick = () => {
+  //   if ( url ) {
+  //     history.push(url);
+  //   }
+  // }
 
   if ( !depth ) {
     depth = 1
   }
   return (
-      <div
+      <Row
         style={{ borderTop: '1px solid rgb(207 207 207)', borderBottom: borderBottom ? '1px solid rgb(207 207 207)' : '0px solid white', color: '#3b3b3b' }}
-        className={`py-3 d-flex align-items-center pr-3 ${(children && children.length) || url  ? 'pointer-on-hover': ''} ${(children && children.length) || url ? 'grey-on-hover': ''} ${props.currentSectionName === title ? 'blue-text' : url && window.location.href === base + url ? 'blue-text' : ''}`}
-        onClick={onClick}
       >
-        <p
-          className={`mb-0`}
-          style={{ paddingLeft: depth*20, fontSize: '1rem'}}
+        <Col
+          className={`py-3 d-flex align-items-center pr-3 pointer-on-hover grey-on-hover ${props.currentSectionName === title ? 'blue-text' : url && window.location.href === base + url ? 'blue-text' : ''}`}
+          onClick={onTextClick}
         >
-          {title}
-        </p>
-        {url ? null : <FontAwesomeIcon icon={faCheckCircle} className="ml-2" style={{ fontSize: 12, color: done ? 'rgb(36 205 74)' : '#acacac' }} />}
-        {(children && children.length) || url ? <FontAwesomeIcon className="ml-auto" icon={opened ? faAngleDown : faAngleRight} /> : null}
-      </div>
+          <p
+            className={`mb-0`}
+            style={{ paddingLeft: depth*20, fontSize: '1rem'}}
+          >
+            {title}
+          </p>
+          {url ? null : <FontAwesomeIcon icon={faCheckCircle} className="ml-2" style={{ fontSize: 12, color: done ? 'rgb(36 205 74)' : '#acacac' }} />}
+        </Col>
+        <Col
+           xs={2}
+           className="p-3 pointer-on-hover"
+           onClick={onIconClick}
+        >
+          {(children && children.length) || url ? <FontAwesomeIcon className="ml-auto" icon={opened ? faAngleDown : faAngleRight} /> : null}
+        </Col>
+      </Row>
 );
 }
 

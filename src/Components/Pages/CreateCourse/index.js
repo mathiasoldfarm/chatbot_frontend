@@ -41,7 +41,7 @@ class CreateCourse extends Component {
   goToWalkThrough() {
     this.setState({
       walkThrough: true
-    })
+    });
   }
 
   renderBeginning() {

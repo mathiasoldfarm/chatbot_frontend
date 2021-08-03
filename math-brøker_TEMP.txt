@@ -12,19 +12,18 @@ Text: brøkers st?rrelse
 Jens, Ida og Pernille skal dele 5 ?bler. Hver af dem f?r 5/3 ?ble (udtales ?fem tredjedele?).  En brøk best?r af forskellige dele. I midten har vi en brøkstreg. Tallet under brøkstregen kaldes n?vneren og tallet over brøkstregen kaldes t?lleren.
 __________________________
 
-		Quiz: Quiz om hvad en brøk er
-		Hvis en kage deles op i 5 lige store dele, og der spises 2 stykker, hvor meget er s? tilbage?
-		2/5: Hvis der spises 2 stykker af de 5 lige store dele, s? er der mere end 2/5 dele tilbage. Du mangel nemlig 1/5 s?, fordi 1/5 + 2/5 + 2/5 (dem der spises) = 5/5 = hele.
-		1 femtedel: Hvis der spises 2 stykker af de 5 lige store dele, s? er der mere end 1 femtedel tilbage. Du mangel nemlig 2 femtedele s?, fordi 1 femtedel + 2 femtedele + 2 femtedele (dem der spises) = 1 hel = hele kagen
-		3/5: Korrekt! Hvis der spises 2 stykker af de 5 lige store dele, s? er der 3 lige store dele tilbage, alts? 3/5. <- Correct
-		4 halve: 4 halve er det samme som 2 hele. Der var kun tale om 1 hel kage, s? hvis der spises 2 stykker af kagen, kan der ikke komme yderligere stykker. 
-		
-		Hvor stor en brøkdel repr?senterer "mandag" af alle ugens dage?
-		1/4: Der er 7 dage p? ugen. Mandag repr?senterer alts? ikke 1/4. Hvis alle ugens dage kun bestod af mandag, tirsdag, onsdag og torsdag, s? ville svaret v?re korrekt.
-		1/7: Korrekt. Fordi der er 7 dage i ugen, s? repr?senterer den ene dag mandag, nemlig 1/7 af alle ugens dage.  <- Correct
-		1/2: Der er 7 dage p? ugen. Mandag repr?senterer alts? ikke 1/2. Hvis alle ugens dage kun bestod af mandag og tirsdag, s? ville svaret v?re korrekt.
-		1/5: Der er 7 dage p? ugen. Mandag repr?senterer alts? ikke 1/5. Hvis alle ugens dage kun bestod af mandag, tirsdag, onsdag, torsdag og fredag, s? ville svaret v?re korrekt.
-		
+	Quiz: Quiz om hvad en brøk er
+	Hvis en kage deles op i 5 lige store dele, og der spises 2 stykker, hvor meget er s? tilbage?
+	2/5: Hvis der spises 2 stykker af de 5 lige store dele, s? er der mere end 2/5 dele tilbage. Du mangel nemlig 1/5 s?, fordi 1/5 + 2/5 + 2/5 (dem der spises) = 5/5 = hele.
+	1 femtedel: Hvis der spises 2 stykker af de 5 lige store dele, s? er der mere end 1 femtedel tilbage. Du mangel nemlig 2 femtedele s?, fordi 1 femtedel + 2 femtedele + 2 femtedele (dem der spises) = 1 hel = hele kagen
+	3/5: Korrekt! Hvis der spises 2 stykker af de 5 lige store dele, s? er der 3 lige store dele tilbage, alts? 3/5. <- Correct
+	4 halve: 4 halve er det samme som 2 hele. Der var kun tale om 1 hel kage, s? hvis der spises 2 stykker af kagen, kan der ikke komme yderligere stykker. 
+	
+	Hvor stor en brøkdel repr?senterer "mandag" af alle ugens dage?
+	1/4: Der er 7 dage p? ugen. Mandag repr?senterer alts? ikke 1/4. Hvis alle ugens dage kun bestod af mandag, tirsdag, onsdag og torsdag, s? ville svaret v?re korrekt.
+	1/7: Korrekt. Fordi der er 7 dage i ugen, s? repr?senterer den ene dag mandag, nemlig 1/7 af alle ugens dage.  <- Correct
+	1/2: Der er 7 dage p? ugen. Mandag repr?senterer alts? ikke 1/2. Hvis alle ugens dage kun bestod af mandag og tirsdag, s? ville svaret v?re korrekt.
+	1/5: Der er 7 dage p? ugen. Mandag repr?senterer alts? ikke 1/5. Hvis alle ugens dage kun bestod af mandag, tirsdag, onsdag, torsdag og fredag, s? ville svaret v?re korrekt.		
 __________________________
 
 				Text: Delen af det hele

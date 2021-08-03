@@ -60,7 +60,7 @@ class Course extends Component {
     return (
       <div className="d-flex">
         {showMenu ? (
-          <div className="pt-3 ml-3" style={{ width: '22%', background: '#f8f9fa', minHeight: '93vh', maxHeight: '93vh', overflow: 'scroll' }}>
+          <div className="pt-3" style={{ width: '50%', maxWidth: 500, background: '#f8f9fa', minHeight: '93vh', maxHeight: '93vh', overflow: 'scroll' }}>
             <CourseSearch className="mb-4" />
             { this.renderSections()}
           </div>

@@ -82,10 +82,8 @@ class SectionMenu extends Component {
               Se sektion
             </Button>
           </Col> */}
-          <Col
-            onClick={this.open}
-          >
-            <Menu done={done} children={children} title={title} opened={opened} depth={depth} />
+          <Col>
+            <Menu onIconClick={this.open} onTextClick={this.fetchSection} done={done} children={children} title={title} opened={opened} depth={depth} />
           </Col>
         </Row>
         {opened ? children : null}

@@ -11,7 +11,7 @@ class Chatbot extends Component {
     super(props);
 
     this.state = {
-      height: 900
+      height: 700
     }
 
     this.InputChangeHandler = this.InputChangeHandler.bind(this);
