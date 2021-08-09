@@ -11,7 +11,7 @@ class Chatbot extends Component {
     super(props);
 
     this.state = {
-      height: 700
+      height: 900
     }
 
     this.InputChangeHandler = this.InputChangeHandler.bind(this);
@@ -33,11 +33,22 @@ class Chatbot extends Component {
 
   async componentDidMount() {
     await this.begin();
+    this.typeset();
   }
 
   componentDidUpdate() {
     if ( this.props.messageListUpdated ) {
       handleMessageListUpdated(this.bottomAnchor);
+    }
+    this.typeset();
+  }
+
+  typeset() {
+    if (window.MathJax) {
+      window.MathJax.Hub.Queue([
+        "Typeset",
+        window.MathJax.Hub
+      ])
     }
   }
 
@@ -102,24 +113,27 @@ class Chatbot extends Component {
 
   render() {
     return (
-      <div
-        style={{ maxWidth: 1000, height: this.state.height, maxHeight: 700 }}
-        className="mx-auto"
-      >
-        <div style={{ overflow: "scroll", height: this.state.height  }}>
-          <div className="d-flex flex-column flex-grow" >
-            <div className="flex-fill" id="bot-wrapper" ref={this.botWrapper}>
-              <div className="m-0">
-                {this.RenderError()}
-                {this.RenderMessageList()}
+      <div style={{ maxWidth: 1000 }} className="mx-auto">
+        <div
+          style={{height: this.state.height, maxHeight: this.state.height }}
+        >
+          <div style={{ overflow: "scroll", height: this.state.height  }}>
+            <div className="d-flex flex-column flex-grow" >
+              <div className="flex-fill" id="bot-wrapper" ref={this.botWrapper}>
+                <div className="m-0">
+                  {this.RenderError()}
+                  {this.RenderMessageList()}
+                </div>
+                <div ref={this.bottomAnchor}></div>
               </div>
-              <div ref={this.bottomAnchor}></div>
-            </div>
-            <div className="py-3 d-flex">
-              {this.RenderSpinner()}
-              {this.renderButtons()}
+              <div className="py-3 d-flex">
+              </div>
             </div>
           </div>
+        </div>
+        <div className="pt-5">
+          {this.RenderSpinner()}
+          {this.renderButtons()}
         </div>
       </div>
     );

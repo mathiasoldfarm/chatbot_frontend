@@ -1,35 +1,8 @@
 import React from 'react';
-import Math from '../../Chatbot/Math';
-import { images_url_base } from '../../../constants';
+//import Math from '../../Chatbot/Math';
 import ReactHtmlParser from 'react-html-parser';
 
-// const getElementByTag = (tag, content, i) => {
-//   const key = tag + i.toString();
-//   switch(tag) {
-//     case "title":
-//       return <h5 key={key} className="mb-0">{content}</h5>;
-//     case "latex":
-//       return <Math style={{ display: "inline-block" }} tex={content} key={key} />;
-//     case "image":
-//       return <img style={{ display: "block", maxWidth: '100%' }} alt={content} src={`${images_url_base}/${content}`} key={key} />;
-//     case "H2":
-//       return <h2 key={key}>{content}</h2>
-//     default:
-//       throw new Error("Couldn't recognize tag");
-//   }
-// }
-
-// const updateElementMapper = (elementMapper, description, tag) => {
-//   let matches = description.matchAll(new RegExp(`(<${tag}>).*?(</${tag}>)`, 'g'));
-//   for(let i = 0; i < matches.length; i++) {
-//     const match = matches[i];
-//     const content = match[0].replace(match[1], '').replace(match[2], '');
-//     elementMapper[match.index] = {
-//       element: getElementByTag(tag, content, i),
-//       endIndex: match.index + match[0].length
-//     };
-//   }
-// }
+//<Math style={{ display: "inline-block" }} tex={content} key={key} />
 
 // const getElementMapper = (description) => {
 //   const elementMapper = {};

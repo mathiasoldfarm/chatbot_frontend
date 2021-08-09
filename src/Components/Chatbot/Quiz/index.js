@@ -4,6 +4,7 @@ import QuizButton from './QuizButton';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getAnswer } from '../../../Redux/Actions/Chatbot';
+import ReactHtmlParser from 'react-html-parser';
 
 class Quiz extends Component {
   constructor(props) {
@@ -93,16 +94,20 @@ class Quiz extends Component {
           key={index}
           ref={lastOfDisplayed ? this.lastQuestion : null}
         >
-          <p>{question.question}</p>
+          {console.log(question.question)}
+          <div>{ReactHtmlParser(question.question)}</div>
           <div className="p-2">
             <Row>
               <Col>
                 {possibleAnswers.map(possibleAnswer => {
                   const { answer, id } = possibleAnswer;
                   const correct = question.correct.id === parseInt(id);
+                  const chosen = answered && answers[question.id.toString()] === id;
                   return (
                     <QuizButton
                       disabled={answered}
+                      correct={correct}
+                      chosen={chosen}
                       key={id}
                       onClick={() => {
                         this.selectHandler(question.id, possibleAnswer, correct, lastOfAll);

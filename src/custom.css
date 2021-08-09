@@ -119,6 +119,18 @@ h3 {
   color: white  !important;
 }
 
+.quiz-button-correct {
+  background: #25cc4a !important;
+  border-color: #25cc4a !important;
+  color: white  !important;
+}
+
+.quiz-button-wrong {
+  background: #cc4425 !important;
+  border-color: #cc4425 !important;
+  color: white  !important;
+}
+
 .quiz-button:hover {
   background: #0262c9 !important;
   border-color: #0262c9 !important;

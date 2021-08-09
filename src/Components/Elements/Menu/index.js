@@ -33,7 +33,7 @@ const Menu = (props) => {
           >
             {title}
           </p>
-          {url ? null : <FontAwesomeIcon icon={faCheckCircle} className="ml-2" style={{ fontSize: 12, color: done ? 'rgb(36 205 74)' : '#acacac' }} />}
+          {url ? null : <FontAwesomeIcon icon={faCheckCircle} className="ml-2" style={{ fontSize: 16, color: done ? 'rgb(36 205 74)' : '#acacac' }} />}
         </Col>
         <Col
            xs={2}

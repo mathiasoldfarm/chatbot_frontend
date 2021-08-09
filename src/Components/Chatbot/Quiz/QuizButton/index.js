@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'reactstrap';
 
 const QuizButton = (props) => {
-  const { answer, onClick, disabled } = props;
+  const { answer, onClick, disabled, chosen, correct } = props;
   return (
     <Button
       disabled={disabled}
@@ -10,7 +10,7 @@ const QuizButton = (props) => {
       size="sm"
       outline
       block
-      className="quiz-button"
+      className={chosen ? (correct ? "quiz-button-correct" : "quiz-button-wrong" ) : "quiz-button"}
       style={{ fontSize: '1.3rem' }}
     >
       {answer}
