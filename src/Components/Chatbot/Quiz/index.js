@@ -90,16 +90,14 @@ class Quiz extends Component {
 
       return (
         <div
-          className="mb-5"
           key={index}
-          ref={lastOfDisplayed ? this.lastQuestion : null}
         >
-          {console.log(question.question)}
           <div>{ReactHtmlParser(question.question)}</div>
           <div className="p-2">
             <Row>
               <Col>
-                {possibleAnswers.map(possibleAnswer => {
+                {possibleAnswers.map((possibleAnswer, answerIndex) => {
+                  const lastAnswer = answerIndex === possibleAnswers.length;
                   const { answer, id } = possibleAnswer;
                   const correct = question.correct.id === parseInt(id);
                   const chosen = answered && answers[question.id.toString()] === id;
@@ -112,6 +110,7 @@ class Quiz extends Component {
                       onClick={() => {
                         this.selectHandler(question.id, possibleAnswer, correct, lastOfAll);
                       }}
+                      ref={lastOfDisplayed && lastAnswer ? this.lastQuestion : null}
                       answer={answer}
                     />
                   );

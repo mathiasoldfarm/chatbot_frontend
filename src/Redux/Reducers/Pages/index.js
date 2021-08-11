@@ -82,7 +82,8 @@ const reducer = (state = INITIAL_STATE, action) => {
         fetchingError: false,
         updating: false,
         updatingError: false,
-        updatingSuccess: false
+        updatingSuccess: false,
+        feedback: ""
       }
     case FETCH_PAGE_DATA_ERROR:
       return {

@@ -12,7 +12,7 @@ div#bot-wrapper .message {
 }
 
 img.description-img {
-  width: 100%;
+  max-width: 100%;
   display: block;
   border: 1px solid #c2c2c2;
 }
@@ -113,10 +113,18 @@ h3 {
   font-weight: bold im !important;
 }
 
+div#bot-wrapper div#most-new {
+  margin-bottom: 0;
+}
+
 .quiz-button {
   background: #007bff !important;
   border-color: #007bff !important;
   color: white  !important;
+}
+
+.description-tip p {
+  margin: 0;
 }
 
 .quiz-button-correct {

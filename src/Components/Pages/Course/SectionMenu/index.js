@@ -4,7 +4,7 @@ import Menu from '../../../Elements/Menu';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getAnswer, addUserAnswer } from '../../../../Redux/Actions/Chatbot';
-import currentSectionName from '../../../../Utils/CurrentSectionName';
+import {currentSectionName} from '../../../../Utils/CurrentSection';
 
 class SectionMenu extends Component {
   constructor(props) {
@@ -39,7 +39,7 @@ class SectionMenu extends Component {
 
   async fetchSection() {
     const { title, sectionId, courseId, historyId, addUserAnswer, getAnswer, contextId } = this.props;
-    addUserAnswer(`Can I see the section ${title}?`);
+    addUserAnswer(`Lad mig se sektionen: ${title}`);
     // TODO: Handle user
     await getAnswer(sectionId, courseId, historyId, contextId, 2);
   }

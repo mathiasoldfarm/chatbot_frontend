@@ -22,7 +22,7 @@ export const resetMessageList = () => {
   }
 }
 
-export const getAnswer = (question, courseId, initialHistoryId=0, contextId=0, type=0, previousSectionId=-1) => {
+export const getAnswer = (question, courseId, initialHistoryId=0, contextId=0, type=0, requestData="", sectionId=-1 ) => {
   return async dispatch => {
     dispatch({
       type: ANSWER_FETCHING
@@ -34,7 +34,7 @@ export const getAnswer = (question, courseId, initialHistoryId=0, contextId=0, t
         question = JSON.stringify(question);
       }
       
-      const data = await post('/bot/getanswer', JSON.stringify({ courseId, contextId, initialHistoryId, question, type }));
+      const data = await post('/bot/getanswer', JSON.stringify({ courseId, contextId, initialHistoryId, question, type, requestData, sectionId }));
 
       dispatch({
         type: ANSWER_FETCHING_SUCCESS,

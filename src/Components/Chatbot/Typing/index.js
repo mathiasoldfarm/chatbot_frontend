@@ -7,11 +7,6 @@ class Typing extends React.Component {
     this.update();
   }
 
-  componentDidUpdate() {
-    this.typed.destroy();
-    this.update();
-  }
-
   update() {
     const options = {
       strings: [this.props.text],

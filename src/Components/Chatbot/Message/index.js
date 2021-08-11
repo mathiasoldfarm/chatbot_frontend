@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import Typing from '../Typing';
 import Quiz from '../Quiz';
+import Feedback from '../Feedback';
 import Description from '../Description';
 import { Button } from 'reactstrap';
 
-const renderContent = (data, courseId, user) => {
+const renderContent = (data, courseId, user, onFeedbackChange, feedbackValue, index) => {
   if ( data && data.section ) {
+    if ( data.section.takeInput ) {
+      return <Feedback onFeedbackChange={onFeedbackChange} feedbackValue={feedbackValue} index={index} />
+    }
     if (!data.section.usingDescription && !data.section.usingQuiz) {
       if ( data.section.description ) {
         return (
@@ -26,11 +30,12 @@ const renderContent = (data, courseId, user) => {
 const renderTyping = (typing, data) => {
   if ( data.answer ) {
     return <div className={`${data.section ? 'mb-4' : ''}`}>
-      {typing ? (
+      <Typing style={{ color: "black", fontSize: '1.3rem' }} text={data.answer} />
+      {/* {typing ? (
         <Typing style={{ color: "black", fontSize: '1.3rem' }} text={data.answer} />
       ) : (
         <span style={{ color: "black", fontSize: '1.3rem' }}>{data.answer}</span>
-      )}
+      )} */}
     </div>
   }
 }
@@ -40,7 +45,8 @@ class Message extends Component {
     super(props);
 
     this.state = {
-      height: 0
+      height: 0,
+      hasTyped: false
     }
 
     this.renderContent = this.renderContent.bind(this);
@@ -57,8 +63,12 @@ class Message extends Component {
       type,
       data,
       courseId,
-      user
+      user,
+      onFeedbackChange,
+      feedbackValue,
+      index
     } = this.props;
+    const { hasTyped } = this.state;
 
     if (type === "bot") {
       return (
@@ -69,13 +79,14 @@ class Message extends Component {
               borderRadius: 10,
               //marginTop: this.state.height,
               maxWidth: "90%",
+              width: "90%",
               marginLeft: 0,
               fontSize: '1.3rem',
               //marginBottom: typing ? this.state.height : 0
             }}
           >
-            {renderTyping(last, data)}
-            {renderContent(data, courseId, user)}
+            {renderTyping(last && !hasTyped, data)}
+            {renderContent(data, courseId, user, onFeedbackChange, feedbackValue, index)}
           </div>
         </div>
       )
@@ -86,6 +97,7 @@ class Message extends Component {
           display: "table",
           borderRadius: 10,
           maxWidth: "90%",
+          width: "90%",
           fontSize: '1.3rem',
           //marginBottom: typing ? this.state.height : 0
         }} className="message">

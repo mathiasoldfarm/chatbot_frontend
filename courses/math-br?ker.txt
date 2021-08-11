@@ -1,0 +1,117 @@
+Course: brøker
+Course description: brøker
+Category: math
+Color: blue
+
+
+Text: Welcome
+Hej <name>, nu skal vi lære lidt om brøker. Er du klar?
+__________________________
+
+Text: Hvordan ser en brøk ud?
+<h2>Hvordan ser en brøk ud?</h2>
+Jens, Ida og Pernille skal dele 5 æbler. Hver af dem får <MATH>\frac{5}{3}</MATH> æble (udtales ”fem tredjedele”).
+
+En brøk består af forskellige dele. I midten har vi en brøkstreg. Tallet under brøkstregen kaldes nævneren og tallet over brøkstregen kaldes tælleren.
+<IMG>hvordan-ser-en-brøk-ud</IMG>
+__________________________
+
+	Quiz: Hvor er tælleren?
+	I følgende brøk <MATH>\frac{17}{4}</MATH>, hvilken værdi har tælleren?
+	Answer: 0: Det er desværre forkert. Tælleren er det øverste tal i brøken som på billedet oven for.
+	Answer: 17: Det er rigtigt. Tælleren er nemlig det øverste tal i brøken. <- Correct
+	Answer: 21: Det er desværre forkert. Tælleren er det øverste tal i brøken som på billedet oven for.
+	Answer: 4: Det er desværre forkert. Tælleren er det øverste tal i brøken som på billedet oven for.
+
+__________________________
+
+	Text: Brøkken som en pizza
+	Hvis vi forestiller os, at nogle af os skal dele en pizza, så svarer nævneren til, hvor mange stykker pizzaen er skåret ud i, mens tælleren svarer til, hvor mange stykker hver får.
+
+	I tegningen nedenunder, kan man se, at pizzaen er skåret ud i 8 stykker. Pia spiser 2 af stykkerne. Hun har altså spist <MATH>\frac{2}{8}</MATH> af pizzaen.
+	<IMG>brøkken-som-en-pizza</IMG>
+__________________________
+
+	Quiz: Hvor stor en del spiser Pia?
+	Hvis du ser på billedet oven for, og forestiller dig at hun skærer hver bid over i to, så er der dobbelt så mange stykker pizza som du kan se på billedet. Hvis Pia stadig spiser 2 stykker, hvor stor en del af denne pizza har hun så spist?
+	Answer: <MATH>\frac{2}{8}</MATH>: Det er desværre forkert. Husk at der ender med at være dobbelt så mange stykker pizza.
+	Answer: <MATH>\frac{4}{12}</MATH>: Det er desværre forkert. Husk at der ender med at være dobbelt så mange stykker pizza, og hun kun spiser 2 stykker.
+	Answer: <MATH>\frac{4}{16}</MATH>: Det er desværre forkert. Husk at at Pia stadig kun spiser 2 stykker.
+	Answer: <MATH>\frac{2}{16}</MATH>: Det er rigtigt. Der ender nemlig med at være dobbelt så mange stykker pizza, men Pia spiser stadig kun 2 stykker. <- Correct
+
+__________________________
+
+Text: Hvordan man sammenligner brøker
+<h2>Hvordan man sammenligner brøker</h2>
+Nogle gange kan det være svært at sammenligne brøkers størrelse. Er <MATH>\frac{3}{10}</MATH> f.eks. større end eller mindre end <MATH>\frac{2}{7}</MATH>?
+
+Generelt kan man sige, at jo større nævneren (tallet under brøkstregen) bliver, des mindre bliver brøken. F.eks. er <MATH>\frac{1}{100}</MATH> (en hundrededel) mindre end <MATH>\frac{1}{10}</MATH> (en tiendedel).
+__________________________
+
+	Quiz: Hvilken brøk er størst?
+	Hvilken af nedenstående brøker er størst?
+	Answer: <MATH>\frac{3}{2}</MATH>: Det er rigtigt, ingen af de andre brøker har en mindre tæller. <- Correct
+	Answer: <MATH>\frac{3}{8}</MATH>: Det er desværre forkert. Husk at større nævner giver mindre brøk.
+	Answer: <MATH>\frac{3}{90}</MATH>: Det er desværre forkert. Husk at større nævner giver mindre brøk.
+	Answer: <MATH>\frac{3}{99}</MATH>: Det er desværre forkert. Husk at større nævner giver mindre brøk.
+
+__________________________
+
+	Text: Flere stykker, mindre bider
+	Det kan virke mærkeligt, da 100 jo er større end 10. Man kan tænke på det som en stor bradepandekage. Hvis der er 100, der gerne vil smage kagen, så bliver stykkerne meget små (hver af dem bliver <MATH>\frac{1}{100}</MATH> af kagen), mens hvis der kun er 10, der vil have kage, så bliver hvert stykke større (hvert stykke bliver <MATH>\frac{1}{10}</MATH> af kagen).
+	<IMG>flere-stykker-mindre-bider</IMG>
+__________________________
+
+	Text: Fællesnævner, forlænge og forkorte brøker
+	<h2>Fællesnævner, forlænge og forkorte brøker</h2>
+	Hvis man vil sammenligne to brøker, er det lettest, hvis de har den samme nævner.
+
+	Det svarer nemlig til, at man har skåret kagerne ud i lige store stykker, og så sammenligner, hvor mange stykker hver har fået.
+__________________________
+
+	Quiz: Hvilke er fællesnævnere?
+	Hvilken af nedenstående par af brøker har fællesnævner?
+	Answer: <MATH>\frac{1}{2} \frac{1}{3}</MATH>: Det er desværre forkert. Nævneren er ikke ens.
+	Answer: <MATH>\frac{5}{5} \frac{2}{2}</MATH>: Det er desværre forkert. Nævneren er ikke ens.
+	Answer: <MATH>\frac{3}{3} \frac{3}{2}</MATH>: Det er desværre forkert. Nævneren er ikke ens.
+	Answer: <MATH>\frac{7}{9} \frac{8}{9}</MATH>: Det er rigtigt, nævnerne er ens. <- Correct
+
+__________________________
+
+		Text: Hvordan man finder fællesnævner
+		For at nå frem til en fællesnævner skal man huske på, at man må gange med det samme tal i både tæller og nævner af en brøk, uden at den ændrer værdi. Det kaldes at forlænge brøken. F.eks. er
+		<MATHBIG>\frac{3}{4} = \frac{5 * 3}{5 * 4} = \frac{15}{20}</MATHBIG>
+		Her har vi forlænget brøken <MATH>\frac{3}{4}</MATH> med 5.
+__________________________
+
+		Text: Eksempel på at finde fællesnævner
+		Man kan f.eks. ønske at finde ud af, hvad der er størst af 56 og 34. Vi skal først forlænge brøkerne, så vi får den samme nævner. Vi skal altså finde et tal, som begge nævnere (6 og 4) går op i.
+__________________________
+
+		Text: Eksempel på at finde fællesnævner
+		F.eks. kunne vi vælge 12 som fællesnævner. Så skal vi forlænge den første brøk med 2 for at få den omskrevet til tolvtedele, mens vi skal forlænge den anden brøk med 3 for at få den omskrevet til tolvtedele
+		<MATHBIG>\frac{5}{6} = \frac{2*5}{2*6} = \frac{10}{12}</MATHBIG>
+		<MATHBIG>\frac{3}{4} = \frac{3*3}{3*4} = \frac{9}{12}</MATHBIG>
+__________________________
+
+		Text: Eksempel på at finde fællesnævner
+		Da <MATH>\frac{10}{12}</MATH> er større end <MATH>\frac{9}{12}</MATH> er <MATH>\frac{5}{6}</MATH> større end <MATH>\frac{3}{4}</MATH>.
+		<IMG>eksempel-på-at-finde-fællesnævner</IMG>
+__________________________
+
+	Quiz: Hvilke kan gøres til fællesnævnere?
+	Hvilken af nedenstående tal kan blive fællesnævner for brøkerne <MATH>\frac{1}{4}</MATH> og <MATH>\frac{2}{8}</MATH>, ved at gange begge med et helt tal?
+	Answer: 3: Det er desværre forkert. Du kan ikke forlænge begge brøkerne med et helt tal, således de begge ender med nævneren 3.
+	Answer: 16: Det er rigtigt. Du kan forlænge den første brøk med 4 for at få nævneren 16 og forlænge den anden brøk med 2 for at få nævneren 16. <- Correct
+	Answer: 12: Det er desværre forkert. Du kan ikke forlænge begge brøkerne med et helt tal, således de begge ender med nævneren 6.
+	Answer: 6: Det er desværre forkert. Du kan ikke forlænge begge brøkerne med et helt tal, således de begge ender med nævneren 10.
+
+__________________________
+
+		Text: Den sikre vej til en fællesnævner
+		Hvis man af den ene eller anden grund ikke kan finde et tal som begge nævnere går op i, så kan man altid tage den sikre udvej, og forlænge med nævneren fra den ene brøk i den anden brøk, og omvendt. Hvis vi tager udgangspunkt i brøkerne ovenfor ønsker vi først at forlænge <MATH>\frac{3}{4}</MATH> med 6 (nævneren fra den anden brøk)
+		<MATHBIG>\frac{3}{4} = \frac{3 * 6}{4 * 6} = \frac{18}{24}</MATHBIG>
+		samt at forlænge <MATH>\frac{5}{6}</MATH> med 4
+		<MATHBIG>\frac{5}{6} = \frac{5 * 4}{6 * 4} = \frac{20}{24}</MATHBIG>
+		Igen når vi frem til at <MATH>\frac{5}{6}</MATH> er større end <MATH>\frac{3}{4}</MATH>.
+__________________________

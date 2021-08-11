@@ -11,7 +11,8 @@ class Chatbot extends Component {
     super(props);
 
     this.state = {
-      height: 900
+      height: 900,
+      feedback: {}
     }
 
     this.InputChangeHandler = this.InputChangeHandler.bind(this);
@@ -20,6 +21,7 @@ class Chatbot extends Component {
     this.RenderError = this.RenderError.bind(this);
     this.RenderSpinner = this.RenderSpinner.bind(this);
     this.begin = this.begin.bind(this);
+    this.onFeedbackChange = this.onFeedbackChange.bind(this);
     //this.calculateMargin = this.calculateMargin.bind(this);
     this.bottomAnchor = React.createRef();
     this.botWrapper = React.createRef();
@@ -38,7 +40,9 @@ class Chatbot extends Component {
 
   componentDidUpdate() {
     if ( this.props.messageListUpdated ) {
-      handleMessageListUpdated(this.bottomAnchor);
+      setTimeout(function() {
+        handleMessageListUpdated(this.bottomAnchor);
+      }.bind(this), 300)
     }
     this.typeset();
   }
@@ -58,11 +62,33 @@ class Chatbot extends Component {
     })
   }
 
-  async onSend(choice, historyId, contextId) {
-    this.props.addUserAnswer(choice);
-    await this.props.getAnswer(choice, this.props.course, historyId, contextId, 0); 
+  CurrentSectionId() {
+    const botMessages = this.props.messageList.filter(message => message.type === "bot" && !message?.data?.section?.takeInput);
+    return botMessages[botMessages.length - 1]?.data?.section?.id
   }
 
+  async onSend(choice, historyId, contextId) {
+    this.props.addUserAnswer(choice);
+    const currentMessageKey = (this.props.messageList.length - 1).toString();
+    if ( choice === "Send feedback" && this.state.feedback && Object.keys(this.state.feedback).includes(currentMessageKey)) { //TODO Make solution not hardcoded
+      await this.props.getAnswer(choice, this.props.course, historyId, contextId, 0, this.state.feedback[currentMessageKey], this.CurrentSectionId());  
+    } else {
+      await this.props.getAnswer(choice, this.props.course, historyId, contextId);
+    }
+  }
+
+  onFeedbackChange(e, key) {
+    const { value } = e.target;
+    if ( value.length <= 1000 ) {
+      this.setState({
+        ...this.state,
+        feedback: {
+          ...this.state.feedback,
+          [key]: value
+        }
+      });
+    }
+  }
 
   RenderMessageList() {
     let { messageList } = this.props;
@@ -72,12 +98,15 @@ class Chatbot extends Component {
             {messageList.map((message, messageIndex) => (
             <Message
               key={messageIndex}
+              index={messageIndex}
               last={messageIndex === messageList.length - 1}
               type={message.type}
               data = {message.data}
               courseId={this.props.course}
               user={this.props.user}
               height={this.state.height}
+              onFeedbackChange={this.onFeedbackChange}
+              feedbackValue={this.state.feedback && Object.keys(this.state.feedback).includes(messageIndex.toString()) ? this.state.feedback[messageIndex] : ""}
             />
           ))}  
         </div>
@@ -87,7 +116,6 @@ class Chatbot extends Component {
 
   RenderError() {
     if ( this.props.fetchingMessageError ) {
-      console.log(this.props.fetchingMessageError);
       return <div className="my-2">
         <Alert color="danger">{this.props.fetchingMessageError.toString()}</Alert>
       </div>
@@ -144,7 +172,7 @@ const mapStatetToProps = state => ({
   messageList: state.chatbot.messageList,
   fetchingMessage: state.chatbot.fetchingMessage,
   fetchingMessageError: state.chatbot.fetchingMessageError,
-  messageListUpdated: state.chatbot.messageListUpdated
+  messageListUpdated: state.chatbot.messageListUpdated,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ getAnswer, addUserAnswer, resetMessageList }, dispatch);

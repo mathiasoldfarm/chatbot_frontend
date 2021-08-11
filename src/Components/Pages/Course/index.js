@@ -13,7 +13,7 @@ class Course extends Component {
 
     this.state = {
       user: 1,
-      selectedCourse: 4,
+      selectedCourse: 15, //4
       showMenu: true
     }
 

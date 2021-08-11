@@ -13,7 +13,9 @@ class ButtonGroup extends Component {
     return choices.map((choice, index) => (
       <Button
         key={choice}
-        onClick={() => onClick(choice, historyId, contextId)}
+        onClick={(e) => {
+          onClick(choice, historyId, contextId)
+        }}
         size="sm"
         className={`${index === choices.length - 1 ? '' : 'mr-3'} quiz-button`}
         style={{ fontSize: '1.3rem' }}

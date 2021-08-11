@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleRight, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useHistory} from 'react-router-dom';
 import { connect } from 'react-redux';
-import currentSectionName from '../../../Utils/CurrentSectionName';
+import { currentSectionName } from '../../../Utils/CurrentSection';
 import { base } from '../../../constants';
 import { Row, Col } from 'reactstrap';
 
